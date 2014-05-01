@@ -1,0 +1,177 @@
+<(block name="html_documents")>
+
+<(block name="initData")>
+<(/block)>
+<(include file="common/header.inc.html")>
+
+<(block name="link_style_sheet")>
+
+<(/block)>
+
+
+<style type="text/css">
+   <(block name="inline_style_sheet")>
+     #tablePicHidden{
+       display:inline-block;
+   }
+   .tb_form { border: none; width:90%;    }
+   #contentDetail {
+       margin-top : 20px;
+   }
+  
+   #operation{
+      line-height:22px;
+   }
+   #operation input[type=checkbox]{
+       width:20px;	   
+   }
+   
+   <(/block)>
+</style>
+<(block name="out_import_js")>
+<!-- 工具类方法 -->
+
+
+<!-- 图片操作公共方法 -->
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+
+<!-- 歌手公共方法文件 -->
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/artist/artist.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/artist/artistForm.js"></script>
+
+<(/block)>
+<script type="text/javascript">
+	
+        //模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="artist/convertData.html" data=$data)>
+
+		var jsonPic = <(if $data.quku_artists_base.ab_globalid)><($data.quku_pic_info)><(else)>[]<(/if)> ;
+
+
+		$(document).ready(function(){
+			var T = quku_v.artist;
+			
+			T.displayPanel(T.data);
+			
+			<(block name="inline_js")>
+			
+			<(/block)>
+			
+		})
+
+	
+</script> 
+<body>
+<(block name="body_content")>
+
+<(if $data.quku_artists_base.ab_globalid)>
+	<input type="hidden" id = "ab_globalid" name="ab_globalid" value="<($data.quku_artists_base.ab_globalid)>" />
+	<!-- 如果是外包编辑 -->
+	<(if $user.ub_groupid==1)>
+	<input type="hidden" id ="action" value="saveInCache" />
+	<(else)>
+	<input type="hidden" id ="action" value="doEdit" />
+	<(/if)>
+<(else)>
+	<input type="hidden" id ="action" value="doCreate" />
+<(/if)>
+
+<input type="hidden" id ="channel" value="3" />
+
+<div id="contentBase"> 
+<fieldset class="x-layout-base">
+  <legend><label>必填信息</label></legend>
+		<!-- 姓名 -->
+		<div id="ab_name" class="x-layout-item"></div>
+		<!-- 明星id -->
+		<div id="ab_name_id" class="x-layout-item"></div>
+		
+		
+		<div id="ab_more" class="x-layout-item">	
+            <!-- 性别 -->
+			<div id="ab_gender" class="x-layout-block x-item-inner"></div>		
+			<!-- 唯一名 -->
+			<div id="ab_unique_name" class="x-layout-block x-item-inner"></div>
+			<!-- 国家 -->			
+			<div id="ab_country" class="x-layout-block x-item-inner"></div>
+			
+		</div>
+		<!-- 职业 -->
+		<div id="ab_career" class="x-layout-item"></div>
+		<!-- 地区 -->
+		<div id="ab_area" class="x-layout-item"></div>
+		<!--  锁定人  -->
+		<(if $user.ub_groupid == 3)>
+		<div id="ab_editusernow" class="x-layout-item"></div>
+		<(/if)>
+		<!-- 音乐人社区歌手id -->
+		<div id="ab_yyr_id" class="x-layout-item"></div>
+
+		<!-- 明星图片 -->
+		<div id="quku_pic" class="x-layout-block tb_form">		  
+              <span id="quku_pic_label"></span>			  
+			  <table id="tablePic">
+				<tr>
+					<td class="fieldName" style="text-align:left;width:80px!important;">预览</td>
+					<td class="fieldName" style="text-align:left;width:80px!important;">操作</td>
+					<td class="fieldName" style="text-align:left;width:45px!important;">宽度</td>
+					<td class="fieldName" style="text-align:left;width:45px!important;">高度</td>
+					<td class="fieldName" style="text-align:left;">上传文件</td>
+					<td class="fieldName" style="text-align:left;">描述信息<span style="color:pink">[为图片检索提供素材]</span></td>
+				</tr>
+				<div id=tablePicHidden></div>
+			</table>
+		</div>
+		<!-- 明星介绍 -->
+		<div id="ab_info" class="x-layout-block"></div>		
+</fieldset>
+</div>
+ <div id="contentDetail">
+	<fieldset  class="x-layout-base">
+		<legend><label>详细信息</label></legend>
+		<!--别名-->
+		<div id="ab_aliasname" class="x-layout-item"></div>
+		<!--译名-->
+		<div id="ab_translatename" class="x-layout-item"></div>
+		<!--生日-->
+		<div id="ab_birthday" class="x-layout-item"></div>
+		<!--星座-->
+		<div id="ab_constellation" class="x-layout-item"></div>	
+		<!--身高-->
+		<div id="ab_stature" class="x-layout-item"></div>
+		<!--体重-->
+		<div id="ab_weight" class="x-layout-item"></div>
+		<!--相关明星-->
+		<div id="ab_relatestars" class="x-layout-item"></div>
+		<!--血型-->
+		<div id="ab_bloodtype" class="x-layout-item"></div>			
+		<!--所属企业-->
+		<div id="ab_company" class="x-layout-item"></div>
+		<!--同义词-->
+		<div id="ab_synonym" class="x-layout-item"></div>	
+		<div id="quku_relatively_links" class="x-layout-block tb_form"></div>
+		<!--标签管理信息-->
+		<div id="quku_tag_info_rel" class="x-layout-block tb_form"></div>
+	</fieldset>
+</div>
+<div class="space10"></div>
+<div id="operation">
+	<input type="checkbox" id="ab_audit_status" <(if strlen($data.quku_artists_base.ab_audit_status) >0&& $data.quku_artists_base.ab_audit_status==0)>checked<(/if)> >审核</input>
+	
+	<(if strlen($data.quku_artists_base.ab_status) >0 && $data.quku_artists_base.ab_status==0)>		
+		<input type="button" value="保存" class="button01" onclick="artist.saveAndPub();"></input>		
+		<input type="button" value="下线" class="button01" onclick="artist.offline(event,this);"></input>
+	<(else)>
+		<input type="button" value="保存" class="button01" onclick="artist.save();"></input>
+		<input type="button" value="保存并发布" class="button01" onclick="artist.saveAndPub();"></input>
+	<(/if)>
+</div>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picRowController.js"></script>
+<(/block)>
+</body>
+
+
+<(include file="common/footer.inc.html")>
+<(/block)>
+</html>

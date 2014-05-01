@@ -1,0 +1,240 @@
+<(include file="common/header.inc.html" title="单曲待同步页")>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/song/song.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/lrc.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/mediaUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/lrcUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/mediaRowController.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+<style type="text/css">
+	.black{color:#000000;}
+</style>
+<script type="text/javascript">
+	var jsonAidio = <(if $data.si_globalid)><($jsonAudio)><(else)>[]<(/if)>;
+$(document).ready( function () {
+});
+//外包人员同步按钮异步请求
+function syn_btn(or_id, or_type, or_itemid){
+	
+	$.ajax({
+		url : '?c=song&m=showCacheInfo&or_id=' + or_id + "&or_type=" + or_type + "&si_globalid=" + or_itemid,
+		type : 'get',
+		dataType : 'json',
+		data : {
+		/*	'or_id' : arg1,
+			'or_type' : arg2
+		*/
+		},
+		success : function(sData){
+			songModifyType.show(sData.cache_data, sData.data,  sData.audit_data);
+			<(if $user.ub_groupid==11)>
+				$('#synBtn').hide();
+			<(/if)>
+		}
+	});
+}
+//审核歌词
+var LrcWin = {
+	show:function(si, si_lrcid, obj, status){
+		if(si_lrcid == 0){
+			window.location.href = "?c=song&m=edit&si_globalid=" + si + " &tn=song_edit";
+		}else{
+		jQuery.post(
+			'/qmis/index.php?c=lrc&m=get_lrc',
+			{'sl_globalid' : si_lrcid},
+			function(response){
+				if(response.errno == 0){
+					LrcWin.a = obj;
+					var si_globalid = si;
+					var si_status = status;
+					var sl_globalid = response.data.sl_globalid;
+					var sl_title = response.data.sl_title;
+					var sl_artist = response.data.sl_artist;
+					var sl_album = response.data.sl_album;
+					var sl_lrclink = response.data.sl_lrclink;
+					var sl_lyrics= response.data.sl_lyrics;
+					var sl_idname_flag = response.data.sl_idname_flag;
+					var tpl='',DH = $(window).height(),DW = $(window).width(),ST =$(window).scrollTop();
+					if(this.el){LrcWin.close();}
+					this.el = document.createElement("div");this.el.className = "win";
+					this.el.style.top =(DH-330)/2 + ST + "px";
+					this.el.style.left = (DW -500)/2 + "px";
+					tpl += "<div class='win-header'> 审核歌词<a href='javascript:void(0)' class='win-btn-close' onclick='LrcWin.close()'></a></div><div class='win-body'><div class='win-content' style='height:auto!important;'><textarea  cols='57' rows='13' id='lrcContent' ";
+					//if(readonly) tpl += " "
+					tpl += ">";
+					tpl += response.data.sl_lyrics;
+					tpl += "</textarea></div>"
+					tpl += "<div class='win-footer'><button type='button' class='button01' onclick='LrcWin.submit(\"" + si_globalid + "\", \"" + si_status + "\", \"" + sl_globalid + "\", \"" + sl_title + "\", \"" + sl_artist + "\", \"" + sl_album + "\", \"" + sl_lrclink + "\", \"" + sl_idname_flag + "\")'>审核" +"</button> <button type='button' class='button01' onclick='LrcWin.close()'>取消</button></div>"
+					tpl += "</div></div>";
+					this.el.innerHTML = tpl;
+					document.body.appendChild(this.el);
+					LrcWin.el = this.el;
+				}else{
+					window.location.href = "?c=song&m=edit&si_globalid=" + si + " &tn=song_edit";
+				}
+			},'json');
+		}
+		},
+		submit:function(si_globalid, si_status, sl_globalid, sl_title, sl_artist, sl_album, sl_lrclink, sl_idname_flag){
+			var lrcContent = $.trim($('#lrcContent').val());
+			if(lrcContent == null || lrcContent == ""){
+				alert('审核歌词不能为空！');
+				return false;
+			}
+			jQuery.post(
+				'?c=lrc&m=verify',
+			{
+               /*
+				'si_globalid' : si_globalid,
+				'si_status' : si_status,
+				*/
+				'sl_globalid' : sl_globalid,
+				'sl_title' : sl_title,
+				'sl_artist' : sl_artist,
+				'sl_album' : sl_album,
+				'sl_lrclink' : sl_lrclink,
+				'sl_lyrics' : $('#lrcContent').val(),
+				'sl_idname_flag' : sl_idname_flag			
+			},	function(response){
+					if(response.errno == 0){
+						$(LrcWin.a).css('color', '#000000');
+						$(LrcWin.a).next().show();
+						LrcWin.close();
+					}else{
+						alert("审核失败！")
+					}
+			},'json');
+		},
+		cancel : function(sl_globalid, obj, sl_status){
+				jQuery.post(
+					'?c=lrc&m=unVerify',
+					{
+						'sl_globalid' : sl_globalid
+						//'sl_status' : sl_status
+					},
+					function(response){
+						var errno = response.errno;
+						switch(parseFloat(errno)){
+							case 0:
+								$(obj).prev().css('color', '#0000cc');
+								$(obj).hide();
+								LrcWin.close();
+								break;
+							case -1:
+								alert("取消审核失败！");
+								break;
+							case -2:
+								alert('歌词未审核！');
+								break;
+							default :
+								alert('歌词不存在！');
+								break;
+						}
+					},'json'
+				);
+		},
+		close:function(){
+			if(LrcWin.el){				
+            	document.body.removeChild(LrcWin.el);
+			}try{
+            	delete LrcWin.el;
+            }catch(e){alert("error !")};
+        }
+};
+
+function shieldingSong(){
+    var closeEle = document.getElementById("close"),
+        popModule = document.getElementById("popModule"),
+        popBg = document.getElementById("popBg"),
+		closeShielding = document.getElementById("closeShielding");
+        name = "Height",
+        h = Math.max(document.documentElement["client" + name], document.body["scroll" + name], document.documentElement["scroll" + name], document.body["offset" + name], document.documentElement["offset" + name]);
+		popBg.style.height = h + "px";
+		popBg.style.display = "block";
+		popModule.style.display = "block";
+		
+    if(closeEle){
+		closeEle.onclick = function () {
+        popModule.style.display = "none";
+        popBg.style.display = "none";
+        }
+	}
+
+
+}
+
+function newCreatDialog(si_globalid) {
+	var dialog = createCreationDialog(si_globalid);
+	dialog.popup();
+}
+
+function createCreationDialog(si_globalid){
+		baidu.loader.loadPackage('baidu.ui.crossFrameDialog');
+		return new baidu.ui.crossFrameDialog.MomStation(
+			baidu.extend({url:'/qmis/index.php?c=song&m=edit&si_globalid='+ si_globalid+'&tn=song_prohibitDialog'},Quku.dialogSpecs.XL_L)
+		);
+	}
+
+
+</script>
+<(if $smarty.get.si_delflag == 1)>
+	<(assign var="delflag" value="si_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+<(/if)>
+<div style="display:none"><($data|var_dump)></div>
+<(assign var="o" value=$data.search_option)>
+<(include file="listSearch/synSearchBar.html" title="operate" tn="song" search_type=1 option=$data.search_option)>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid" border="1" style="border-collapse:collapse;">
+	<tr>
+		
+		<th >单曲名</th>
+		<th>操作</th>
+		<th>修改类型</th>
+		<th>最后修改人</th>
+		<th>最后修改时间</th>
+		<th>审核状态</th>
+		<th>不合格字段</th>
+		<th>ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		
+		<td title="<($item.or_title|escape|@addslashes)>">
+			<(if $item.si_delflag == 0)>
+				<a href="?c=song&m=edit&si_globalid=<($item.or_itemid)>&tn=song_edit"  class="showedit"><($item.or_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.or_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td><!--单曲名 -->
+		<td align="center">
+			<a href="javascript:void(0);" onclick="syn_btn('<($item.or_id)>', '<($item.or_type)>', '<($item.or_itemid)>');">同步</a>
+			<input type="hidden" class="or_type" value="<($item.or_type)>" />
+			
+		</td><!--操作 -->
+		<td align="center"><($item.or_content_type|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--修改类型 -->
+		<td align="center"><($item.or_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--最后修改人 -->
+		<td align="center"><(if strlen($item.or_edittime) >0 && $item.or_edittime!=0)><($item.or_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td><!--最后修改时间 -->
+		<td><($item.or_status|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--审核状态  -->
+		<td><($item.or_fail_field|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--不合格字段 -->
+		<td><($item.or_itemid)></td>
+	</tr>
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+   
+
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>  
+</div>
+<include file="common/footer.inc.html">
+
+

@@ -1,0 +1,132 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.statistic==='undefined' ) 
+{ 
+    quku_v.statistic = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.statistic.data={
+						
+
+
+   /**
+   *  display fields!
+   */
+	st_taskOption: <(if $data.option.st_task)>[ 
+						<(foreach from=$data.option.st_task key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+
+	st_tablesOption:<(if $data.option.st_tables)>[ 
+						<(foreach from=$data.option.st_tables key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,   
+	st_fieldOption:<(if $data.option.st_field)>[ 
+						<(foreach from=$data.option.st_field key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	st_symbolsOption: <(if $data.option.st_symbol)>[ 
+						<(foreach from=$data.option.st_symbol key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+
+	main_tablesOption: <(if $data.option.main_tables)>[ 
+						<(foreach from=$data.option.main_tables key=key item=item)> 
+							{'display':"<($item.name|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+
+	st_needpvOption: 	 <(if $data.option.st_needpv)>[ 
+						<(foreach from=$data.option.st_needpv key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+
+	/*
+		关系表、副表、子表
+	*/
+	/*关系表总对象*/
+	relations_table : {
+				<(foreach from=$data.option.main_tables key=i item=table)>
+					<($i|escape:'javascript')>:[
+						<(foreach from=$table.relations key=key item=item)> 
+							{'display':"<($item.name|escape:'javascript')>",'value':"<($item.value|escape:'javascript')>"},
+						<(/foreach)> 
+				],
+				<(/foreach)>
+	},
+	main_tables : {
+				<(foreach from=$data.option.main_tables key=i item=table)>
+					<($i|escape:'javascript')>:[
+						<(foreach from=$table.fields key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($value|escape:'javascript')>"},
+						<(/foreach)> 
+				],
+				<(/foreach)>		
+	},
+
+	quku_albums_info_Option:<(if $data.option.main_tables.quku_albums_info.relations)>[ 
+						<(foreach from=$data.option.main_tables.quku_albums_info.relations key=key item=item)> 
+							{'display':"<($item.name|escape:'javascript')>",'value':"<($item.value|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+
+   	quku_songs_info_Option:<(if $data.option.main_tables.quku_songs_info.relations)>[ 
+						<(foreach from=$data.option.main_tables.quku_songs_info.relations key=key item=item)> 
+							{'display':"<($item.name|escape:'javascript')>",'value':"<($item.value|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+
+  	quku_artists_base_Option:<(if $data.option.main_tables.quku_artists_base.relations)>[ 
+						<(foreach from=$data.option.main_tables.quku_artists_base.relations key=key item=item)> 
+							{'display':"<($item.name|escape:'javascript')>",'value':"<($item.value|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+
+	/*子表字段 field*/
+	
+   	quku_songs_infoOption :<(if $data.option.main_tables.quku_songs_info.fields)>[ 
+						<(foreach from=$data.option.main_tables.quku_songs_info.fields key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+   	quku_albums_infoOption :<(if $data.option.main_tables.quku_albums_info.fields)>[ 
+						<(foreach from=$data.option.main_tables.quku_albums_info.fields key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+   	quku_artists_baseOption :<(if $data.option.main_tables.quku_artists_base.fields)>[
+						<(foreach from=$data.option.main_tables.quku_artists_base.fields key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]<(else)> [] <(/if)>,		           
+    st_url : "<($data.option.st_url)>",
+    user : "<($user.ub_username)>",   
+    
+    quku_songs_info :<(if $data.option.main_tables.quku_songs_info.relations)>{<(foreach from=$data.option.main_tables.quku_songs_info.relations key=tables item=fields name='fields')><($tables)>:[<(foreach from=$fields.fields key=key item=subfields name="subfields")>{'display':"<($subfields|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}<(if !$smarty.foreach.subfields.last)>,<(/if)><(/foreach)>]<(if !$smarty.foreach.fields.last)>,<(/if)><(/foreach)>}<(else)> [] <(/if)>,
+    
+    quku_albums_info :<(if $data.option.main_tables.quku_albums_info.relations)>{<(foreach from=$data.option.main_tables.quku_albums_info.relations key=tables item=fields name='fields')><($tables)>:[<(foreach from=$fields.fields key=key item=subfields name="subfields")>{'display':"<($subfields|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}<(if !$smarty.foreach.subfields.last)>,<(/if)><(/foreach)>]<(if !$smarty.foreach.fields.last)>,<(/if)><(/foreach)>}<(else)> [] <(/if)>,
+
+  	quku_artists_base :<(if $data.option.main_tables.quku_artists_base.relations)>{<(foreach from=$data.option.main_tables.quku_artists_base.relations key=tables item=fields name='fields')><($tables)>:[<(foreach from=$fields.fields key=key item=subfields name="subfields")>{'display':"<($subfields|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}<(if !$smarty.foreach.subfields.last)>,<(/if)><(/foreach)>]<(if !$smarty.foreach.fields.last)>,<(/if)><(/foreach)>}<(else)> [] <(/if)>,
+  	
+};
+/*字段*/
+
+<(foreach from=$data.option.main_tables key=tables item=fields)>
+      quku_v.statistic.data['<($tables)>'] =[<(foreach from=$fields.fields key=key item=value)>{'display':"<($value|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}, <(/foreach)>]
+<(/foreach)>
+
+	<(foreach from=$data.option.main_tables key=tables item=fields)>
+		<(foreach from=$fields.relations key=subtables item=subfield)>quku_v.statistic.data['<($tables)>']['<($subtables)>']=[<(foreach from=$subfield.fields key=key item=value name="subfield")>{'display':"<($value|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}<(if !$smarty.foreach.subfield.last)>,<(/if)> <(/foreach)>];
+		<(/foreach)>
+	<(/foreach)>

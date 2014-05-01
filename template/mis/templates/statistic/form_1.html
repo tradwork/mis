@@ -1,0 +1,103 @@
+<(include file="common/header.inc.html")>
+<(block name="initData")>
+
+<(/block)>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/statistic/statisticForm.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/statistic/statistic.js"></script>
+
+<script type="text/javascript">
+
+
+
+		//模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="statistic/convertData.html")>
+		
+		$(document).ready(function(){
+				var T = quku_v.statisticForm, data = quku_v.statistic.data;
+				quku_v.statisticForm.displayPanel(data);
+		  
+		 
+			 
+			});
+
+	</script>
+	
+<style>
+	.fl{float:left;}
+	.tb_form { border:none; margin-bottom: 10px;}
+
+	
+	.x-eidtgrid-selectfield {
+	   width: 100px;
+	}
+	.x-editgrid-symbol{
+	   width: 80px !important;
+	}
+	.x-editgrid-symbol .x-component-items .x-component-input {
+	    width: 80px !important;
+	}
+	.tb_form .x-component-items .x-component-input {
+	     width: 100px;
+	}
+	.hide{
+	   display:none;
+	}
+	.show{
+	   display:block;
+	}
+	.btn{display:block;}
+	.btn input{ float:left;margin-left:20px;  }
+</style>
+<body>
+
+
+<div id="contentBase"> 
+<form name="statisticForm" onsubmit="Statistic.submit(this);">
+	<fieldset>
+		<legend><label>必填信息</label></legend>
+		
+		
+		<!-- 统计结果接收邮箱 -->
+		<div id="maillist_v" class="x-layout-item"></div>
+		<div id="needpv_v" class="x-layout-item"></div>
+		
+		<!-- 歌手、专辑、歌曲 -->
+		<!-- <div id="main_table" class="x-layout-item"></div> -->
+		 <!-- 统计字段 -->
+		<div id="fields_v" class="x-layout-block"></div>	    
+		
+		
+		 <!-- 统计条件 -->
+		<div id="conditions_v_1" class="x-layout-block tb_form conditions show"></div>	  
+		<div id="conditions_v_2" class="x-layout-block tb_form conditions hide" ></div>	
+		<div id="conditions_v_3" class="x-layout-block tb_form conditions  hide" ></div>	
+		<div id="conditions_v_4" class="x-layout-block tb_form conditions hide" ></div>	
+		<div id="conditions_v_5" class="x-layout-block tb_form conditions hide"></div>
+		
+		
+		<div id="conditions_v_6" class="x-layout-block tb_form conditions hide" ></div>	
+		<div id="conditions_v_7" class="x-layout-block tb_form conditions hide" ></div>	
+		<div id="conditions_v_8" class="x-layout-block tb_form conditions hide" ></div>	
+		<div id="conditions_v_9" class="x-layout-block tb_form conditions hide" ></div>	
+		<div id="conditions_v_10" class="x-layout-block tb_form conditions hide" ></div>	
+		
+		<div class="btn clearfix"> <input type="button" value="添加条件" class="add-condition" size=7/><input class="del-condition" type="button" value="删除条件" size=7/> </div>
+	
+	</fieldset>
+
+</div>
+
+
+<!-- end spider -->
+<div class="space10"></div>
+<div id="operation">
+	
+	<input type="submit"  class="button01"></input>
+	
+	<input name="maillist" value="" type="text" style="display:none;"/>
+	<input name="needpv" value="" type="text" style="display:none;"/>
+	<input name="conditions" value="" type="text" style="display:none;"/>
+	<input name="fields" value="" type="text" style="display:none;"/>
+</div>
+</form>
+<(include file="common/footer.inc.html")>

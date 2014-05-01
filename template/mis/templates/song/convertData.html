@@ -1,0 +1,158 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.song==='undefined' )
+{
+    quku_v.song = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.song.data={
+
+	si_globalid: <(if strlen($data.quku_songs_info.si_globalid) >0)>"<($data.quku_songs_info.si_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	si_title: <(if strlen($data.quku_songs_info.si_title) >0)>"<($data.quku_songs_info.si_title|escape:'javascript')>"<(else)>''<(/if)>,
+	si_title_id: <(if strlen($data.quku_songs_info.si_globalid) >0)>"<($data.quku_songs_info.si_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	si_cluster_id: <(if strlen($data.quku_songs_info.si_cluster_id) >0)>"<($data.quku_songs_info.si_cluster_id|escape:'javascript')>"<(else)>''<(/if)> ,
+	quku_artist_works_ref: <(if strlen($data.quku_artist_works_ref) >0)>"<($data.quku_artist_works_ref|escape:'javascript')>"<(else)>''<(/if)>,
+
+	si_publishtime: <(if strlen($data.quku_songs_info.si_publishtime) >0)>"<($data.quku_songs_info.si_publishtime|escape:'javascript')>"<(else)>''<(/if)>,
+	si_info: <(if strlen($data.quku_songs_info.si_info) >0)>"<($data.quku_songs_info.si_info|escape:'javascript')>"<(else)>''<(/if)>,
+	si_album: <(if strlen($data.quku_songs_info.si_album) >0)>"<($data.quku_songs_info.si_album|escape:'javascript')>"<(else)>''<(/if)>,
+	si_audit_status: <(if strlen( $data.quku_songs_info.si_audit_status) >0)> "<($data.quku_songs_info.si_audit_status|escape:'javascript')>" <(else)>''<(/if)>,
+	si_audit_info: <(if strlen( $data.quku_songs_info.si_audit_info) >0)> "<($data.quku_songs_info.si_audit_info|escape:'javascript')>" <(else)>''<(/if)>,
+
+	si_album_id: <(if strlen( $data.quku_songs_info.si_album_id) > 0)>"<($data.quku_songs_info.si_album_id|escape:'javascript')>"<(else)>''<(/if)>,
+	si_area: <(if strlen( $data.quku_songs_info.si_area) >0)> "<($data.quku_songs_info.si_area|escape:'javascript')>" <(else)>''<(/if)>,
+	si_language: <(if strlen($data.quku_songs_info.si_language) >0)>"<($data.quku_songs_info.si_language|escape:'javascript')>"<(else)>''<(/if)>,
+
+	si_translatename: <(if strlen($data.quku_songs_info.si_translatename) >0)>"<($data.quku_songs_info.si_translatename|escape:'javascript')>"<(else)>''<(/if)>,
+	si_album_no: <(if strlen($data.quku_songs_info.si_album_no) >0)>"<($data.quku_songs_info.si_album_no|escape:'javascript')>"<(else)>''<(/if)>,
+	si_cd_no: <(if strlen($data.quku_songs_info.si_cd_no) >0)>"<($data.quku_songs_info.si_cd_no|escape:'javascript')>"<(else)>''<(/if)>,
+	si_versions: <(if strlen($data.quku_songs_info.si_versions) >0)>"<($data.quku_songs_info.si_versions|escape:'javascript')>"<(else)>''<(/if)>,
+	si_license_number: <(if $data.quku_songs_info.si_license_number)>"<($data.quku_songs_info.si_license_number|escape:'javascript')>"<(else)>''<(/if)>,
+    si_recordingcopyright_type: <(if $data.quku_songs_info.si_recordingcopyright_type)>"<($data.quku_songs_info.si_recordingcopyright_type|escape:'javascript')>"<(else)>''<(/if)>,
+    ci_primary_songid : <(if $data.quku_cluster_info.ci_primary_songid)>"<($data.quku_cluster_info.ci_primary_songid|escape:'javascript')>"<(else)>''<(/if)>,
+
+    si_recording_type: <(if $data.quku_songs_info.si_recording_type)>"<($data.quku_songs_info.si_recording_type|escape:'javascript')>"<(else)>'1110,1101,1011,0111'<(/if)>,
+	si_styles: <(if $data.quku_songs_info.si_styles)>"<($data.quku_songs_info.si_styles|escape:'javascript')>"<(else)>''<(/if)>,
+	si_duration: <(if strlen($data.quku_songs_info.si_duration) >0)>"<($data.quku_songs_info.si_duration|escape:'javascript')>"<(else)>''<(/if)>,
+	si_yyr_id :<(if strlen($data.quku_songs_info.si_yyr_id) >0)>"<($data.quku_songs_info.si_yyr_id|escape:'javascript')>"<(else)>''<(/if)>,
+	si_synonym: <(if strlen($data.quku_songs_info.si_synonym) >0)>"<($data.quku_songs_info.si_synonym|escape:'javascript')>"<(else)>''<(/if)>,
+	si_proxycompany: <(if strlen($data.quku_songs_info.si_proxycompany) >0)>"<($data.quku_songs_info.si_proxycompany|escape:'javascript')>"<(else)>''<(/if)>,
+	si_publishcompany: <(if strlen($data.quku_songs_info.si_publishcompany) >0)>"<($data.quku_songs_info.si_publishcompany|escape:'javascript')>"<(else)>''<(/if)>,
+	si_sub_publishcompany: <(if strlen($data.quku_songs_info.si_sub_publishcompany) >0)>"<($data.quku_songs_info.si_sub_publishcompany|escape:'javascript')>"<(else)>''<(/if)>,
+	si_trackid:  <(if strlen($data.quku_songs_info.si_trackid) >0)>"<($data.quku_songs_info.si_trackid|escape:'javascript')>"<(else)>''<(/if)>,
+	si_isrc_flag: <(if strlen($data.quku_songs_info.si_isrc_flag) >0)>"<($data.quku_songs_info.si_isrc_flag|escape:'javascript')>"<(else)>''<(/if)>,
+	si_isrc:  <(if strlen($data.quku_songs_info.si_isrc) >0)>"<($data.quku_songs_info.si_isrc|escape:'javascript')>"<(else)>''<(/if)>,
+	si_aliastitle: <(if strlen($data.quku_songs_info.si_aliastitle) >0)>"<($data.quku_songs_info.si_aliastitle|escape:'javascript')>"<(else)>''<(/if)>,
+	si_prohibit_type :  <(if strlen($data.quku_songs_info.si_prohibit_type) >0)>"<($data.quku_songs_info.si_prohibit_type|escape:'javascript')>"<(else)>''<(/if)>,
+	si_pre_pubtime:<(if strlen($data.quku_songs_info.si_pre_pubtime) >0)>"<($data.quku_songs_info.si_pre_pubtime|escape:'javascript')>"<(else)>''<(/if)>,
+	si_relate_ids:<(if strlen($data.quku_songs_info.si_relate_ids) >0)>"<($data.quku_songs_info.si_relate_ids|escape:'javascript')>"<(else)>''<(/if)>,
+	si_editusernow:<(if strlen($data.quku_songs_info.si_editusernow) >0)>"<($data.quku_songs_info.si_editusernow|escape:'javascript')>"<(else)>''<(/if)>,
+	si_distribution:<(if strlen($data.quku_songs_info.si_distribution) >0)>[<(foreach from=$data.quku_songs_info.si_distribution|html_entity_decode|json_decode:'true' key=k item=item name="songs_dis")>[quku_v.global.DIS[<($k)>],<(foreach from=$item|str_split key=weizhi item=leixing name='songs_leixing')>"<($leixing)>"<(if !$smarty.foreach.songs_leixing.last)>,<(/if)><(/foreach)>]<(if !$smarty.foreach.songs_dis.last)> ,<(/if)><(/foreach)>]<(else)>[<(section name="default_dis" loop=10)>[quku_v.global.DIS[<($smarty.section.default_dis.index)>],"0","0","0","0","0","0","0","0","0","0"]<(if !$smarty.section.default_dis.last)> ,<(/if)><(/section)>]<(/if)>,
+																																	
+	quku_songs_copyright_compose: <(if sizeof($data.quku_songs_copyright_compose) >0)>[
+	                             <(foreach from=$data.quku_songs_copyright_compose key=key item=item name='songs_compose')>
+									["<($item.sc_artist_name|escape:'javascript')>","<($item.sc_company|escape:'javascript')>","<($item.sc_percent|escape:'javascript')>","<($item.sc_id|escape:'javascript')>"]
+									<(if !$smarty.foreach.songs_compose.last)>	,<(/if)>
+								 <(/foreach)>
+	                        ]<(else)>[]<(/if)>,
+    quku_songs_copyright_writing:<(if sizeof($data.quku_songs_copyright_writing) >0)>[
+	                             <(foreach from=$data.quku_songs_copyright_writing key=key item=item name='songs_writing')>
+									["<($item.sc_artist_name|escape:'javascript')>","<($item.sc_company|escape:'javascript')>","<($item.sc_percent|escape:'javascript')>","<($item.sc_id|escape:'javascript')>"]
+									<(if !$smarty.foreach.songs_writing.last)>	,<(/if)>
+								 <(/foreach)>
+	                        ]<(else)>[]<(/if)>,
+
+	quku_tag_info_rel: <(if sizeof($data.quku_tag_info_rel) >0)>[
+							 <(foreach from=$data.quku_tag_info_rel key=key item=item name='relatively_links')>
+								["<($item.td_name|escape:'javascript')>","<($item.ti_rawweight|escape:'javascript')>","<($item.ti_editflag|escape:'javascript')>","<($item.ti_weight|escape:'javascript')>","<($item.ti_infotype|escape:'javascript')>","<($item.ti_tagid|escape:'javascript')>","<($item.ti_id|escape:'javascript')>","<($item.ti_infoid|escape:'javascript')>","<($item.ti_lastupdatetime|escape:'javascript')>"]
+								<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+							 <(/foreach)>
+						]<(else)>[]<(/if)>,
+
+	quku_tag_info_rel1: <(if sizeof($data.quku_tag_info_rel1) >0)>[
+							 <(foreach from=$data.quku_tag_info_rel1 key=key item=item name='relatively_links')>
+								["<($item.ti_tagid|escape:'javascript')>","<($item.ti_rawweight|escape:'javascript')>","<($item.ti_tagid_1|escape:'javascript')>","<($item.ti_rawweight_1|escape:'javascript')>","<($item.ti_editflag_1|escape:'javascript')>","<($item.ti_weight|escape:'javascript')>","<($item.ti_weight_1|escape:'javascript')>"]
+								<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+							 <(/foreach)>
+						]<(else)>[]<(/if)>,
+
+
+	si_versionsOption: <(if $data.option.si_versions)>[
+						<(foreach from=$data.option.si_versions key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	sf_usage_flagOption: <(if $data.option.sf_usage_flag)>[
+						<(foreach from=$data.option.sf_usage_flag key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+
+	si_stylesOption:  <(if $data.option.si_styles)>[
+						<(foreach from=$data.option.si_styles key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	si_areaOption: <(if $data.option.si_area)>[
+						<(foreach from=$data.option.si_area key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	si_recordingcopyright_typeOption: <(if $data.option.si_recordingcopyright_type)>[
+						<(foreach from=$data.option.si_recordingcopyright_type key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	si_recording_typeOption: <(if $data.option.si_recording_type)>[
+						<(foreach from=$data.option.si_recording_type key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	si_languageOption: <(if $data.option.si_language)>[
+						<(foreach from=$data.option.si_language key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+    si_isrc_flagOption: <(if $data.option.si_isrc_flag)>[
+						<(foreach from=$data.option.si_isrc_flag key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+    si_tag_relOption: <(if $data.option.si_tag_rel)>[
+						<(foreach from=$data.option.si_tag_rel key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+<(foreach from=$data.option.si_tag_rel1 key=tag_id item=fields)>
+      'tag_<($tag_id)>':[<(foreach from=$fields key=key item=value)>{'display':"<($value|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}, <(/foreach)>],
+<(/foreach)>
+
+	si_prohibit_typeOption: <(if $data.option.si_prohibit_type)>[
+						<(foreach from=$data.option.si_prohibit_type key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+    si_audit_statusOption: <(if $data.option.si_audit_status)>[ 
+						<(foreach from=$data.option.si_audit_status key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+
+    si_audit_infoOption: <(if $data.option.si_audit_info)>[ 
+						<(foreach from=$data.option.si_audit_info key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,		
+
+    quku_cluster_infoOption: <(if $data.quku_cluster_info)>[ 
+						<(foreach from=$data.quku_cluster_info key=key item=item)> 
+							{'display':"<($key|escape:'javascript')>",'value':"<($item|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,	
+}

@@ -1,0 +1,10 @@
+<(extends file="option/abstract.form.inc.html")>
+
+<(block name="initData" append)>
+<($title="编辑单词")>
+<($formAction="doEdit")>
+<(/block)>
+
+  <(block name="inline_js" append)>
+      quku_v.optionForm.formArray.setValue(quku_v.option.data) ;
+  <(/block)>

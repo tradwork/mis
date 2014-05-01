@@ -1,0 +1,256 @@
+<style type="text/css">
+    .x-layout-search-item{
+	    width: 200px;
+		height: 20px;
+		display: inline-block;
+	}
+	.x-component-items .x-component-input{
+	   width: 100px;
+	}
+	.qukuSearchBar .x-component-label{
+	   width: 80px;
+	   margin-right: 0px;
+	}
+</style>
+
+<div class="qukuSearchBar" style="color:#000;font-weight:normal">
+<form id='formSearch' action="/index.php?" method="get">
+<input type="hidden" name="c" value="<($title)>"/>
+<input type="hidden" name="m" value="search"/>
+<(block name="searchTn")>
+<input type="hidden" name="tn" value="<($title)>_list"/>
+<(/block)>
+<script type="text/javascript">
+var quku_v = window.quku_v || {};
+quku_v.searchOption={} ;
+
+
+//模版option数据提取
+$.extend(quku_v.searchOption,{
+     option: {
+	    search_field: <(if $option.search_field.option)>[ 
+								<(foreach from=$option.search_field.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)> ,
+		search_status: <(if $option.search_status.option)>[ 
+								<(foreach from=$option.search_status.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)> ,
+		search_audit_status:  <(if $option.search_audit_status.option)>[ 
+								<(foreach from=$option.search_audit_status.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)> ,
+		search_order: <(if $option.search_order.option)>[ 
+								<(foreach from=$option.search_order.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)> ,
+		search_scend:  <(if $option.search_scend.option)>[ 
+								<(foreach from=$option.search_scend.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)> ,
+		search_match: <(if $option.search_match.option)>[ 
+								<(foreach from=$option.search_match.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)>  ,
+		search_count:<(if $option.search_count.option)>[ 
+								<(foreach from=$option.search_count.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)>  ,		
+		search_delflag:<(if $option.search_delflag.option)>[ 
+								<(foreach from=$option.search_delflag.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)>  
+							
+	    }
+});
+ 
+// more option data inition					
+<(block name="optionInit")>    <(/block)>
+
+$(document).ready(function(){
+    var Toption =quku_v.searchOption.option ;
+    $('#search_field').selectfield({
+		 labelText: '搜索类型',
+		 store: Toption.search_field,
+		 value: <(if strlen($data.current_option.search_field) >0)>'<($data.current_option.search_field)>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_field)>' : 'ab_edittime'
+	});
+	 $('#search_status').selectfield({
+		 labelText: '发布状态',
+		 store: Toption.search_status,
+		 value: <(if strlen($data.current_option.search_status) >0)>'<($data.current_option.search_status)>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_status)>' : 2
+	});
+	 $('#search_audit_status').selectfield({
+		 labelText: '审核状态',
+		 store: Toption.search_audit_status,
+		 value: <(if strlen($data.current_option.search_audit_status) >0)>'<($data.current_option.search_audit_status)>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_audit_status)>' : 2
+	});
+	 $('#search_order').selectfield({
+		 labelText: '排序字段',
+		 store: Toption.search_order,
+		 value: <(if strlen($data.current_option.search_order) >0)>'<($data.current_option.search_order)>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_order)>' : 'ab_edittime'
+	});
+	 $('#search_scend').selectfield({
+		 labelText: '排序',
+		 store: Toption.search_scend,
+		 value: <(if strlen($data.current_option.search_scend) >0)>'<($data.current_option.search_scend)>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_scend)>' : 1
+	});
+	
+	 $('#search_starttime').textfield({
+		 labelText: '开始时间',
+		 value: <(if strlen($data.current_option.search_starttime) >0)>'<($data.current_option.search_starttime)>'<(else)>''<(/if)>
+	});
+	$('#search_endtime').textfield({
+		 labelText: '结束时间',
+		 value: <(if strlen($data.current_option.search_endtime) >0)>'<($data.current_option.search_endtime)>'<(else)>''<(/if)>
+	});
+	
+	 $('#search_content').textfield({
+		 labelText: '关键字',
+		 value: <(if strlen($data.current_option.search_content) >0)>'<($data.current_option.search_content|escape:"html")>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_content|escape:"html")>' : ''
+	});
+	
+	 $('#search_match').selectfield({
+		 labelText: '匹配类型',
+		 store: Toption.search_match,
+		 value: <(if strlen($data.current_option.search_match) >0)>'<($data.current_option.search_match)>'<(else)>''<(/if)>
+	});
+	
+	$('#search_count').selectfield({
+		 labelText: '统计总数',
+		 store: Toption.search_count,
+		 value: <(if strlen($data.current_option.search_count) >0)>'<($data.current_option.search_count)>'<(else)>''<(/if)> 
+	});
+	$('#search_delflag').selectfield({
+		 labelText: '删除状态',
+		 store: Toption.search_delflag,
+		 value: <(if strlen($data.current_option.search_delflag) >0)>'<($data.current_option.search_delflag)>'<(else)>''<(/if)> 
+	});
+	// more option data inition					
+	<(block name="domDataInit")>    <(/block)>
+	
+	
+}); 
+
+var searchPageSize = (function(){
+     var fn = function(){};
+	 $.extend(fn.prototype , {
+	      /**
+		 * 翻页时带当前页面所有参数跳转到新页面
+		 * @method pageSwitch
+		 * @param {Any} obj 
+		 * @return {Function} 跳转当前页面
+		 */
+		pageSwitch: function(obj){			
+			 var param = document.location.search,url = '' ;
+			 param = this.clearParam(param,['page','search_page_size']) ;
+			
+			 url = param + '&' + obj.href.substr( obj.href.indexOf('?') + 1 );
+			 window.location.href = url;
+		},
+		 /**
+		 * 去掉url query指定 参数
+		 * @method clearParam
+		 * @param {Any} obj 
+		 * @return {Function} 去除后的url字符串
+		 */
+		clearParam: function(param,name){
+			var query = [];
+			!$.isArray(name) ? query.push(name) : query = name ;
+			
+			$.each(name, function(key, value){
+				param = param.replace(new RegExp("(^|&)" + value + "=([^&]*)(&|$)"), function($0,$1,$2,$3){
+						 //$3 = '&'
+						 return '' + $3;
+						}) ;  // replace
+			}) // each
+			
+			return param ;
+		}
+	 });
+	 return new fn() ;
+})();
+
+</script>
+
+	<(block name="searchtype_block")>
+	<!-- 搜索类型 -->
+	<div id="search_field" class="x-layout-search-item"> </div>
+	<!-- 关键字 -->
+	<div id="search_content" class="x-layout-search-item"></div>
+	<(/block)>
+	<!--更多搜索类型--->
+
+	
+	<!-- 状态  --->
+	<(block name="searchStatus_block")>
+		<!-- 发布状态 -->
+		<div id="search_status" class="x-layout-search-item"> </div>
+	<(/block)>
+	
+	<(block name="searchOrder_block")>
+	<!-- 排序字段 -->
+	<div id="search_order" class="x-layout-search-item"> </div>
+	<(/block)>
+	
+	<(block name="searchScend_block")>
+	<!-- 排序 -->
+	<div id="search_scend" class="x-layout-search-item"> </div>
+	<(/block)>
+	
+	<(block name="searchTime_block")>
+	<!-- 开始时间 -->
+	<div id="search_starttime" class="x-layout-search-item"></div>
+	<!-- 结束时间 -->
+	<div id="search_endtime" class="x-layout-search-item"></div>
+	<(/block)>
+	
+	<(block name="searchAudit_block")>
+	<!-- 审核状态 -->
+	<div id="search_audit_status" class="x-layout-search-item"> </div>
+	<(/block)>
+	
+	<(block name="searchCount_block")>
+	<!-- 统计总数 -->
+	<div id="search_count" class="x-layout-search-item"></div>
+	<(/block)>
+	
+	<(block name="searchDel_block")>
+	<!-- 删除状态 -->
+	<div id="search_delflag" class="x-layout-search-item"></div>
+	<(/block)>
+	
+	
+	<(block name="searchMatch_block")>
+	<!-- 匹配类型 -->
+	<div id="search_match" class="x-layout-search-item"></div>
+	<(/block)>
+	
+	<button type="submit" class="button01">搜索</button>
+	
+</form>
+</div>
+<script>
+$(document).ready( function () {
+	$('#search_starttime_items input').datepicker({ changeMonth: true, changeYear: true , dateFormat:'yy-mm-dd'});
+    $('#search_endtime_items input').datepicker({ changeMonth: true, changeYear: true , dateFormat:'yy-mm-dd'});
+	//翻页添加链接
+	$('a.page_option').bind('click',function(event){
+		searchPageSize.pageSwitch(this); 
+		return false; 
+	})
+})
+</script>

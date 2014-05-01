@@ -1,0 +1,131 @@
+<(include file="common/header.inc.html" title="明星待同步页")>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/artist/artist.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/artist/artistList.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picRowController.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+<script type="text/javascript">
+	
+		</script>
+<script type="text/javascript">
+var jsonPic = <(if $data.ab_globalid)><($jsonPic)><(else)>[]<(/if)>;
+$(document).ready( function () {
+
+});
+//外包人员同步按钮异步请求
+function syn_btn(or_id, or_type, or_itemid){
+	
+	$.ajax({
+		url : '?c=artist&m=showCacheInfo&or_id=' + or_id + "&or_type=" + or_type + "&ab_globalid=" + or_itemid,
+		type : 'get',
+		dataType : 'json',
+		data : {
+		},
+		success : function(sData){
+			artistModifyType.show(sData.cache_data, sData.data,
+         			sData.audit_data);
+		}
+	});
+}
+</script>
+
+<(if $not_pub_singer)>
+<script>
+var not_pub_singer = '<table class="qukuDataGrid" width="100%" cellpadding="3">'
+	+ '<tr>'
+	+ '    <th style="font-size:12px;">状态</th>'
+	+ '    <th style="font-size:12px;">明星</th>'
+	+ '</tr>';
+
+<(foreach from=$not_pub_singer item=item)>
+	not_pub_singer += ''
+	+ '<tr>'
+	+ '   <td height="20"><($item.status)></td>'
+	+ '   <td><a href="<($item.link)>" target="_blank"><($item.name)></a></td>'
+	+ '</tr>'
+<(/foreach)>
+not_pub_singer += '</table>';
+
+widget.mask.show();
+widget.simple_dialog.create(
+	"未创建或未审核明星",
+	not_pub_singer,
+	"400",
+	{
+		hide: function() {
+			widget.mask.hide();
+		}
+	}
+);
+</script>
+<(/if)>
+
+<(if $smarty.get.ai_delflag ==1)>
+	<(assign var="delflag" value="ai_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+<(/if)>
+<(assign var="o" value=$data.search_option)>
+<(include file="listSearch/synSearchBar.html" title="operate" tn="artist" search_type=3 option=$data.search_option)>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid">
+	<tr>
+		
+		<th>明星名</th>
+    	<th>操作</th>
+    	<th>修改类型</th>
+    	<th>最后修改人</th>
+		<th>最后修改时间</th>
+		<th>审核状态</th>
+		<th>不合格字段</th>
+		<th>ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+<tr>
+		
+		<td>
+			<(assign var="or_title" value=","|explode:$item.or_title)>
+			<(assign var="or_itemid" value=","|explode:$item.or_itemid)>
+			<(foreach from=$or_title item=i key=k name=author_list)>
+			<(if $or_itemid[$k]==0)>
+				<($i|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(else)>
+				<(if $smarty.get.ai_delflag == 1)>
+					<($i|@mb_strimwidth:0:50:'...':'utf-8'|escape)> 
+				<(else)>
+					<a href="?c=artist&m=edit&ab_globalid=<($or_itemid[$k])>&tn=artist_edit"  class="showedit"> <($i|@mb_strimwidth:0:50:'...':'utf-8'|escape)> </a>
+				<(/if)>
+			<(/if)>
+			<(if !$smarty.foreach.author_list.last)>	,<(/if)>
+			<(/foreach)>
+		</td><!-- 明星名 -->
+		<td>
+			<a href="javascript:void(0);" onclick="syn_btn('<($item.or_id)>', '<($item.or_type)>', '<($item.or_itemid)>');">同步</a>
+			<input type="hidden" class="or_type" value="<($item.or_type)>" />
+			
+		</td><!--操作 -->
+		<td><($item.or_content_type|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--修改类型 -->
+		<td><($item.or_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--最后修改人 -->
+		<td><(if strlen($item.or_edittime) >0 && $item.or_edittime!=0)><($item.or_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td><!--最后修改时间 -->
+		<td><($item.or_status|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--审核状态  -->
+		<td><($item.or_fail_field|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--不合格字段 -->
+		<td><($item.or_itemid)></td><!--备注 -->
+	</tr>
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+    
+	
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>
+<include file="common/footer.inc.html">

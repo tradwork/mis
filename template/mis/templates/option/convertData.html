@@ -1,0 +1,35 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.option==='undefined' ) 
+{ 
+    quku_v.option = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.option.data={
+
+	od_id: <(if strlen($data.quku_options_dic.od_id) >0)>"<($data.quku_options_dic.od_id|escape:'javascript')>"<(else)>''<(/if)> ,
+	od_spell_code: <(if strlen($data.quku_options_dic.od_spell_code) >0)>"<($data.quku_options_dic.od_spell_code|escape:'javascript')>"<(else)>''<(/if)>,
+	od_category: <(if strlen($data.quku_options_dic.od_category) >0)>"<($data.quku_options_dic.od_category|escape:'javascript')>"<(else)>''<(/if)>,
+
+	od_type: <(if strlen($data.quku_options_dic.od_type) >0)>"<($data.quku_options_dic.od_type|escape:'javascript')>"<(else)>''<(/if)>,
+	od_word: <(if strlen($data.quku_options_dic.od_word) >0)>"<($data.quku_options_dic.od_word|escape:'javascript')>"<(else)>''<(/if)>,
+	od_remark: <(if strlen($data.quku_options_dic.od_remark) >0)>"<($data.quku_options_dic.od_remark|escape:'javascript')>"<(else)>''<(/if)>,
+
+	
+	od_typeOption: <(if $data.option.od_type)>[ 
+						<(foreach from=$data.option.od_type key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	od_categoryOption: <(if $data.option.od_category)>[ 
+					<(foreach from=$data.option.od_category key=key item=item)> 
+						{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+					<(/foreach)> 
+			   ]  <(else)> [] <(/if)>
+}

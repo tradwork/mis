@@ -1,0 +1,11 @@
+<(extends file="yingshi/abstract.form.inc.html")>
+
+<(block name="initData" append)>
+<($title="添加影视歌曲")>
+<($formAction="doCreate")>
+<(/block)>
+
+<(block name="inline_js")>
+	quku_v.yingshiForm.formArray.setValue(quku_v.yingshi.data);
+<(/block)>
+

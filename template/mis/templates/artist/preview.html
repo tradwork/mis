@@ -1,0 +1,176 @@
+<(include file="common/header.inc.html")>
+<script type="text/javascript">
+var jsonRelativeurl = <(if $data.ab_globalid)><($jsonRelativeurl)><(else)>[]<(/if)>;
+var jsonPic = <(if $data.ab_globalid)><($jsonPic)><(else)>[]<(/if)>;
+$(document).ready(function(){
+	var picTpl='<tr><td class="tit_preview" style="text-align:left;">图片</td><td class="tit_preview" style="text-align:left;">宽度</td><td class="tit_preview" style="text-align:left;">高度</td><td class="tit_preview" style="text-align:left;">描述信息</td></tr>',
+	urlTpl = '<tr><td class="tit_preview" style="text-align:left;">链接标题</td><td class="tit_preview" style="text-align:left;">链接地址</td></tr>';
+	if(jsonPic){
+		for(var i=0;i<jsonPic.length;i++){
+			picTpl += "<tr><td ><img src='"+jsonPic[i].pi_link+"' width='100' height='100' /></td><td >"+jsonPic[i].pi_pic_width+"</td><td >"+jsonPic[i].pi_pic_height+"</td><td >"+jsonPic[i].pi_pic_desc+"</td></tr>"
+		}
+	}
+	if(jsonRelativeurl){
+		for(var i=0;i<jsonRelativeurl.length;i++){
+			urlTpl += "<tr><td >"+jsonRelativeurl[i].rl_keyword+"</td><td >"+jsonRelativeurl[i].rl_urllink+"</td></tr>"
+		}
+	}
+	$("#tablePic")[0].innerHTML = picTpl;
+	$("#tableRelativeurl")[0].innerHTML = urlTpl;
+});
+</script>
+<body>
+<div id="contentBase"> 
+	  	<table width="100%" class="tb_preview">
+		<tr>
+			<td class="tit_preview"  width="10%">姓名：</td>
+		    <td width="40%">
+		    	<($data.ab_aname)>
+		    </td>
+		    <td  class="tit_preview"   width="10%"    >性别：</td>
+			<td width="40%">
+				<(foreach from=$ab_genderOption key=key item=item)>
+					<(if $data.ab_gender == $key)><($item)> <(/if)>
+				<(/foreach)>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">职业：</td>
+			<td>  		
+				<(foreach from=$ab_careerOption key=key item=item)>
+					<(if strpos($data.ab_career,$item) !== false)><($item)> <(/if)>
+				<(/foreach)>			
+			</td>
+			<td class="tit_preview">唯一名：</td>
+			<td>
+				<($data.ab_uniqaname)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">明星图片：</td>
+			<td colspan="3">
+				<table id="tablePic" class="tb_preview">
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">明星介绍：</td>
+			<td colspan="3">
+				 <textarea id="aei_info" name="aei_info" caption="明星介绍" key="true" cols="80" rows="10"><($data.aei_info)></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">别名：</td>
+		    <td><($data.ab_aliasname)></td>
+		    <td class="tit_preview">译名：</td>
+			<td><($data.ab_translatename)></td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">生日：</td>
+			<td>
+				<($data.ab_birthday|date_format:'%Y-%m-%d')>
+			</td>
+			<td class="tit_preview">星座：</td>
+		    <td>
+		    	<($data.ab_constellation)>		   
+		    </td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">身高：</td>
+			<td>
+				<(if $data.ab_stature != "0.00")><($data.ab_stature)><font color="#3f84c7"><b>(cm)</b></font><(/if)>
+			</td>
+			<td class="tit_preview">体重：</td>
+			<td>
+				<(if $data.ab_weight != "0.00")><($data.ab_weight)><font color="#3f84c7"><b>(kg)</b></font><(/if)> 
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">国家：</td>
+			<td>
+				<($data.ab_country)>
+				<(if $data.ab_invalid_country)><br><input type="text" value="<($data.ab_invalid_country)>" readonly="readonly" /><(/if)>
+			</td>
+			<td class="tit_preview">血型：</td>
+			<td>
+				<($data.ab_bloodtype)>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">屏蔽：</td>
+			<td>  		
+				<(foreach from=$ab_forbidflagOption key=key item=item)>
+					<(if strpos($data.ab_forbidflag,$item) !== false)><($item)> <(/if)>
+				<(/foreach)>
+			</td>
+			<td class="tit_preview">打分：</td>
+			<td>
+				<($data.ab_grade)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">地区：</td>
+			<td>
+				<(foreach from=$ab_aareaOption key=key item=item)>
+					<(if $data.ab_aarea == $key)><($item)> <(/if)>
+				<(/foreach)>
+				<div id="nb_ab_aarea"></div>
+			</td>
+			<td class="tit_preview">相关明星(多明星用,分隔)：</td>
+			<td>
+				<($data.ab_relatestars)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">所属企业：</td>
+			<td>
+				<($data.ab_company)>
+			</td>
+			<td class="tit_preview">指定链接(多链接用,分隔 )：</td>
+			<td>
+				<($ui_uniqurl)>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">标签：</td>
+			<td colspan="3">
+				<($data.ab_tags)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">相关连接：</td>
+			<td colspan="3">
+				<table id="tableRelativeurl" class="tb_preview">
+					
+					
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">明星专辑：</td>
+			<td colspan="3">
+				 <textarea id="aei_works_album" name="aei_works_album" caption="明星专辑" key="true" cols="80" rows="5"><($data.aei_works_album)></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">明星电影：</td>
+			<td  colspan="3">
+				 <textarea id="aei_works_movie" name="aei_works_movie" caption="明星电影" key="true" cols="80" rows="5"><($data.aei_works_movie)></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">明星电视剧：</td>
+			<td  colspan="3">
+				 <textarea id="aei_works_tv" name="aei_works_tv" caption="明星电视剧" key="true" cols="80" rows="5"><($data.aei_works_tv)></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">明星演出：</td>
+			<td colspan="3">
+				 <textarea id="aei_works_show" name="aei_works_show" caption="明星演出" key="true" cols="80" rows="5"><($data.aei_works_show)></textarea>
+			</td>
+		</tr>
+	   </table>
+</div>
+
+

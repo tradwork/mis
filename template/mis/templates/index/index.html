@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>百度基础曲库 - <($smarty.const.QUKU_VERSION)></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="<($smarty.const.STATIC_DIR)>/css/quku.css"/>
+</head>
+<script type="text/javascript">
+		var Sys = {}; 
+		var ua = navigator.userAgent.toLowerCase(); 
+		var s; 
+		(s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] : 
+		(s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] : 
+		(s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] : 
+		(s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] : 
+		(s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0; 
+		// //以下进行测试 
+		if(!Sys.firefox){
+			//
+			alert("对不起，目前该MIS平台只支持firefox(火狐)系列浏览器");
+			window.location.href='/index.html'
+		}
+</script>
+
+<frameset rows="30,*" cols="*" frameborder="no" border="0" scrolling="No" framespacing="0">
+ 
+  <frame src="index.php?c=index&m=topmenu" scrolling="no" name="topFrame" noresize="noresize" id="topFrame" />
+  <frameset rows="*"  cols="215,9,*" frameborder="no" border="0" id="homeFrame">
+    <frame src="?c=index&m=menu" name="leftFrame" scrolling="no" noresize="noresize" id="leftFrame" />
+    <frame src="?c=index&m=bar" name="barFrame" scrolling="no" noresize="noresize" />
+    <frame src="?c=index&m=welcome" name="mainFrame" id="mainFrame" scrolling="auto" />
+  </frameset>
+</frameset>
+
+<noframes>
+<body>
+</body>
+</noframes>
+
+</html>

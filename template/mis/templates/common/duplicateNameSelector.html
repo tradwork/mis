@@ -1,0 +1,70 @@
+<(include file="common/childStationHeader.inc.html" title="重名选择")>
+<script type="text/javascript">
+var station = new baidu.ui.crossFrameDialog.ChildStation();
+jQuery(document).ready(function (){
+	 renderSelectorDialog(station.getData());
+	$("#buttonSubmit").click(doSubmit);
+});
+function renderSelectorDialog (sData) {
+	var selectorStage = document.getElementById('duplicateName');
+	selectorStage.innerHTML = "";
+	baidu.loader.loadPackage('duplicateName');
+	var q = 'quku_artist_works_ref';
+	var repeatData = sData.data[q].repeat;
+	var ul = document.createElement("ul");
+	ul.className = 	"fieldName";
+	ul.id = q;
+	//ul.innerHTML = duplicateName.idToName(q)
+	for(var i = 0; i< repeatData.length; i++){
+		ul.innerHTML += "<li>"  + "<input type ='radio' id='"+repeatData[i].idx+"' name='"+(""+repeatData[i].name).toLowerCase()+q+"' title='' value='" + repeatData[i].json.replace(/'/g,"&#39;")+"'><span>"+repeatData[i].name + '[' +repeatData[i].uniquename +']' + "</span></li>"
+	}
+	selectorStage.appendChild(ul)
+	
+}
+function doSubmit(){
+	var sData = station.getData(); 
+	var returnData = [], q = 'quku_artist_works_ref';
+	//组织未重名数据
+
+		var singleData = sData.data[q].single,repeatData = sData.data[q].repeat;
+		returnData[q] = [];
+		for(var i = 0; i < singleData.length; i ++){
+				returnData[q][singleData[i].idx]=singleData[i].json;
+		}
+		
+		var oid=document.getElementById(q);
+		var _input = oid.getElementsByTagName("input");
+		for(var i=0;i<_input.length;i++){
+			  var L = document.getElementsByName(_input[i].name),B = false;
+			  for(var j=0;j<L.length;j++){
+					if(L[j].checked){
+						B = true;
+					}
+			  }
+			  if(!B) {
+				alert('请选择重名数据');
+				return false;
+			  } 
+			  if(_input[i].checked){
+				returnData[q][_input[i].id]=_input[i].value;
+			  }
+		}
+	station.sendAndClose(returnData);
+}
+</script>
+<form onsubmit="return false" id="formCategory">
+<table class="qukuDataGrid" width="100%">
+	<tr>
+		<td>
+		<div style="height: 275px; overflow: auto" id="duplicateName">
+		</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<button type="button" id="buttonSubmit">确定</button>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

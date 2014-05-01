@@ -1,0 +1,53 @@
+<(include file="common/header.inc.html" title="字典管理 &gt; 创建字典")>
+
+<(block name="initData")>
+<(/block)>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/option/option.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/option/optionForm.js"></script>
+
+<script type="text/javascript">
+
+//模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="option/convertData.html")>
+$(document).ready( function () {
+    var T = quku_v.optionForm;
+	T.displayPanel(quku_v.option.data);
+    <(block name="inline_js")>
+	<(/block)>
+});
+</script>
+<body>
+<div style="display:none;"><($data|var_dump)></div>
+<input type="hidden" id ="od_id" name="od_id " value="<($data.quku_options_dic.od_id)>" />
+<input type="hidden" id ="action" value="<($formAction)>" />
+<!-- for dialog creater -->
+<input type="hidden" id ="odId" value="" />
+<div id="contentBase"> 
+	<fieldset>
+		<legend><label class="fieldName">基本信息</label></legend>
+	 <!-- 单词 -->
+	<div id="od_word" class="x-layout-item"></div>
+	
+		<!-- 拼音码 -->
+	<div id="od_spell_code" class="x-layout-item"></div>
+	
+		<!-- 配置类型 -->
+	<div id="od_category" class="x-layout-item"></div>
+	
+		<!-- 信息类型 -->
+	<div id="od_type" class="x-layout-item"></div>
+	
+		<!-- 备注字段 -->
+	<div id="od_remark" class="x-layout-item"></div>
+	
+	</fieldset>
+</div>
+<div class="space10"></div>
+<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>&nbsp;</td>
+		<td  colspan="3" style="algin:center;">
+		        &nbsp;&nbsp;<input class="button01" id = "save" name="button" type="button" value="保存" onclick="Option.save();">
+		</td>
+	</tr>
+</table>

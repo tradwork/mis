@@ -1,0 +1,218 @@
+<(include file="common/childStationHeader.inc.html" title="屏蔽操作")>
+<script type="text/javascript">
+jQuery(document).ready(function (){
+   $("#si_prohibit_type").change(function(){
+		var si_prohibit_type = $.trim($(this).val()),
+			si_prohibit_info = $.trim($('#si_prohibit_info').val());
+			$('#si_prohibit_info').removeAttr(  "disabled")
+			if(si_prohibit_type == 0){
+			  $('#si_prohibit_info').attr( 'disabled','disabled' )  
+			}
+			jQuery.post(
+				'?c=song&m=getProhibitDefaltInfo',
+				{'si_prohibit_type':si_prohibit_type,'si_prohibit_info':si_prohibit_info},
+				function(sData){
+					$('#si_prohibit_info').val(sData.si_prohibit_info);
+					$('#si_prohibit_info').select();
+			        $('#si_prohibit_info').focus();
+				},'json'
+			  );
+											  
+	});
+});
+
+var Song = {
+	saveAndPub : function(globalid) {		
+		var sAction = $('#action').val();
+		
+    var action="";
+    switch(sAction){
+      case 'doCreate':
+      action= 'doCreateAndPub';
+      break;
+      case 'doCreateInDialog':
+      action= 'doCreateAndPubInDialog';
+      break;
+      case 'doEditInDialog':
+      action= 'doEditAndPubInDialog';
+      break;
+      default:action = 'prohibitMusic';
+    }
+		jQuery.post(
+			'?c=song&m='+action,
+			this.construnctPostQueryString(globalid),
+			function(sData){
+				if(sData.errno == 0){
+					alert('屏蔽成功');
+					Song.afterSaveAction(action, sData);
+				}
+				else if(sData.errno == -3){
+				  alert('屏蔽失败');  	
+				}
+				else{
+					Song.showValidateInfo('song',sData);
+				}
+			},'json'
+		);
+	},
+	removeProhibit : function(globalid,type){
+    var action="";
+    switch(type){
+      case 'update':
+      action= 'disprohibitMusic';
+      break;
+    }
+		jQuery.post(
+			'?c=song&m='+action,
+			{'si_globalid':globalid},
+			function(sData){
+				if(sData.errno == 0){
+					alert('删除屏蔽成功');
+					Song.afterSaveAction(action, sData);
+				}
+				else if(sData.errno == -3){
+				  alert('删除失败');  	
+				}
+			},'json'
+		);
+	},
+	showValidateInfo : function (model, sData) {
+		if(sData == -5){
+			alert("你没有权限进行该操作!");
+			return;
+		}
+		for(key in sData.data) {
+			var responseData = sData.data[key];
+				
+				$('#nb_'+key).html("");
+				
+				if(responseData != 100) {
+						$('#nb_'+key).html(this.errorCodeToString(model, responseData));
+						$('#nb_'+key).css("display","inline");
+						$('#nb_'+key).css("color","red");
+				}
+			
+		}
+	},
+	errorCodeToString : function (model,errno) {
+		var mapArray = {'tv':{'101':'不能为空','109':'数据已存在'},'movie':{'101':'不能为空','109':'数据已存在'},
+				'artist':{'101':'不能为空','109':'数据已存在','105':'数据不合法'},'song':{'101':'不能为空','102':'内容在100字以内','109':'数据已存在'},'dictionary':{'101':'不能为空','109':'数据已存在'}};
+		if( mapArray[model] &&  mapArray[model][errno]){
+			return mapArray[model][errno];
+		}else{
+			return "请正确填写该行信息"
+		}
+	},
+	afterSaveAction : function (saveActionName, sData) {
+		switch(saveActionName) {
+		case 'prohibitMusic' : 
+		    window.parent.location.reload();
+			break;
+		case 'disprohibitMusic' : 
+			window.parent.location.reload();
+			break;
+		case 'doEdit' :
+			window.location.href = '?c=song&m=search&tn=song_list&si_status=1';
+			break;
+		case 'doCreateAndPub' : 
+			window.location.href = '?c=song&m=search&tn=song_list&si_status=0';
+			break;
+		case 'doEditAndPub' :
+			window.location.href = '?c=song&m=search&tn=song_list&si_status=0';
+			break;
+		case "doCreateAndAudit" :
+			window.location.href = '?c=song&m=search&tn=song_list&si_status=2';
+			break;
+		case "doEditAndAudit" :
+			window.location.href = '?c=song&m=search&tn=song_list&si_status=2';
+			break;
+		case 'doCreateInDialog':
+			var childStation = new baidu.ui.crossFrameDialog.ChildStation();
+			var response = (sData.response) ? sData.response : [];
+			response.seq = $('#songId').val();
+			childStation.sendAndClose(response);
+			break;
+		case 'doCreateAndAuditInDialog': 
+			var childStation = new baidu.ui.crossFrameDialog.ChildStation();
+			var response = (sData.response) ? sData.response : [];
+			response.seq = $('#songId').val();
+			childStation.sendAndClose(response);
+			break;
+	    case 'doEditInDialog':
+	      var childStation = new baidu.ui.crossFrameDialog.ChildStation();
+				var response = (sData.response) ? sData.response : [];
+				response.seq = $('#songId').val();
+				childStation.sendAndClose(response);
+				break;
+		case 'doEditAndAuditInDialog': 
+				var childStation = new baidu.ui.crossFrameDialog.ChildStation();
+				var response = (sData.response) ? sData.response : [];
+				response.seq = $('#songId').val();
+				childStation.sendAndClose(response);
+				break;
+		case 'doCreateAndPubInDialog': 
+				var childStation = new baidu.ui.crossFrameDialog.ChildStation();
+				var response = (sData.response) ? sData.response : [];
+				response.seq = $('#songId').val();
+				childStation.sendAndClose(response);
+				break;
+		case 'doEditAndPubInDialog': 
+			var childStation = new baidu.ui.crossFrameDialog.ChildStation();
+			var response = (sData.response) ? sData.response : [];
+			response.seq = $('#songId').val();
+			childStation.sendAndClose(response);
+			break;
+	    default : window.location.href = '?c=song&m=search&tn=song_list';
+		}
+	},
+    construnctPostQueryString : function(globalid) {
+		/*屏蔽信息*/
+		var si_prohibit_type = $.trim($("#si_prohibit_type").val()),
+			si_prohibit_info = $.trim($('#si_prohibit_info').val()),
+			si_globalid = globalid;
+		var postQueryString = {
+		 'si_prohibit_type':si_prohibit_type,'si_prohibit_info':si_prohibit_info,'si_globalid':si_globalid
+		 };
+		return postQueryString;
+    }
+}
+</script>
+<div class="shielding-wrap">
+<table class="shielding-song-table">
+        <tr class="title">
+          <td>歌曲ID</td>
+          <td>歌名</td>
+          <td>歌手</td>
+          <td>专辑</td>
+          <td>版本</td>
+          <td>唱片公司</td>
+          <td>结算公司</td>
+        </tr>
+        <tr>
+          <td><($data.si_globalid)></td>
+          <td><($data.si_title)></td>
+          <td><($data.si_author)></td>
+          <td><($data.si_album)></td>
+          <td><($data.si_versions)></td>
+          <td><($data.si_publishcompany)></td>
+          <td><($data.si_proxycompany)></td>
+        </tr>
+      </table>
+        <ul class="shielding-info">
+        	<li>屏蔽类型：</li>
+            <li>
+            	<select class="shielding-select" name="shielding" id="si_prohibit_type">
+                    <(foreach from=$si_prohibit_typeOption key=key item=shielding)>
+                        <option value="<($key)>" <(if $data.si_prohibit_type == $key)> selected <(/if)>><($shielding)></option>
+					<(/foreach)>
+				</select><span id="nb_si_prohibit_type"></span>
+                </li>
+        <li>屏蔽解释：<span class="red">100字以内</span></li>
+        <li>
+        	<textarea class="shielding-explained" id="si_prohibit_info" <(if $data.si_prohibit_info)><(else)>disabled<(/if)>><(if $data.si_prohibit_info)> <($data.si_prohibit_info)> <(/if)></textarea><span id="nb_si_prohibit_info"></span>
+        </li>
+        </ul>
+</div>
+        <div class="pop-opera"><button id="btn" onclick="Song.saveAndPub(<($data.si_globalid)>);">确定</button> <(if $data.si_prohibit_type >0)><button onclick="Song.removeProhibit(<($data.si_globalid)>,'update');">删除屏蔽</button> <(/if)><button  id="buttonClose">取消</button></div>
+</body>
+</html>

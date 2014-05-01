@@ -1,0 +1,40 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.tag==='undefined' ) 
+{ 
+    quku_v.tag = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.tag.data={
+
+	td_tagid: <(if strlen($data.quku_tag_dict.td_tagid) >0)>"<($data.quku_tag_dict.td_tagid|escape:'javascript')>"<(else)>''<(/if)> ,
+	td_level: <(if strlen($data.quku_tag_dict.td_level) >0)>"<($data.quku_tag_dict.td_level|escape:'javascript')>"<(else)>''<(/if)> ,
+	td_parentid: <(if strlen($data.quku_tag_dict.td_parentid) >0)>"<($data.quku_tag_dict.td_parentid|escape:'javascript')>"<(else)>''<(/if)> ,
+	td_name: <(if strlen($data.quku_tag_dict.td_name) >0)>"<($data.quku_tag_dict.td_name|escape:'javascript')>"<(else)>''<(/if)> ,
+	td_category: <(if strlen($data.quku_tag_dict.td_category) >0)>"<($data.quku_tag_dict.td_category|escape:'javascript')>"<(else)>''<(/if)> ,
+	
+	quku_tag_syn: <(if sizeof($data.quku_tag_syn) >0)>[
+							 <(foreach from=$data.quku_tag_syn key=key item=item name='qukuTagSyn')> 
+								["<($item.ts_word|escape:'javascript')>","<($item.ts_id|escape:'javascript')>","<($item.ts_tagid|escape:'javascript')>"]
+								<(if !$smarty.foreach.qukuTagSyn.last)>	,<(/if)>
+							 <(/foreach)> 
+						]<(else)>[]<(/if)>,	 
+	
+
+    td_levelOption: <(if $data.option.td_level)>[ 
+						<(foreach from=$data.option.td_level key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	td_categoryOption: <(if $data.option.td_category)>[ 
+						<(foreach from=$data.option.td_category key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>
+}

@@ -1,0 +1,129 @@
+<(include file="common/header.inc.html")>
+ <script type="text/javascript" src="static/js/album/albumList.js" ></script>
+
+<(if $not_pub_singer)>
+<script>
+var not_pub_singer = '<table class="qukuDataGrid" width="100%" cellpadding="3">'
+	+ '<tr>'
+	+ '    <th style="font-size:12px;">状态</th>'
+	+ '    <th style="font-size:12px;">明星</th>'
+	+ '</tr>';
+
+<(foreach from=$not_pub_singer item=item)>
+	not_pub_singer += ''
+	+ '<tr>'
+	+ '   <td height="20"><($item.status)></td>'
+	+ '   <td><a href="<($item.link)>" target="_blank"><($item.name)></a></td>'
+	+ '</tr>'
+<(/foreach)>
+not_pub_singer += '</table>';
+
+widget.mask.show();
+widget.simple_dialog.create(
+	"未创建或未审核明星",
+	not_pub_singer,
+	"400",
+	{
+		hide: function() {
+			widget.mask.hide();
+		}
+	}
+);
+</script>
+<(/if)>
+
+<(if $smarty.get.search_delflag ==1)>
+	<(assign var="delflag" value="ai_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+<(/if)>
+
+<(assign var="o" value=$data.search_option)>
+<div style="display:none;"> <(* <($data|var_dump)> *)> </div>
+
+<(include file="listSearch/albumSearchBar.html" title="album" option=$data.search_option)>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid">
+	<tr>
+		<th width="60"><input type="checkbox" name="batchCheckbox">全选</th>
+		<th>专辑名</th>
+    <th>明星</th>
+    
+    <th>发行公司</th>
+		<th>操作</th>
+		<th>创建人</th>
+    <th>创建时间</th>
+		<th>最后修改人</th>
+		<th>最后修改时间</th>
+		<th>ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="albumCheckbox" value="<($item.ai_globalid)>"></td>
+		<td title="<($item.ai_album|escape|@addslashes)>">		
+		    <($album=html_entity_decode($item.ai_album,3))>
+			<(if $item.ai_delflag == 0)>
+			<a href="?c=album&m=edit&ai_globalid=<($item.ai_globalid)>&tn=album_edit"  class="showedit"><($album|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($album|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td>
+    <td>
+
+	<(assign var="quku_artist_works_ref" value=$item.quku_artist_works_ref)>
+	
+	<(foreach from=$quku_artist_works_ref item=i key=k name=author_list)>
+	<(if !$i['awr_artist_id'])>
+		<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+	<(else)>
+		<(if $item.ai_delflag == 1)>
+			<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+		<(else)>
+			<a href="?c=artist&m=edit&ab_globalid=<($i['awr_artist_id'])>&tn=artist_edit"  class="showedit"> <($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)> </a>
+		<(/if)>
+	<(/if)>
+	<(if !$smarty.foreach.author_list.last)>	,<(/if)>
+	<(/foreach)>
+    </td>
+    <td class="txt_center"><(if $item.ai_publishcompany)><($item.ai_publishcompany)><(else)>无<(/if)></td>
+		<td>
+			<(if $smarty.get.search_delflag == 1)>
+				<a href="?c=album&m=disDelete&search_status=1&ai_globalid=<($item.ai_globalid)>" target="_blank" class="x-album-recovery" > 恢复 </a>
+			<(else)>
+				<(if $item.ai_status == 0)>	
+				     <a href="?c=album&m=disPub&search_status=1&ai_globalid=<($item.ai_globalid)>" class="x-album-offline" > 下线 </a>
+			    <(else)>
+					<a href="?c=album&m=pub&search_status=0&ai_globalid=<($item.ai_globalid)>" class="x-album-pub"> 发布 </a>
+				    |<a href="?c=album&m=delete&search_status=1&ai_globalid=<($item.ai_globalid)>" class="x-album-del"> 删除 </a>
+				<(/if)>
+			<(/if)>
+			</td>
+		<td><($item.ai_joinuser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td><(if strlen($item.ai_jointime) >0 && $item.ai_jointime!=0)><($item.ai_jointime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+    <td><($item.ai_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td><(if strlen($item.ai_edittime) >0 && $item.ai_edittime!=0)><($item.ai_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+		<td><($item.ai_globalid)></td>
+	</tr>
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	<(if !($smarty.get.search_delflag == 1))>
+		  <(if $smarty.get.search_status==1)>
+		    <a href="?c=album&m=batchDelete" class="batchDelete">批量删除</a>
+		    <a href="?c=album&m=batchPub" class="publishAll">批量发布</a>
+		 <(/if)>
+	<(else)>
+		<a href="?c=album&m=batchDisDelete" class="batchDisDelete">批量恢复</a>
+	 <(/if)>
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>
+<include file="common/footer.inc.html">
+

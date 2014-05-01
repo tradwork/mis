@@ -1,0 +1,179 @@
+<(block name="initHead")>
+
+<(include file="common/header.inc.html" title="MV管理 &gt; 添加MV")>
+
+<(/block)>
+
+
+<(block name="initData")>
+<(/block)>
+
+<style type="text/css">
+	.language{width:100px;height:95px;}
+	.fl{float:left;}
+	.tb_form { border:none; }
+	 #tablePicHidden{
+       display:inline-block;
+   }
+   <(block name="initStyle")>
+ <(/block)>
+</style>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/mv/mv.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/mv/mvForm.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/mediaCheckStatus.js"></script>
+
+
+
+<script type="text/javascript">
+
+		//模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="mv/convertData.html")>
+		var jsonAidio = <(if $data.quku_mvs_info.mi_globalid)><($data.quku_mvs_files)><(else)>[]<(/if)>;
+		var jsonVideosInfo = <(if $data.quku_video_info)><($data.quku_video_info)><(else)>[]<(/if)>;
+		var jsonPic = <(if $data.quku_video_info)><($data.quku_video_info)><(else)>[]<(/if)>;	
+		$(document).ready(function(){
+		    var T = quku_v.mvForm, data = quku_v.mv.data;
+			T.displayPanel(data);
+			<(block name="inline_js")>
+
+			<(/block)>
+		})
+</script>
+
+<body>
+<!--
+<div style="display:none;"><($data|var_dump)></div>
+<div style="display:none;"><($user|var_dump)></div>
+-->
+
+<(if $data.quku_mv_info.mi_globalid)>
+	<input type="hidden" id ="mi_globalid" name="mi_globalid" value="<($data.quku_mv_info.mi_globalid)>" />
+	<(if $user.ub_groupid==1)>
+	<input type="hidden" id ="action" value="saveInCache" />
+	<(else)>
+	<input type="hidden" id ="action" value="doEdit" />
+	<(/if)>
+<(else)>
+	<input type="hidden" id ="action" value="doCreate" />
+<(/if)>
+
+<(block name="addContainerType")>
+<(/block)>
+
+<!-- for dialog creater -->
+<input type="hidden" id ="mvId" value="" />
+<!--歌词数据-->
+
+<input type="hidden" id = "sl_globalid" value=''  />
+<input type="hidden" id = "sl_title" value='' />
+<input type="hidden" id ="channel" value="5" />
+
+
+
+<div id="contentBase">
+<fieldset class="x-layout-base">
+  <legend><label>必填信息</label></legend>
+	    
+	    <!-- 标题 -->
+		<div id="mi_title" class="x-layout-item"></div>
+	    
+	    <!-- 副标题 -->
+		<div id="mi_subtitle" class="x-layout-item"></div>
+
+		<!-- 歌手 -->
+		<div id="quku_artist_works_ref" class="x-layout-item"></div>
+
+		<!--歌手ID -->
+		<div id="mi_artist_id"  class="x-layout-item"></div>
+
+	 	<!-- 发行时间 -->
+		<div id="mi_publishtime" class="x-layout-item"></div>
+
+		<!-- 定时发布时间  -->
+		<div id="mi_pre_pubtime" class="x-layout-item mi_pre_pubtime"></div>		
+		
+		<!-- 描述 -->
+		<div id="mi_info" class="x-layout-item"></div>
+		
+		<!--MVID -->
+		<div id="mi_mv_id"  class="x-layout-item"></div>
+
+		
+		<!--标签管理信息-->
+		<div id="mi_label"  class="x-layout-item"></div>
+		
+		<!-- 版本 -->
+		<div id="mi_versions" class="x-layout-item"></div>
+		
+		<div id="mi_ext2_more" class="x-layout-item">
+			<!--地区 -->
+			<div id="mi_area" class="x-item-inner"></div>
+		</div>
+
+		<div id="mi_ext2_more" class="x-layout-item">
+			<!--关联歌曲和匹配度 -->
+			<div id="quku_mv_ref" class="x-layout-block tb_form">
+			</div>
+		</div>
+</fieldset>
+</div>
+
+<div id="contentCopyright">
+	<fieldset  class="x-layout-base">
+		<legend><label>版权信息</label></legend>
+			<!--发行公司-->
+		<div id="mi_publishcompany" class="x-layout-item"></div>
+
+		<!--付费公司-->
+		<div id="mi_proxycompany" class="x-layout-item"></div>
+
+		<!-- 版权类型 -->
+		<div id="mi_prohibit_type" class="x-layout-item"></div>
+
+
+	</fieldset>
+</div>
+
+<div id="contentResource">
+	<fieldset  class="x-layout-base">
+		<legend><label>资源信息</label></legend>
+		<div><button class="addVideoSource">增加资源信息</button></div>
+		</div>
+	</fieldset>
+</div>
+
+<div class="space10"></div>
+<div id="operation">
+	<input type="checkbox" id="mi_audit_status" <(if strlen($data.quku_mv_info.mi_audit_status) >0 && $data.quku_mv_info.mi_audit_status==0)>checked<(/if)> >审核</input>
+
+	<(if strlen($data.quku_mv_info.mi_status) >0 && $data.quku_mv_info.mi_status==0)>
+		<input type="button" value="保存" class="button01" onclick="Mv.saveAndPub();"></input>
+		<(if $formAction!="doEditInDialog")>
+			<input type="button" value="下线" class="button01" onclick="Mv.offline()"></input>
+		<(/if)>
+	<(else)>
+		<input type="button" value="保存" class="button01" onclick="Mv.save();"></input>
+		<input type="button" value="保存并发布" class="button01" onclick="Mv.saveAndPub();"></input>
+	<(/if)>
+</div>
+
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/duplicateName.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/lrc.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/lrcUpload.js"></script>
+
+<script type="text/javascript" src="/static/js/jquery/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/js/jquery/ui/jquery.ui.slider.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picRowControllerMv.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/mediaUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/mediaRowController.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+<(include file="common/footer.inc.html")>
+
+
+

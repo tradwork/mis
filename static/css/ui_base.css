@@ -1,0 +1,183 @@
+/* common */
+body,div,img,table,tr,tbody,tfoot,td,ul,li,p,h1,h2,h3,h4,h5,dl,dt,dd{margin:0;padding:0;border:0;}
+   input[type="checkbox"]{ margin:0; padding:0;}table{border-collapse:collapse;border-spacing:0;}th{ font-weight:normal;}h1,h2,h3,h4,h5{ font-size:100%;}i,em{ font-style:normal;}sup{vertical-align:middle;}li{ list-style-type:none;}body{ font-size:14px; font-family:arial, \5b8b\4f53;background:#ffffff;}
+
+ .clearfix:after {	content: ".";display: block;height: 0;clear: both;visibility: hidden;}.clearfix {	display: inline-block;}* html .clearfix {height: 1%;}.clearfix {display: block;}
+    
+	body{
+		font-size:12px;
+		font-family:Arial \5b8b\4f53;
+		color: #3F84C7;
+		background:#f1f1f1;
+	 }
+	 .red{
+	     color:red;
+	  }
+	  select{
+	      /*    padding-top: 4px; */
+	  }
+	  input[type="radio"] {
+		position: relative;
+		-webkit-appearance: none;
+		-webkit-user-select: none;
+		/*background-image: -webkit-linear-gradient(#EDEDED, #EDEDED 38%, #DEDEDE);*/
+		border: 1px solid rgba(0, 0, 0, 0.25);
+		border-radius: 2px;
+		box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+		margin: 0 1px 0 0;
+	}
+	input[type="radio"]{
+		border-radius: 100%;
+		bottom: 3px;
+		height: 15px;
+		vertical-align: middle;
+		width: 15px;
+	}
+	input[type='radio']:checked::before {
+		background-color: #377bcb;
+		border-radius: 100%;
+		bottom: 3px;
+		content: '';
+		display: block;
+		left: 3px;
+		position: absolute;
+		right: 3px;
+		top: 3px;
+	}
+	input[type='checkbox']:active,
+	select:active,
+	input[type='radio']:active {
+		background-image: -webkit-linear-gradient(#fcfcfc, #f8f8f8 38%, #e7e7e7);
+		box-shadow: none;
+		text-shadow: none;
+	}
+	  /* common */
+	  /* 两列布局 */
+	  .x-layout-item{
+	      width:45%;
+		  float:left;
+		  margin-top:5px;
+		  margin-left:10px;
+	  }
+	  .x-layout-item1{
+	      width:280px;
+		  float:left;
+		  margin-top:5px;
+		  margin-left:10px;
+	  }
+	   /*单列布局*/
+	   .x-layout-block{
+	      width:100%;
+		  float:left;
+		  margin-top:10px;
+		  margin-left:10px;
+	  }
+	  .x-layout-merge{
+	      height:130px;
+	  }
+	  .x-layout-block table{
+	      display:inline-block;
+		 /* margin-left: -12px; */
+		  /* width: 700px; */
+	  }
+	  #tablePic {
+	      margin-left: 10px; 
+	  }
+	  /* fieldset样式 */
+	  .x-layout-base{
+	      width:100%;
+		  padding-left:10px;
+	  }
+	  .x-item-inner{
+	      margin-left:0px;
+	  }
+	  /*  base compnent label */
+      .x-component-label{
+	    height:25px;
+		width: 100px;
+		line-height:22px;
+		text-align:right;
+		white-space:nowrap;
+		font-weight: bold;
+		display:inline-block;
+		margin-right:20px;
+		vertical-align:top;
+	  }
+	  .x-component-label .label-text{
+		  text-align:right;
+	  }
+	  .x-component-label .label-blank{
+	      line-height: 18px;
+		  vertical-align: top;
+		  text-align:right;
+	  }
+	  .x-component-label .more-link{
+		  display:inline-block;
+		  margin-left:10px;				
+	  }
+	   .x-component-items{
+		  display:inline-block;
+		  /*height:25px;*/
+		  line-height:22px;
+	  }
+	  .x-component-items .x-component-input{
+	      margin-right:5px;		   
+		  /*width: 200px;
+		  height: 25px;*/
+	  }
+	 .x-component-items input[type=radio], .x-component-items input[type=checkbox]{
+/*	      width:auto;
+		  height: auto;*/
+		  margin-left:10px;
+	  }
+	  /* textarea */
+	 .x-component-textarea {
+	     height: 100px;
+		 width: 75%;
+	 }
+	 
+	 /*  multiselect  */  
+	  .x-select{
+		   position:relative;
+		   display: inline-block;
+		   top: 5px;
+	   }
+	   .x-select select { height:auto; }
+	   
+	   .x-select .x-select-item{
+		   float:left;
+	   }
+	   .x-select .x-select-src{}
+	   .x-select .x-select-dest{}
+	   .x-select .x-select-src,.x-select .x-select-dest{
+		   border:1px solid #E7ECF0;
+		   height: 100px;
+	   }
+	   .x-select .x-select-tool{
+	   }
+	   .x-select .x-select-tool-add,.x-select .x-select-tool-del{
+		  display:block;
+		  border:1px solid #E7ECF0;
+		  background:none repeat scroll 0 0 #FFFFFF;
+		  text-align:center;
+		  color:#0000cd;
+		  line-height:18px;
+		  width:30px;
+		  margin-left:10px;
+		  cursor: pointer;
+	   }
+	   .x-select .x-select-tool-del{
+		  margin-top:20px;
+	   }
+	   .x-select .x-select-tool-add:hover,
+		   .x-select .x-select-tool-del:hover{background:#e9f1f7;}
+		   
+		.x-page-count,.batchDelete,.publishAll{ text-align:center;display:inline-block;width:100px; }
+		.x-page-count{ width:300px;  }
+		
+		.x-eidtgrid-selectfield{
+		    display: inline-block;
+		}
+		.x-editgrid-operation{
+		   display: inline-block;
+		}

@@ -1,0 +1,89 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.artist==='undefined' ) 
+{ 
+    quku_v.artist = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.artist.data={
+
+	ab_globalid: <(if strlen($data.quku_artists_base.ab_globalid) >0)>"<($data.quku_artists_base.ab_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	ab_name: <(if strlen($data.quku_artists_base.ab_name) >0)>"<($data.quku_artists_base.ab_name|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_name_id:  <(if strlen($data.quku_artists_base.ab_globalid) >0)>"<($data.quku_artists_base.ab_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	ab_unique_name: <(if strlen($data.quku_artists_base.ab_unique_name) >0)>"<($data.quku_artists_base.ab_unique_name|escape:'javascript')>"<(else)>''<(/if)>,
+
+	ab_gender: <(if strlen($data.quku_artists_base.ab_gender) >0)>"<($data.quku_artists_base.ab_gender|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_career: <(if strlen($data.quku_artists_base.ab_career) >0)>"<($data.quku_artists_base.ab_career|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_info: <(if strlen($data.quku_artists_base.ab_info) >0)>"<($data.quku_artists_base.ab_info|escape:'javascript')>"<(else)>''<(/if)>,
+
+	ab_aliasname: <(if strlen( $data.quku_artists_base.ab_aliasname) > 0)>"<($data.quku_artists_base.ab_aliasname|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_birthday: <(if strlen( $data.quku_artists_base.ab_birthday) >0)> "<($data.quku_artists_base.ab_birthday|escape:'javascript')>" <(else)>''<(/if)>,
+	ab_translatename: <(if strlen($data.quku_artists_base.ab_translatename) >0)>"<($data.quku_artists_base.ab_translatename|escape:'javascript')>"<(else)>''<(/if)>,
+
+	ab_constellation: <(if strlen($data.quku_artists_base.ab_constellation) >0)>"<($data.quku_artists_base.ab_constellation|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_stature: <(if strlen($data.quku_artists_base.ab_stature) >0)>"<($data.quku_artists_base.ab_stature|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_weight: <(if strlen($data.quku_artists_base.ab_weight) >0)>"<($data.quku_artists_base.ab_weight|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_bloodtype: <(if strlen($data.quku_artists_base.ab_bloodtype) >0)>"<($data.quku_artists_base.ab_bloodtype|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_relatestars: <(if $data.quku_artists_base.ab_relatestars)>"<($data.quku_artists_base.ab_relatestars|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_yyr_id :  <(if $data.quku_artists_base.ab_yyr_id)>"<($data.quku_artists_base.ab_yyr_id|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_company: <(if $data.quku_artists_base.ab_company)>"<($data.quku_artists_base.ab_company|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_area: <(if strlen($data.quku_artists_base.ab_area) >0)>"<($data.quku_artists_base.ab_area|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_country: <(if strlen($data.quku_artists_base.ab_country) >0)>"<($data.quku_artists_base.ab_country|escape:'javascript')>"<(else)>''<(/if)>,
+	
+	ab_editusernow:<(if strlen($data.quku_artists_base.ab_editusernow) >0)>"<($data.quku_artists_base.ab_editusernow|escape:'javascript')>"<(else)>''<(/if)>,
+	
+	
+	ab_synonym: <(if $data.quku_artists_base.ab_synonym)>"<($data.quku_artists_base.ab_synonym|escape:'javascript')>"<(else)>''<(/if)>,
+	ab_status: <(if strlen($data.quku_artists_base.ab_status) >0)>"<($data.quku_artists_base.ab_status|escape:'javascript')>"<(else)>''<(/if)>,
+    
+    quku_relatively_links: <(if sizeof($data.quku_relatively_links) >0)>[
+	                             <(foreach from=$data.quku_relatively_links key=key item=item name='relatively_links')> 
+									["<($item.rl_keyword|escape:'javascript')>","<($item.rl_urllink|escape:'javascript')>","<($item.rl_id|escape:'javascript')>"]
+									<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+								 <(/foreach)> 
+	                        ]<(else)>[]<(/if)>,	
+							
+	quku_tag_info_rel: <(if sizeof($data.quku_tag_info_rel) >0)>[
+	                             <(foreach from=$data.quku_tag_info_rel key=key item=item name='relatively_links')> 
+									["<($item.td_name|escape:'javascript')>","<($item.ti_weight|escape:'javascript')>","<($item.ti_tagid|escape:'javascript')>","<($item.ti_id|escape:'javascript')>","<($item.ti_infoid|escape:'javascript')>","<($item.ti_infotype|escape:'javascript')>","<($item.ti_lastupdatetime|escape:'javascript')>"]
+									<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+								 <(/foreach)> 
+	                        ]<(else)>[]<(/if)>,	
+							
+	ab_genderOption: <(if $data.option.ab_gender)>[ 
+						<(foreach from=$data.option.ab_gender key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ab_careerOption:  <(if $data.option.ab_career)>[ 
+						<(foreach from=$data.option.ab_career key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ab_constellationOption: <(if $data.option.ab_constellation)>[ 
+						<(foreach from=$data.option.ab_constellation key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ab_bloodtypeOption: <(if $data.option.ab_bloodtype)>[ 
+						<(foreach from=$data.option.ab_bloodtype key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ab_forbidflagOption: <(if $data.option.ab_forbidflag)>[ 
+						<(foreach from=$data.option.ab_forbidflag key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ab_aareaOption:<(if $data.option.ab_area)>[ 
+						<(foreach from=$data.option.ab_area key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+}

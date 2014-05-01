@@ -1,0 +1,28 @@
+<(include file="header.inc.html" title="用户管理&gt;查看用户")>
+<table class="qukuDataGrid" width="300">
+	<tr>
+		<th>用户名</th>
+		<td><($data.username|escape)></td>
+	</tr>
+	<tr>
+		<th>所属用户组</th>
+		<td>
+			<($data.groupname|escape)>
+		</td>
+	</tr>
+	<tr>
+		<th>最后登录时间</th>
+		<td><($data.lastlogintime|date_format:$smarty.const.QUKU_DATE_FORMAT)></td>
+	</tr>
+	<tr>
+		<th>最后登录IP</th>
+		<td><($data.lastloginip)></td>
+	</tr>
+	<tr>
+		<th>操作</th>
+		<td>
+			<a href="?c=user&a=edit&userId=<($data.username)>">编辑</a>
+		</td>
+	</tr>
+</table>
+<(include file="footer.inc.html")>

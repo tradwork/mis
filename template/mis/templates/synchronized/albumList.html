@@ -1,0 +1,133 @@
+<(include file="common/header.inc.html" title="专辑待同步页")>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/album/album.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/song/song.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picRowController.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/songRowController.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+<script type="text/javascript">
+	var jsonRelativeurl = <(if $data.ai_globalid)><($jsonRelativeurl)><(else)>[{'rl_keyword':'贴吧','rl_urllink':''},{'rl_keyword':'官方网站','rl_urllink':''}]<(/if)>;
+	var jsonPic = <(if $data.ai_globalid)><($jsonPic)><(else)>[]<(/if)>;
+	var jsonSong = <(if $data.ai_globalid)><($jsonSong)><(else)>[]<(/if)>;
+$(document).ready( function () {
+	$('input[name="batchCheckbox"]').click(function() {
+		$('input[name="albumCheckbox"]').attr('checked', $(this).attr('checked'));
+	});
+	
+	
+
+});
+//外包人员同步按钮异步请求
+function syn_btn(or_id, or_type, or_itemid){
+	$.ajax({
+		url : '?c=album&m=showCacheInfo&or_id=' + or_id + "&or_type=" + or_type + "&ai_globalid=" + or_itemid,
+		type : 'get',
+		dataType : 'json',
+		data : {
+		/*	'or_id' : arg1,
+			'or_type' : arg2
+		*/
+		},
+		success : function(sData){
+			albumModifyType.show(sData.cache_data, sData.data,sData.audit_data);
+			<(if $user.ub_groupid==11)>
+				$('#synBtn').hide();
+			<(/if)>
+		}
+	});
+}
+
+</script>
+
+<(if $not_pub_singer)>
+<script>
+var not_pub_singer = '<table class="qukuDataGrid" width="100%" cellpadding="3">'
+	+ '<tr>'
+	+ '    <th style="font-size:12px;">状态</th>'
+	+ '    <th style="font-size:12px;">明星</th>'
+	+ '</tr>';
+
+<(foreach from=$not_pub_singer item=item)>
+	not_pub_singer += ''
+	+ '<tr>'
+	+ '   <td height="20"><($item.status)></td>'
+	+ '   <td><a href="<($item.link)>" target="_blank"><($item.name)></a></td>'
+	+ '</tr>'
+<(/foreach)>
+not_pub_singer += '</table>';
+
+widget.mask.show();
+widget.simple_dialog.create(
+	"未创建或未审核明星",
+	not_pub_singer,
+	"400",
+	{
+		hide: function() {
+			widget.mask.hide();
+		}
+	}
+);
+</script>
+<(/if)>
+
+
+<(if $smarty.get.ai_delflag ==1)>
+	<(assign var="delflag" value="ai_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+<(/if)>
+<(assign var="o" value=$data.search_option)>
+<(include file="listSearch/synSearchBar.html" title="operate" tn="album" search_type=2 option=$data.search_option)>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+<table width="100%" class="qukuDataGrid">
+	<tr>
+		
+		<th>专辑名</th>
+		<th>操作</th>
+		<th>修改类型</th>
+		<th>最后修改人</th>
+		<th>最后修改时间</th>
+		<th>审核状态</th>
+		<th>不合格字段</th>
+		<th>ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+	
+		</td><!--全选 -->
+		<td title="<($item.or_title|escape|@addslashes)>">
+			<(if $item.ai_delflag == 0)>
+			<a href="?c=album&m=edit&ai_globalid=<($item.or_itemid)>&tn=album_edit"  class="showedit"><($item.or_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.or_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td><!-- 专辑名 -->
+		<td>
+			<a href="javascript:void(0);" onclick="syn_btn('<($item.or_id)>', '<($item.or_type)>', '<($item.or_itemid)>');">同步</a>
+			<input type="hidden" class="or_type" value="<($item.or_type)>" />
+			
+		</td><!--操作 -->
+		<td><($item.or_content_type|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--修改类型 -->
+		<td><($item.or_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--最后修改人 -->
+		<td><(if strlen($item.or_edittime) >0 && $item.or_edittime!=0)><($item.or_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td><!--最后修改时间 -->
+		<td><($item.or_status|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--审核状态  -->
+		<td><($item.or_fail_field|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td><!--不合格字段 -->
+		<td><($item.or_itemid)></td>
+	</tr>
+	
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+    
+	
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>
+<include file="common/footer.inc.html">

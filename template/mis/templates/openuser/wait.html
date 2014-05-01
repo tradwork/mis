@@ -1,0 +1,75 @@
+<(include file ="openuser/header.inc.html")>
+
+<($order_ou_complete = 0)>
+<($order_ou_jointime = 0)>
+<($arrOrder=json_decode($smarty.get.order,true))>
+<(if $arrOrder['ou_complete'])>
+	<($order_ou_complete = $arrOrder['ou_complete'])>
+<(/if)>
+<(if $arrOrder['ou_jointime'])>
+	<($order_ou_jointime = $arrOrder['ou_jointime'])>
+<(/if)>
+<div class="openuser-page">
+	<div class="openuser-search">
+		<form method="post" accept-charset="utf-8" id="form_wait">
+			<p>
+				<label for="ou_user_type">认证类型：</label>
+				<select name="ou_user_type" id="ou_user_type">
+					<option <(if $smarty.get.ou_user_type == '1')>selected<(/if)> value="1">公司</option>
+					<option <(if $smarty.get.ou_user_type == '2')>selected<(/if)> value="2">个人</option>
+					<option <(if $smarty.get.ou_user_type != '0' && !$smarty.get.ou_user_type)>selected<(/if)> value="">全部</option>
+				</select>
+			</p>
+			<p>
+				<label for="ou_jointime">申请时间：</label>
+				<select name="ou_jointime" id="ou_jointime">
+					<option <(if $smarty.get.ou_jointime != '0' && !$smarty.get.ou_jointime)>selected<(/if)> value="">全部</option>
+					<option <(if $smarty.get.ou_jointime == '0')>selected<(/if)> value="0">今天</option>
+					<option <(if $smarty.get.ou_jointime == '1')>selected<(/if)> value="1">此前7天</option>
+				</select>
+			</p>			
+			<p>
+				
+				<label for="ou_complete">优先：</label>
+				<select name="ou_complete" id="ou_complete">
+					<option <(if $order_ou_complete == '0')>selected<(/if)> value="0">无</option>
+					<option <(if $order_ou_complete == '1')>selected<(/if)> value="1">资料完整</option>
+				</select>
+			</p>	
+		</form>
+	</div>
+	<table width="100%" class="qukuDataGrid openuser-table">
+		<tr>
+			<th>申请ID</th>
+		    <th>公司名称</th>
+		    <th>法人代表</th>
+			<th>联系人</th>
+			<th>联系人手机</th>
+		    <th>申请时间<b class="sort-time <(if $order_ou_jointime == 1)>sort-down<(else)>sort-up<(/if)>" data-sort="<($order_ou_jointime)>" id="sort_jointime"></b></th>
+			<th>认证材料</th>
+		</tr>
+	<(foreach from=$data.list_rows item=item)>
+		<tr <(if $item@index%2 == 0)>class="item-odd"<(/if)>>
+			<td><($item.ou_id|escape)></td>
+			<td><($item.ou_company|escape)></td>
+		    <td><($item.ou_legal_rep|escape)></td>
+		    <td><($item.ou_contact_name|escape)></td>
+			<td><($item.ou_telephone|escape)></td>
+		    <td><($item.ou_jointime|escape)></td>
+		    <td>
+		    	<a href="/index.php?c=openuser&m=edit&ou_id=<($item.ou_id|escape)>&tn=openuser_detail&ou_status=0" target="mainFrame">审核</a>
+		    </td>
+		</tr>
+	<(/foreach)>
+	</table>
+
+	<a class="down-list" href="/index.php?c=openuser&m=dumpData&ou_status=0">下载完整列表</a>
+
+	<div class="openuser-page-navigator">
+		<($data.list_page_code)>
+	</div>
+
+	
+</div>
+
+<(include file="common/footer.inc.html")>

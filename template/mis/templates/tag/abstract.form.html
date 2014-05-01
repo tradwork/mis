@@ -1,0 +1,115 @@
+<(block name="html_documents")>
+
+<(block name="initData")>
+<(/block)>
+<(include file="common/header.inc.html")>
+
+<(block name="link_style_sheet")>
+
+<(/block)>
+
+
+<style type="text/css">
+   <(block name="inline_style_sheet")>
+     #tablePicHidden{
+       display:inline-block;
+   }
+   .tb_form { border: none; width:90%;    }
+   #contentDetail {
+       margin-top : 20px;
+   }
+  
+   #operation{
+      line-height:22px;
+   }
+   #operation input[type=checkbox]{
+       width:20px;	   
+   }
+   
+   <(/block)>
+</style>
+<(block name="out_import_js")>
+<!-- 工具类方法 -->
+
+
+<!-- 图片操作公共方法 -->
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+
+<!-- 歌手公共方法文件 -->
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/tag/tag.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/tag/tagForm.js"></script>
+
+<(/block)>
+<script type="text/javascript">
+	
+        //模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="tag/convertData.html" data=$data)>
+
+	
+
+
+		$(document).ready(function(){
+			var T = quku_v.tag;
+			
+			T.displayPanel(T.data);
+			
+			<(block name="inline_js")>
+			
+			<(/block)>
+			
+		})
+
+	
+</script> 
+<body>
+<(block name="body_content")>
+
+<div style="display:none;"> <($data|var_dump)> </div>
+
+<(if $data.quku_tag_dict.td_tagid)>
+	<input type="hidden" id = "td_tagid" name="td_tagid" value="<($data.quku_tag_dict.td_tagid)>" />
+	<!-- 如果是外包编辑 -->
+	<(if $user.ub_groupid==1)>
+	<input type="hidden" id ="action" value="saveInCache" />
+	<(else)>
+	<input type="hidden" id ="action" value="doEdit" />
+	<(/if)>
+<(else)>
+	<input type="hidden" id ="action" value="doCreate" />
+<(/if)>
+
+<input type="hidden" id ="channel" value="5" />
+
+<div id="contentBase"> 
+<fieldset class="x-layout-base">
+  <legend><label>必填信息</label></legend>
+		<!-- 标签名 -->
+		<div id="td_name" class="x-layout-item"></div>
+		<!-- 标签id -->
+		<div id="td_tagid" class="x-layout-item"></div>
+		<!-- 标签级别 -->
+		<div id="td_level" class="x-layout-item"></div>
+		<!-- 标签类别 -->
+		<div id="td_parentid" class="x-layout-item"></div>
+		<!-- 标签类别 -->
+		<div id="td_category" class="x-layout-item"></div>
+		
+		<!-- 相关同义词 -->
+	    <div id="quku_tag_syn" class="x-layout-block tb_form">
+	  
+</fieldset>
+</div>
+<div class="space10"></div>
+<div id="operation">
+	
+	<input type="button" value="保存" class="button01" onclick="tag.save();"></input>
+</div>
+
+<(/block)>
+</body>
+
+
+<(include file="common/footer.inc.html")>
+<(/block)>
+</html>

@@ -1,0 +1,144 @@
+<(include file="common/header.inc.html")>
+<script type="text/javascript">
+var jsonRelativeurl = <(if $data.ai_globalid)><($jsonRelativeurl)><(else)>[{'rl_keyword':'贴吧','rl_urllink':''},{'rl_keyword':'官方网站','rl_urllink':''}]<(/if)>;
+var jsonPic = <(if $data.ai_globalid)><($jsonPic)><(else)>[]<(/if)>;
+var jsonSong = <(if $data.ai_globalid)><($jsonSong)><(else)>[]<(/if)>;
+$(document).ready(function(){
+	var picTpl='<tr><td class="tit_preview" style="text-align:left;">图片</td><td class="tit_preview" style="text-align:left;">宽度</td><td class="tit_preview" style="text-align:left;">高度</td><td class="tit_preview" style="text-align:left;">描述信息</td></tr>',
+	urlTpl = '<tr><td class="tit_preview" style="text-align:left;">链接标题</td><td class="tit_preview" style="text-align:left;">链接地址</td></tr>',
+	songTpl='<tr><td class="tit_preview" style="text-align:left;">光盘序号</td><td class="tit_preview" style="text-align:left;">排序</td><td class="tit_preview" style="text-align:left;">歌曲名</td><td class="tit_preview" style="text-align:left;">歌手名</td><td class="tit_preview" style="text-align:left;">语言</td><td class="tit_preview" style="text-align:left;">作词</td><td class="tit_preview" style="text-align:left;">作曲</td></tr>';
+	if(jsonPic){
+		for(var i=0;i<jsonPic.length;i++){
+			picTpl += "<tr><td ><img src='"+jsonPic[i].pi_link+"' width='100' height='100' /></td><td >"+jsonPic[i].pi_pic_width+"</td><td >"+jsonPic[i].pi_pic_height+"</td><td >"+jsonPic[i].pi_pic_desc+"</td></tr>"
+		}
+	}
+	if(jsonRelativeurl){
+		for(var i=0;i<jsonRelativeurl.length;i++){
+			urlTpl += "<tr><td >"+jsonRelativeurl[i].rl_keyword+"</td><td >"+jsonRelativeurl[i].rl_urllink+"</td></tr>"
+		}
+	}
+	if(jsonSong){
+		for(var i=0;i<jsonSong.length;i++){
+			songTpl += "<tr><td >"+jsonSong[i].si_cd_no+"</td><td >"+jsonSong[i].si_album_no+"</td><td >"+jsonSong[i].si_title+"</td><td >"+jsonSong[i].si_author+"</td><td >"+jsonSong[i].si_language+"</td><td >"+jsonSong[i].si_songwriting+"</td><td >"+jsonSong[i].si_compose+"</td></tr>"
+		}
+	}
+	$("#tablePic")[0].innerHTML = picTpl;
+	$("#tableRelativeurl")[0].innerHTML = urlTpl;
+	$("#tableSong")[0].innerHTML = songTpl;
+});
+</script>
+<body>
+	  	<table width="100%" class="tb_preview">
+		<tr>
+			<td class="tit_preview"  width="10%">名称：</td>
+		    <td  width="40%">
+		    	<($data.ai_album)>
+		    </td>
+		    <td class="tit_preview"  width="10%">歌手(多歌手用,分割)：</td>
+			<td  width="40%">  		
+				<($data.ai_author)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">专辑海报：</td>
+			<td colspan="3">
+				<table id="tablePic" class="tb_preview">
+				
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">专辑介绍：</td>
+			<td colspan="3">
+				 <textarea id="ai_info" name="ai_info" caption="专辑介绍" key="true" cols="99" rows="15"><($data.ai_info)></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">别名(多个别名用,分隔)：</td>
+		    <td>
+		    	<($data.ai_aliasalbum)>
+		    </td>
+		    <td class="tit_preview">发行时间：</td>
+			<td>
+				<($data.ai_publishtime)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">指定链接(多链接用,分隔)：</td>
+			<td>
+				<($ui_uniqurl)>
+			</td>
+		    <td class="tit_preview">标签：</td>
+			<td>
+				<($data.ai_tags)>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">屏蔽：</td>
+			<td>  		
+				<(foreach from=$ai_forbidflagOption key=key item=item)>
+					<(if strpos($data.ai_forbidflag,$item) !== false)><($item)> <(/if)>
+				<(/foreach)>	
+			</td>
+			<td class="tit_preview">打分：</td>
+			<td><($data.ai_grade)>
+		</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">完整度：</td>
+			<td><($data.ai_complete)>
+			<td class="tit_preview">版本：</td>
+			<td>
+			<($data.ai_version)>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">国家：</td>
+			<td colspan="3">
+				<($data.ai_country)>
+				<(if $data.ai_invalid_country)><br><($data.ai_invalid_country)><(/if)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">语言：</td>
+			<td colspan="3">
+				<($data.ai_language)>
+				<(if $data.ai_invalid_language)><($data.ai_invalid_language)><(/if)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">类型：</td>
+			<td colspan="3">
+				<($data.ai_styles)>
+				<(if $data.ai_invalid_styles)><($data.ai_invalid_styles)><(/if)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">发行公司：</td>
+			<td colspan="3">
+				<($data.ai_publishcompany)>
+				<(if $data.ai_invalid_publishcompany)><($data.ai_invalid_publishcompany)><(/if)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">制作公司：</td>
+			<td colspan="3">
+				<($data.ai_prodcompany)>
+				<(if $data.ai_invalid_prodcompany)><($data.ai_invalid_prodcompany)><(/if)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">相关连接：</td>
+			<td colspan="3">
+				<table id="tableRelativeurl" class="tb_preview">
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">单曲列表：</td>
+			<td colspan="3">
+				<table id="tableSong" class="tb_preview">
+				</table>
+			</td>
+		</tr>
+	   </table>

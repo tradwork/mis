@@ -1,0 +1,140 @@
+<(include file="common/header.inc.html")>
+<script type="text/javascript">
+var jsonRelativeurl = <(if $data.sn_globalid)><($jsonRelativeurl)><(else)>[{'ui_Relativeurl_title':'永乐票务','ui_Relativeurl_value':''},{'ui_Relativeurl_title':'中国票务在线','ui_Relativeurl_value':''}]<(/if)>;
+var jsonPic = <(if $data.sn_globalid)><($jsonPic)><(else)>[]<(/if)>;
+var jsonDetailtime = <(if $data.sn_detailtime)><($data.sn_detailtime)><(else)>[]<(/if)>;
+$(document).ready(function(){
+	var picTpl='<tr><td class="tit_preview" style="text-align:left;">图片</td><td class="tit_preview" style="text-align:left;">宽度</td><td class="tit_preview" style="text-align:left;">高度</td><td class="tit_preview" style="text-align:left;">描述信息</td></tr>',
+	urlTpl = '<tr><td class="tit_preview" style="text-align:left;">链接标题</td><td class="tit_preview" style="text-align:left;">链接地址</td></tr>';
+	timeTpl = '<tr><td class="tit_preview" style="text-align:left;">时间</tr>';
+	if(jsonPic){
+		for(var i=0;i<jsonPic.length;i++){
+			picTpl += "<tr><td ><img src='"+jsonPic[i].pi_link+"' width='100' height='100' /></td><td >"+jsonPic[i].pi_pic_width +"</td><td >"+jsonPic[i].pi_pic_height+"</td><td >"+jsonPic[i].pi_pic_desc+"</td></tr>"
+		}
+	}
+	if(jsonRelativeurl){
+		for(var i=0;i<jsonRelativeurl.length;i++){
+			urlTpl += "<tr><td >"+jsonRelativeurl[i].rl_keyword+"</td><td >"+jsonRelativeurl[i].rl_urllink+"</td></tr>"
+		}
+	}
+	if(jsonDetailtime){
+	    for(var i = 0; i < jsonDetailtime.length; i++){
+	        timeTpl += "<tr><td>" + jsonDetailtime[i] + "</td></tr>";
+	    }
+	}
+	$("#tablePic")[0].innerHTML = picTpl;
+	$("#tableRelativeurl")[0].innerHTML = urlTpl;
+	$("#tableTime")[0].innerHTML = timeTpl;
+});
+</script>
+<body>
+	  	<table width="100%" class="tb_preview">
+		<tr>
+			<td class="tit_preview" width="10%">主题：</td>
+		    <td width="40%">
+			    <($data.sn_title)>
+		    </td>
+		    <td class="tit_preview" width="10%">作品(多作品用,分隔)：</td>
+			<td width="40%">
+				<($data.sn_works)>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">明星(多明星用,分隔)：</td>
+			<td>
+				<($data.sn_author)>
+			</td>
+		    <td class="tit_preview">嘉宾(多嘉宾用,分隔)：</td>
+		    <td>
+		    	<($data.sn_guests)>
+		    </td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">开始时间：</td>
+			<td>
+				<($data.sn_begintime|date_format:'%Y-%m-%d')>
+			</td>
+			 <td class="tit_preview">结束时间：</td>
+			<td>
+				<($data.sn_overtime|date_format:'%Y-%m-%d')>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">地点：</td>
+			<td>
+					<($data.sn_city)>
+			</td>
+			<td class="tit_preview">场馆：</td>
+		    <td>
+		    	<($data.sn_venue)>
+		    </td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">组别：</td>
+			<td >
+					<(foreach from=$sn_catalog_idOption key=key item=item)>
+						<(if $data.sn_catalog_id == $key)> <($item)>  <(/if)>
+					<(/foreach)>
+			</td>
+			<td class="tit_preview">类别：</td>
+		    <td >
+				<($data.sn_category)> <($data.sn_invalid_category)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">演出海报：</td>
+			<td colspan="3">
+				<table id="tablePic" class="tb_preview">
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">演出介绍：</td>
+			<td colspan="3">
+				 <textarea id="sn_info" name="sn_info" caption="演出介绍" key="true" cols="80" rows="10"><($data.sn_info)></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">票价：</td>
+		    <td>
+		    	<($data.sn_price)>
+		    </td>
+			<td class="tit_preview">指定链接(多链接用,分隔)：</td>
+			<td>
+				<($ui_uniqurl)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">焦点视频：</td>
+		    <td>
+		    	<($data.sn_video_url)>
+		    </td>
+			<td class="tit_preview">缩略图地址：</td>
+			<td>
+				<($data.sn_video_pic_url)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">相关行程：</td>
+			<td>
+				<($data.sn_manual_related_events)>
+			</td>
+			<td class="tit_preview">js地址：</td>
+			<td>
+				<($data.sn_js_addr)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">icons地址：</td>
+			<td colspan="3">
+				<($data.sn_icons_addr)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">相关连接：</td>
+			<td colspan="3">
+				<table id="tableRelativeurl" class="tb_preview">
+				</table>
+			</td>
+		</tr>
+	   </table>

@@ -1,0 +1,78 @@
+<(include file="common/header.inc.html")>
+
+ <script type="text/javascript" src="static/js/artist/artistList.js" ></script>
+ <script type="text/javascript">
+     var alist = quku_v.artistList;
+ </script>
+<(if $smarty.get.search_delflag == 1)>
+	<(assign var="delflag" value="ab_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+<(/if)>
+<(assign var="o" value=$data.search_option)>
+<!-- 搜索栏显示和提交 -->
+<(include file="listSearch/artistSearchBar.html" title="artist" option=$data.search_option)>
+<div style="display:none"> <(*  <($data|var_dump)> *)>  </div>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid">
+	<tr>
+		<th width="60"><input type="checkbox" name="batchCheckbox">全选</th>
+		<th>明星名</th>
+		<th>操作</th>
+		<th>创建人</th>
+    　　<th>创建时间</th>
+		<th>最后修改人</th>
+		<th>最后修改时间</th>
+		<th>ID</th>
+	</tr>
+
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="artistCheckbox" value="<($item.ab_globalid)>"></td>
+		<td>
+			<(if $item.ab_delflag == 0)>
+			<a href="?c=artist&m=edit&ab_globalid=<($item.ab_globalid)>&tn=artist_edit"  class="showedit"><($item.ab_name|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.ab_name|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td>
+		<td>
+			<(if $smarty.get.search_delflag == 1)>
+				<a href="?c=artist&m=disDelete&ab_globalid=<($item.ab_globalid)>" target="_blank" class="x-art-recovery"> 恢复 </a>
+			<(else)>
+				<(if $item.ab_status == 0)>
+					<a href="?c=artist&m=disPub&ab_globalid=<($item.ab_globalid)>"  class="x-art-offline" > 下线 </a>
+				<(elseif $item.ab_status == 1)>
+					<a href="?c=artist&m=pub&ab_globalid=<($item.ab_globalid)>" class="x-art-pub"> 发布 </a>
+				    |<a href="?c=artist&m=delete&ab_globalid=<($item.ab_globalid)>" class="x-art-del"> 删除 </a>
+				<(/if)>
+			<(/if)>
+		</td>
+  
+		<td><($item.ab_joinuser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td><(if strlen($item.ab_jointime) >0&&$item.ab_jointime!=0)><($item.ab_jointime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+    <td><($item.ab_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td><($item.ab_edittime)></td>
+		<td><($item.ab_globalid)></td>
+	</tr>
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	<(if !($smarty.get.search_delflag == 1))>
+		  <(if $smarty.get.search_status==1)>
+		    <a href="?c=artist&m=batchDelete" class="batchDelete">批量删除</a>
+	 		<a href="?c=artist&m=batchPub" class="publishAll">批量发布</a>
+		   <(/if)>
+	<(/if)>
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>" class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>
+<include file="common/footer.inc.html">
+

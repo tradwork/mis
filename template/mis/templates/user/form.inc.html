@@ -1,0 +1,80 @@
+<(include file="common/header.inc.html")>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/user.js"></script>
+<style type="text/css">
+ #operation{
+      line-height:22px;
+	  margin-left: 40%;
+   }
+   #operation input[type=checkbox]{
+       width:20px;	   
+   }
+</style>
+<script type="text/javascript">
+(function(){
+    quku_v = window.quku_v || {} ;
+	quku_v.user = {};
+	quku_v.user.data ={} ;
+	
+	$.extend( quku_v.user.data ,{
+	     ub_username : <(if strlen($data.quku_user_base.ub_username) >0)>"<($data.quku_user_base.ub_username)>"<(else)>''<(/if)> ,
+		 ub_groupid :<(if strlen($data.quku_user_base.ub_groupid) >0)>"<($data.quku_user_base.ub_groupid)>"<(else)>''<(/if)> ,
+		 ub_groupidOption: <(if $data.option.ub_groupid)>[ 
+						<(foreach from=$data.option.ub_groupid key=key item=item)> 
+							{'display':"<($item)>",'value':"<($key)>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>
+		 
+	} ) ;
+	
+	quku_v.user.displayPanel  = function(data){
+	      //基本信息组合对象,元素类型为json对象，key是元素id，value是元素组件类型
+		 quku_v.user.formArray=new quku_v.FormArray();
+		 var T = quku_v.user;
+		  /** 
+		<!-- 用户名 **/
+		 $('#ub_username').textfield({
+			 labelText:'用户名',
+			 isBlank:false
+		 })
+		 T.formArray.push({'ub_username':'textfield'});
+		  /** 用户组 **/
+		 $('#ub_groupid').selectfield({
+			 labelText:'用户组',
+			 isBlank:false,
+			  blankValue:true,
+			 store: data.ub_groupidOption
+		 })
+		 T.formArray.push({'ub_groupid':'selectfield'});
+	};
+	
+	
+})();
+	$(document).ready(function(){
+	    var T = quku_v.user;
+		T.displayPanel(T.data);
+		<(if $data.quku_user_base.ub_id)>
+		     T.formArray.setValue(T.data);
+		<(/if)>
+	})
+   
+</script>
+<body>
+
+<(if $data.quku_user_base.ub_id)>
+				<input type="hidden" name="username" value="<($data.quku_user_base.ub_username)>" />
+				<input type="hidden" id="ub_id" value="<($data.quku_user_base.ub_id)>" />
+				<input type="hidden" id ="action" value="doEdit" />
+			<(else)>
+				<input type="hidden" id ="action" value="doCreate" />
+			<(/if)>
+<div style="display:none"> <($data|var_dump)> </div>
+		<!-- 用户名 -->
+		<div id="ub_username" class="x-layout-block"></div>
+		<!-- 用户组 -->
+		<div id="ub_groupid" class="x-layout-block"></div>
+		
+		
+	<div id="operation">	
+		<input type="button" value="确定" class="button01" onclick="User.save()"></input>	
+	</div>
+</body>

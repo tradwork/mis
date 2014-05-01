@@ -1,0 +1,52 @@
+<(include file="common/header.inc.html")>
+<script type="text/javascript" src="static/js/option/optionList.js"></script>
+
+<(assign var="o" value=$data.search_option)>
+
+<div style="display:none;"> <($data|var_dump)> </div>
+
+<(include file="listSearch/optionSearchBar.html" title="option" option=$data.search_option)>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+<table width="100%" class="qukuDataGrid" border="1" style="border-collapse:collapse;">
+	<tr>
+		<th width="6%"><input type="checkbox" name="batchCheckbox">全选</th>
+		<th width="34%">单词</th>
+		<th width="20%">拼音</th>
+		<th width="20%">分类</th>
+		<th width="10%">备注</th>
+		<th width="10%">操作</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="optionbox" value="<($item.od_id)>"></td>
+		<td title="<($item.rf_name|escape|@addslashes)>">
+			<(if $item.od_delflag == 0)>
+			<a href="?c=option&m=edit&od_id=<($item.od_id)>&tn=option_edit"  class="showedit"><($item.od_word|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.od_word|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td>
+    <td><($item.od_spell_code|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+    <td align="center"><($item.od_category|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+	 <td align="center"><($item.od_remark|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+	<td align="center"><a href="?c=option&m=edit&od_id=<($item.od_id)>&tn=option_edit" class="showedit"> 修改 </a>|<a href="?c=option&m=delete&od_id=<($item.od_id)>" class="x-option-del"> 删除 </a></td>
+	</tr>
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	
+		    <a href="?c=option&m=batchDelete" class="batchDelete">批量删除</a>
+	
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>
+<include file="common/footer.inc.html">
+

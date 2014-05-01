@@ -1,0 +1,52 @@
+<(include file="common/header.inc.html" title="用户列表")>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/user.js"></script>
+<script>
+function stripX(str){
+		return str.replace(/\&amp;/g,'&').replace(/\&lt;/g,'<').replace(/\&gt;/g,'>').replace(/\&quot;/g,'"').replace(/\&#039;/g,'\'');
+};
+$(document).ready( function () {
+	$('.userdelbtn').click(function(){
+			var id = $(this).attr('del_userid');
+			User.deleteUser(stripX(id));
+	});
+	$('.usermodifybtn').click(function(){
+			var id = $(this).attr('edit_userid');
+			window.location.href = '?c=user&m=edit&tn=user_edit&ub_id=' + encodeURIComponent(stripX(id));
+	});
+ });
+
+</script>
+<(assign var="o" value=$data.search_option)>
+<(include file="listSearch/userSearchBar.html" title="user" option=$data.search_option)>
+
+<div style="display:none"><($data|var_dump)></div>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+	<table width="100%" class="qukuDataGrid">
+		<tr>
+			<th>用户名</th>
+			<th>用户组</th>
+			<th>最后登录时间</th>
+      <th>状态</th>
+			<th style="width:120px">操作</th>
+		</tr>
+		<(foreach from=$data.list_rows item=user)>
+			<tr>
+			<td><($user.ub_username)></td>
+			<td><($user.ub_groupid|escape)></td>
+			<td><(if $user.ub_lastlogintime)> <($user.ub_lastlogintime|date_format:'%Y-%m-%d %H:%M:%S')><(else)>无登录记录<(/if)></td>
+      <td>
+      <(if $user.ub_lastlogintime=="1")>
+      冻结
+      <(else)>
+      正常
+      <(/if)>
+      </td>
+			<td><a href="javaScript:void(0);"  class="usermodifybtn" edit_userid="<($user.ub_id)>">修改</a> | <a href="javaScript:void(0);" class="userdelbtn" del_userid="<($user.ub_id)>">删除</a></td>
+			</tr>
+		<(/foreach)>
+	</table>
+	<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+	<($data.list_page_code)>
+</div>
+<(include file="common/footer.inc.html")>

@@ -1,0 +1,155 @@
+<(include file="common/header.inc.html")>
+<style type="text/css">
+	.black{color:#000000;}
+</style>
+
+ <script type="text/javascript" src="static/js/song/songList.js" ></script>
+
+<(if $not_pub_singer)>
+<script>
+
+var not_pub_singer = '<table class="qukuDataGrid" width="100%" cellpadding="3">'
+	+ '<tr>'
+	+ '    <th style="font-size:12px;">状态</th>'
+	+ '    <th style="font-size:12px;">明星</th>'
+	+ '</tr>';
+
+<(foreach from=$not_pub_singer item=item)>
+	not_pub_singer += ''
+	+ '<tr>'
+	+ '   <td height="20"><($item.status)></td>'
+	+ '   <td><a href="<($item.link)>" target="_blank"><($item.name)></a></td>'
+	+ '</tr>'
+<(/foreach)>
+not_pub_singer += '</table>';
+
+widget.mask.show();
+widget.simple_dialog.create(
+	"未创建或未审核明星",
+	not_pub_singer,
+	"400",
+	{
+		hide: function() {
+			widget.mask.hide();
+		}
+	}
+);
+</script>
+<(/if)>
+
+<(if $smarty.get.search_delflag == 1)>
+	<(assign var="delflag" value="si_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+
+<(/if)>
+<(assign var="o" value=$data.search_option)>
+
+<div style="display:none;"><(* <($data|var_dump)>  *)></div>
+
+<(include file="listSearch/songSearchBar.html" title="song" option=$data.search_option)>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid" border="1" style="border-collapse:collapse;">
+	<tr>
+		<th width="6%"><input type="checkbox" name="batchCheckbox">全选</th>
+		<th width="10%">单曲名</th>
+		<th width="10%">明星</th>
+		<th width="10%">专辑</th>
+		<th width="6%">音频数</th>
+		<th width="10%">屏蔽类型</th>
+		<th width="12%">操作</th>
+		<th width="6%">创建人</th>
+		<th width="10%">创建时间</th>
+		<th width="8%">最后修改人</th>
+		<th width="10%">最后修改时间</th>
+		<th width="6%">ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="songCheckbox" value="<($item.si_globalid)>"></td>
+		<td title="<($item.si_title|escape|@addslashes)>">
+			<(if $item.si_delflag == 0)>
+				<a href="?c=song&m=edit&si_globalid=<($item.si_globalid)>&tn=song_edit"  class="showedit"><($item.si_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.si_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td>
+    <td class="author">
+	<(assign var="quku_artist_works_ref" value=$item.quku_artist_works_ref)>
+	
+	<(foreach from=$quku_artist_works_ref item=i key=k name=author_list)>
+	<(if !$i['awr_artist_id'])>
+		<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+	<(else)>
+		<(if $smarty.get.search_delflag == 1)>
+			<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+		<(else)>
+			<a href="?c=artist&m=edit&ab_globalid=<($i['awr_artist_id'])>&tn=artist_edit"  class="showedit"> <($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)> </a>
+		<(/if)>
+	<(/if)>
+	<(if !$smarty.foreach.author_list.last)>	,<(/if)>
+	<(/foreach)>
+	</td>
+    <td>
+	<(if $item.si_album_id==0)>
+	<($item.si_album|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+	<(else)>
+		<(if $smarty.get.search_delflag == 1)>
+			<($item.si_album|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+		<(else)>
+			<a href="?c=album&m=edit&ai_globalid=<($item.si_album_id)>&tn=album_edit"  class="showedit"> <($item.si_album|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+		<(/if)>
+	<(/if)>
+	</td>
+	<td><(if $item.media_num)><($item.media_num)><(else)>0<(/if)></td>
+	<td><(if $item.si_prohibit_type)><($data.form_option.si_prohibit_type[$item.si_prohibit_type])><(/if)></td>
+		<td align="center">
+			<(if $smarty.get.search_delflag == 1 || (strlen($item.si_delflag) >0 && $item.si_delflag ==1))>
+				<a class="x-song-recovery" href="?c=song&m=disDelete&search_status=1&si_globalid=<($item.si_globalid)>" target="_blank" > 恢复 </a>
+			<(else)>
+			   	<(if strlen($item.si_status) >0 && $item.si_status == 0)>
+				      <(if $user.ub_groupid != 0)> <a class="x-song-offline" href="?c=song&m=disPub&search_status=1&si_globalid=<($item.si_globalid)>" >下线</a><(/if)>
+				<(else)>   
+					 <(if $user.ub_groupid != 0)><a class="x-song-pub" href="?c=song&m=pub&search_status=0&si_globalid=<($item.si_globalid)>">发布</a> <(/if)>
+				    | <a class="x-song-del" href="?c=song&m=delete&search_status=1&si_globalid=<($item.si_globalid)>">删除</a>
+			
+				<(/if)> 
+				<(if strlen($item.si_prohibit_type) >0&&$item.si_prohibit_type==4)><(else)> | <a href="?c=song&m=prohibit&si_globalid=<($item.si_globalid)>" class="x-song-prohibit" status =<($item.si_status)> >屏蔽</a><(/if)>
+			<(/if)>
+			</td>
+     
+		<td align="center"><($item.si_joinuser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+    <td align="center"><(if strlen($item.si_jointime) >0&&$item.si_jointime!=0)><($item.si_jointime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+		<td align="center"><($item.si_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td align="center"><(if strlen($item.si_edittime) >0&&$item.si_edittime!=0)><($item.si_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+		<td><($item.si_globalid)></td>
+	</tr>
+<(/foreach)>
+</table>
+
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	<(if !($smarty.get.search_delflag == 1))>
+		 
+		 <(if $smarty.get.search_status==1)>
+		    <a href="?c=song&m=batchDelete" class="batchDelete">批量删除</a>
+		 
+			<a href="?c=song&m=batchPub" class="publishAll">批量发布</a>
+		 <(/if)>
+	<(else)>
+		<a href="?c=song&m=batchDisDelete" class="batchDisDelete">批量恢复</a>
+	 <(/if)>
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>  
+</div>
+<include file="common/footer.inc.html">
+

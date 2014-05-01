@@ -1,0 +1,25 @@
+<(include file="common/header.inc.html" title="Spam词表")>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/tag.js" charset="utf-8"></script>
+<body>
+	<div id="contentBase">
+		<fieldset><legend><label>Spam词表</label></legend>
+			<table width="100%" class="tb_form">
+				<tr>
+					<td class="fieldName">Spam词表词表(以,逗号分隔)</td>
+					<td>
+						<textarea name="spamword" id="spamword" caption="Spam词表" key="true" cols="50" rows="10"><($data.spamword)></textarea>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+	<div class="space10"></div>
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>&nbsp;</td>
+		<td colspan="3" style="align:center;">
+			<input class="button01" type="button" value="保存" onclick="Tag.saveSpam();" />
+		</td>
+	</tr
+</body>
+

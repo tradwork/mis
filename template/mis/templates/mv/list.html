@@ -1,0 +1,163 @@
+<(include file="common/header.inc.html")>
+<style type="text/css">
+	.black{color:#000000;}
+</style>
+
+ <script type="text/javascript" src="static/js/mv/mvList.js" ></script>
+
+<(if $not_pub_singer)>
+<script>
+
+var not_pub_singer = '<table class="qukuDataGrid" width="100%" cellpadding="3">'
+	+ '<tr>'
+	+ '    <th style="font-size:12px;">状态</th>'
+	+ '    <th style="font-size:12px;">明星</th>'
+	+ '</tr>';
+
+<(foreach from=$not_pub_singer item=item)>
+	not_pub_singer += ''
+	+ '<tr>'
+	+ '   <td height="20"><($item.status)></td>'
+	+ '   <td><a href="<($item.link)>" target="_blank"><($item.name)></a></td>'
+	+ '</tr>'
+<(/foreach)>
+not_pub_singer += '</table>';
+
+widget.mask.show();
+widget.simple_dialog.create(
+	"未创建或未审核明星",
+	not_pub_singer,
+	"400",
+	{
+		hide: function() {
+			widget.mask.hide();
+		}
+	}
+);
+</script>
+<(/if)>
+
+<(if $smarty.get.search_delflag == 1)>
+	<(assign var="delflag" value="mi_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+
+<(/if)>
+<(assign var="o" value=$data.search_option)>
+
+<div style="display:none;"><(* <($data|var_dump)>  *)></div>
+
+<(include file="listSearch/mvSearchBar.html" title="mv" option=$data.search_option)>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid" border="1" style="border-collapse:collapse;">
+	<tr>
+		<th><input type="checkbox" name="batchCheckbox">全选</th>
+		<th>标题</th>
+		<th>艺人</th>
+		<th>视频数</th>
+		<th>屏蔽类型</th>
+		<th>操作</th>
+		<th>创建人</th>
+		<th>创建时间</th>
+		<th>最后修改人</th>
+		<th>最后修改时间</th>
+		<th>ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="mvCheckbox" value="<($item.mi_globalid)>"></td>
+		<td title="<($item.mi_title|escape|@addslashes)>">
+			<(if $item.mi_delflag == 0)>
+				<a href="?c=mv&m=edit&mi_globalid=<($item.mi_globalid)>&tn=mv_edit"  class="showedit"><($item.mi_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.mi_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td>
+    <td class="author">
+	<(assign var="quku_artist_works_ref" value=$item.quku_artist_works_ref)>
+	
+	<(foreach from=$quku_artist_works_ref item=i key=k name=author_list)>
+	<(if !$i['awr_artist_id'])>
+		<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+	<(else)>
+		<(if $smarty.get.search_delflag == 1)>
+			<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+		<(else)>
+			<a href="?c=artist&m=edit&ab_globalid=<($i['awr_artist_id'])>&tn=artist_edit"  class="showedit"> <($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)> </a>
+		<(/if)>
+	<(/if)>
+	<(if !$smarty.foreach.author_list.last)>,<(/if)>
+	<(/foreach)>
+	</td>
+
+	<td><(if $item.video_num)><($item.video_num)><(else)>0<(/if)></td>
+
+	<td><(if $item.mi_prohibit_type)><($data.form_option.mi_prohibit_type[$item.mi_prohibit_type])><(/if)></td>
+	
+	<td align="center">
+		<(if $smarty.get.search_delflag == 1 || (strlen($item.mi_delflag) >0 && $item.mi_delflag ==1))>
+			<a class="x-mv-recovery" href="?c=mv&m=disDelete&search_status=1&mi_globalid=<($item.mi_globalid)>" target="_blank" > 恢复 </a>
+		<(else)>
+		   	<(if strlen($item.mi_status) >0 && $item.mi_status == 0)>
+			    <(if $user.ub_groupid != 0)> 
+			    	<a class="x-mv-offline" href="?c=mv&m=disPub&search_status=1&mi_globalid=<($item.mi_globalid)>" >下线</a>
+			    <(/if)>
+			<(else)>   
+				 <(if $user.ub_groupid != 0)>
+				 	<a class="x-mv-pub" href="?c=mv&m=pub&search_status=0&mi_globalid=<($item.mi_globalid)>">发布</a> 
+				 <(/if)>
+			    |<a class="x-mv-del" href="?c=mv&m=delete&search_status=1&mi_globalid=<($item.mi_globalid)>">删除</a>
+		
+			<(/if)> 
+			<(if strlen($item.mi_prohibit_type) >0&&$item.mi_prohibit_type==4)>
+
+			<(else)> | 
+
+			<a href="?c=mv&m=prohibit&mi_globalid=<($item.mi_globalid)>" class="x-mv-prohibit" status =<($item.mi_status)> >屏蔽</a>
+
+			<(/if)>
+		<(/if)>
+	</td>
+     
+	<td align="center"><($item.mi_joinuser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+    
+    <td align="center"><(if strlen($item.mi_jointime) >0&&$item.mi_jointime!=0)><($item.mi_jointime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+	
+	<td align="center"><($item.mi_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+	
+	<td align="center"><(if strlen($item.mi_edittime) >0&&$item.mi_edittime!=0)><($item.mi_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+	
+	<td><($item.mi_globalid)></td>
+	
+	</tr>
+<(/foreach)>
+</table>
+
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	<(if !($smarty.get.search_delflag == 1))>
+		 
+		 <(if $smarty.get.search_status==1)>
+		    <a href="?mv&m=batchDelete" class="batchDelete">批量删除</a>
+		 
+			<a href="?c=mv&m=batchPub" class="publishAll">批量发布</a>
+		 <(/if)>
+	<(else)>
+		<a href="?c=mv&m=batchDisDelete" class="batchDisDelete">批量恢复</a>
+	 <(/if)>
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>  
+</div>
+<include file="common/footer.inc.html">
+
+>
+

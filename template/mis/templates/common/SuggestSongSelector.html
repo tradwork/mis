@@ -1,0 +1,61 @@
+<(include file="common/childStationHeader.inc.html" title="屏蔽合作歌曲")>
+<script type="text/javascript">
+jQuery(document).ready(function (){
+	//获取数据
+	var station = new baidu.ui.crossFrameDialog.ChildStation();
+	var songList = station.getData();
+	//渲染页面
+	renderSelectorDialog(songList);
+	//点击确定按钮 
+	$("#buttonSubmit").click(function(){
+		var ids  = [],data = station.getData();
+		$("input[name='chk']").each(function(){
+			if($(this).attr('checked') == true) {
+				ids.push ($(this).attr('id'));
+			}
+		});
+		for(var j=0;j<songList.single.length;j++){
+			ids.push(songList.single[j].si_globalid);
+		}
+		station.sendAndClose(ids.join());
+	});
+	//取消按钮
+	$('#buttonCancle').click(function(){
+		station.cancel();
+	})
+	//全选按钮
+	$('#selAll').click(function(){
+		$("input[name='chk']").attr("checked", true);
+	})
+	//全部取消按钮
+	$('#unSelAll').click(function(){
+		$("input[name='chk']").attr("checked", false);
+	})
+});
+function renderSelectorDialog (sData) {
+	if(!sData.suggest||sData.suggest.length<=0){return };
+	var tpl= '<tr><td width="50" align="center"><b>选中</b></td><td ><b>歌曲名</b></td><td ><b>歌手</b></td></tr>';
+	for(var i=0;i<sData.suggest.length;i++){
+		tpl += '<tr ><td  align="center"><input type="checkbox"  name="chk" id="'+sData.suggest[i].si_globalid+'"></td><td>'+sData.suggest[i].si_title+'</td><td>'+sData.suggest[i].si_author+'</td>	</tr>';
+	}
+	$("#DataGrid").html(tpl);
+}
+</script>
+<style>
+#DataGrid{
+	border: 1px solid #A4D8FB;
+    border-collapse: collapse;
+    color: #077AC7;
+    table-layout: fixed;
+    text-align: left;
+    width: 100%;
+}
+</style>
+<form onsubmit="return false" id="formCategory">
+<table id="DataGrid"></table>
+<div style="padding:5px 0">
+	&nbsp;<a href="javascript:void(0)" id="selAll" style="color:#077AC7">全选</a>/<a href="javascript:void(0)" id="unSelAll" style="color:#077AC7">取消</a>&nbsp;&nbsp;
+	<input type="button" id="buttonSubmit" class="button01" value="屏蔽"/>  <input type="button" id="buttonCancle"  class="button01" value="取消" />
+</div>
+</body>
+</html>

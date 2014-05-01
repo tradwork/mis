@@ -1,0 +1,44 @@
+<(include file="common/header.inc.html" title="信息列表")>
+<(include file="common/tagContentSearchBar.html" title="tag" searchOption=$ai_searchOption statusOption=$ai_statusOption auditstatusOption=$ai_auditstatusOption orderOption=$ai_orderOption picOption=$ai_picOption scendOption=$ai_scendOption    delflag=$delflag searchtime=$ai_searchtimeOption)>
+<div style="margin:10px 0">每页显示：<(foreach from=$pageOption item=item name=page_option)><a href="?c=<($smarty.get.c)>&m=listcontent&tn=<($smarty.get.tn)>&pageOption=<($item)><(if $smarty.get.page)>&page=<($smarty.get.page)><(/if)><(if $smarty.get.search_content)>&search_content=<($smarty.get.search_content|escape:'html')><(/if)><(if $smarty.get.searchtype)>&searchtype=<($smarty.get.searchtype)><(/if)><(if $smarty.get.ti_infotype)>&ti_infotype=<($smarty.get.ti_infotype)><(/if)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+	<table width="100%" class="qukuDataGrid">
+		<tr>
+			<th>信息ID</th>
+			<th>信息名称</th>
+			<th>信息类型</th>
+			<th>Tag集合</th>
+			<th>编辑Tag列表</th>
+		</tr>
+		<(foreach from=$list item=item)>
+		<tr>
+			<td class="txt_center"><($item.ti_infoid)></td>
+			<td class="txt_center"><($item.ti_infoname)></td>
+			<td class="txt_center"><($item.ti_infotypename)></td>
+			<td class="txt_center"><($item.ti_tags)></td>
+			<td class="txt_center"><a href="/qmis/index.php?c=tag&m=editcontenttag&tn=tag_editcontenttag&ti_infoid=<($item.ti_infoid)>&ti_infotype=<($item.ti_infotype)>">编辑Tag列表</a>
+			</td>
+		</tr>
+		<(/foreach)>
+	</table>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listft">
+	<tr>
+	<td width="31%">
+	<(if !($smarty.get.ab_delflag == 1))>
+		  <(if ($smarty.get.search_status == 1||$smarty.get.ab_status == 1)&&$user.ub_groupid==3)>
+		    <a href="?c=artist&m=delete&ab_status=<($smarty.get.ab_status)>" class="batchDelete">批量删除</a>
+		  <(/if)>
+	 <(/if)>
+	 <(if ($smarty.get.search_status == 2||$smarty.get.ab_status == 2)&&$user.ub_groupid == 3)>
+	 		<a href="?c=artist&m=pub&ab_status=<($smarty.get.ab_status)>" class="publishAll">批量发布</a>
+	 <(/if)>
+  </td>
+	<td width="59%" class="grey">信息列表<(if $list_count)>总计：<($list_count)><(else)>暂无数据<(/if)></td>
+	</tr>
+</table>
+</div>
+<div style="margin:10px 0">每页显示：<(foreach from=$pageOption item=item name=page_option)><a href="?c=<($smarty.get.c)>&m=listcontent&tn=<($smarty.get.tn)>&pageOption=<($item)><(if $smarty.get.page)>&page=<($smarty.get.page)><(/if)><(if $smarty.get.search_content)>&search_content=<($smarty.get.search_content|escape:'html')><(/if)><(if $smarty.get.searchtype)>&searchtype=<($smarty.get.searchtype)><(/if)><(if $smarty.get.ti_infotype)>&ti_infotype=<($smarty.get.ti_infotype)><(/if)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($list_page)>
+</div>
+<include file="common/footer.inc.html">
+

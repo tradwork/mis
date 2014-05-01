@@ -1,0 +1,1 @@
+function smarty_compiler_myplugin($tag_arg, &$o_Smarty) {// $tag_arg:// Till 2.6.26: get "arg1 arg2"// Till 3.0.6 : get array(arg1, arg2}// Now 3.0.7: cannot get...} 

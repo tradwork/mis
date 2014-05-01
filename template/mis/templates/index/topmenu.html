@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="<($smarty.const.STATIC_DIR)>/css/quku.css"/>
+<style>
+/*topFrameSet*/
+#topframeset{padding:0;margin:0;}
+#topframeset a{color:#f0f0f0;text-decoration:none;}
+#topframeset a.tit{padding-rght:50px;}
+#topframeset a.tit:hover{color:#fff;text-decoration:underline;}
+#topframeset .topwarper{background:url(/static/img/bg_top_left.jpg) no-repeat;}
+#topframeset .topcon{background:url(/static/img/bg_top_right.jpg) right 0 no-repeat;font-size:77%;}
+#topframeset .usrbar{background:url(/static/img/bg_top_x.jpg) repeat-x;color:#FFF;line-height:30px;height:30px;text-align:right;}
+</style>
+</head>
+<body id="topframeset">
+<div class="usrbar">
+  <div class="topwarper">
+    <div class="topcon">
+    欢迎您，<b><($global_username)></b>&nbsp;| <a href="/index.php" target="_parent">平台首页</a> |&nbsp;<a href="<($global_logout)>" class="tit" target="_top">退出</a>&nbsp;&nbsp;&nbsp;
+    </div>
+  </div>
+</div>
+</body>
+</html>

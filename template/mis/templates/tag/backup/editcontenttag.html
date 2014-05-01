@@ -1,0 +1,65 @@
+<(include file="common/header.inc.html" title="编辑Tag列表")>
+<link href="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/datePicker.res/datePicker.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/datePicker.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/date.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/ajaxUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/suggest.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/baidu/ui/crossFrameDialog.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/duplicateName.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/tagRowController.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/tag.js" charset="utf-8"></script>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+	var jsonTags = <(if $jsonTags)><($jsonTags)><(else)>[]<(/if)>;
+</script>
+<body>
+	<div id="contentBase">
+		<fieldset>
+			<legend><label>基本信息</label></legend>
+			<table width="100%" class="tb_form">
+				<tr>
+					<td class="fieldName">内容ID</td>
+					<td><input type="text" name="ti_infoid" id="ti_infoid" readonly="readonly" style="background:#F2F2F2;" value="<($data.ti_infoid)>" /></td>
+				</tr>
+				<tr>
+					<td class="fieldName">内容类型</td>
+					<td>
+					<input type="text" name="ti_infotypename" id="ti_infotypename" readonly="readonly" style="background:#F2F2F2;" value="<($data.ti_infotypename)>" />
+					<input type="hidden" name="ti_infotype" id="ti_infotype" value="<($data.ti_infotype)>" />
+					</td>
+				</tr>
+				<tr>
+					<td class="fieldName">内容名称</td>
+					<td><input type="text" name="ti_infoname" id="ti_infoname" readonly="readonly" style="background:#F2F2F2;" value="<($data.ti_infoname)>" /></td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+	<div id="contentBase">
+		<fieldset>
+			<legend><label>Tag列表</label></legend>
+			<table class="tb_form" id="tableTag">
+					<tr>
+						<td class="fieldName" style="text-align:center;width:80px!important;">Tag&nbsp;&nbsp;<span id="nb_te_name"></span></td>
+						<td class="fieldName" style="text-align:center;width:80px!important;">权重&nbsp;&nbsp;<span id="nb_ti_weight"></span></td>
+						<td class="fieldName" style="text-align:center;width:80px!important;">操作</td>
+					</tr>
+					<div id=tableTagHidden></div>
+				</table>
+				<div id="nb_quku_Tag_info"></div>
+			</td>
+		</tr>
+	   </table>
+		</fieldset>
+	</div>
+	<div class="space10"></div>
+	<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>&nbsp;</td>
+		<td colspan="3" style="align:center;">
+			<input class="button01" type="button" value="保存" onclick="Tag.saveContentTag();" />
+		</td>
+	</tr>
+</table>
+</body>

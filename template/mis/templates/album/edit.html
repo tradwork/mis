@@ -1,0 +1,11 @@
+<(extends file="album/abstract.form.inc.html")>
+
+<(block name="initData" append)>
+
+<($title="编辑专辑")>
+<($formAction="doEdit")>
+<(/block)>
+
+<(block name="inline_js")>
+	quku_v.albumForm.formArray.setValue(quku_v.album.data);
+<(/block)>

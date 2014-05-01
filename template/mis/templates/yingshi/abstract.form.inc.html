@@ -1,0 +1,176 @@
+<(block name="initHead")>
+
+<(include file="common/header.inc.html" title="影视歌曲管理 &gt; 添加影视歌曲")>
+
+<(/block)>
+
+
+<(block name="initData")>
+<(/block)>
+
+<style type="text/css">
+	.language{width:100px;height:95px;}
+	.fl{float:left;}
+	.tb_form { border:none; }
+	 #tablePicHidden{
+       display:inline-block;
+   }
+   <(block name="initStyle")>
+ <(/block)>
+</style>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/yingshi/yingshi.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/yingshi/yingshiForm.js"></script>
+
+
+
+<script type="text/javascript">
+
+		//模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="yingshi/convertData.html")>;
+		var jsonPic = <(if $data.quku_pic_info.yi_globalid)><($data.quku_pic_info)><(else)>[]<(/if)>;
+
+		$(document).ready(function(){
+		    var T = quku_v.yingshiForm, data = quku_v.yingshi.data;
+			T.displayPanel(data);
+			<(block name="inline_js")>
+
+			<(/block)>
+		})
+</script>
+
+<body>
+<!--
+<div style="display:none;"><($data|var_dump)></div>
+<div style="display:none;"><($user|var_dump)></div>
+-->
+
+<(if $data.quku_yingshi_info.yi_globalid)>
+	<input type="hidden" id = "yi_globalid" name="yi_globalid" value="<($data.quku_yingshi_info.yi_globalid)>" />
+	<(if $user.ub_groupid==1)>
+	<input type="hidden" id ="action" value="saveInCache" />
+	<(else)>
+	<input type="hidden" id ="action" value="doEdit" />
+	<(/if)>
+<(else)>
+	<input type="hidden" id ="action" value="doCreate" />
+<(/if)>
+
+<(block name="addContainerType")>
+<(/block)>
+
+<!-- for dialog creater -->
+<input type="hidden" id ="yingshiId" value="" />
+<!--歌词数据-->
+
+<input type="hidden" id = "sl_globalid" value=''  />
+<input type="hidden" id = "sl_title" value='' />
+<input type="hidden" id ="channel" value="2" />
+
+
+
+<div id="contentBase">
+<fieldset class="x-layout-base">
+  <legend><label>必填信息</label></legend>
+	<!-- 影视ID -->
+	<div id="yi_title_id" class="x-layout-item"></div>
+
+ 	<!-- 影视名称 -->
+	<div id="yi_title" class="x-layout-item"></div>
+
+	<!-- 别名 -->
+	<div id="yi_aliastitle" class="x-layout-item"></div>
+
+	<!-- 译名 -->
+	<div id="yi_translatename" class="x-layout-item"></div>
+	
+	<!-- 影视剧简介 -->
+	<div id="yi_info" class="x-layout-item"></div>
+	
+	<!-- 主演/主持 -->
+	<div id="yi_main" class="x-layout-item"></div>
+	
+	<!-- 客串/嘉宾 -->
+	<div id="yi_guest" class="x-layout-item"></div>
+	
+	<!-- 导演 -->
+	<div id="yi_director" class="x-layout-item"></div>
+	
+	<!-- 标签 -->
+	<div id="yi_label" class="x-layout-item"></div>	
+	<!-- ISRC -->
+	<div id="yi_isrc" class="x-layout-item"></div>
+	<!-- 版本 -->
+	<div id="yi_versions" class="x-layout-item"></div>
+ 	<!-- 类型 -->
+	<div id="yi_type" class="x-layout-item"></div>	
+	<!-- 场次 -->
+	<div id="yi_session" class="x-layout-item"></div>
+	<!-- 语言 -->
+	<div id="yi_language" class="x-layout-item"></div>
+	<div id="si_ext_more" class="x-layout-item x-layout-merge">
+
+		<!-- 发行时间 -->
+		<div id="yi_publishtime" class="x-layout-block x-item-inner"></div>
+		<!-- 版本 -->
+		<div id="yi_versions" class="x-layout-block x-item-inner"></div>	
+		<!--发行地区 -->
+		<div id="yi_area" class="x-layout-block x-item-inner"></div>	
+	</div>
+	<!--关联信息-->
+	<div id="quku_yingshi_ref" class="x-layout-block tb_form">
+	</div>
+</fieldset>
+</div>
+
+<div id="contentResource">
+	<fieldset  class="x-layout-base">
+		<legend><label>资源信息</label></legend>
+
+		<!--图片-->
+		<div id="quku_pic" class="x-layout-block tb_form">		  
+              <span id="quku_pic_label"></span>			  
+			  <table id="tablePic">
+				<tr>
+					<td class="fieldName" style="text-align:left;width:80px!important;">预览</td>
+					<td class="fieldName" style="text-align:left;width:80px!important;">操作</td>
+					<td class="fieldName" style="text-align:left;width:45px!important;">宽度</td>
+					<td class="fieldName" style="text-align:left;width:45px!important;">高度</td>
+					<td class="fieldName" style="text-align:left;">上传文件</td>
+					<td class="fieldName" style="text-align:left;">描述信息<span style="color:pink">[为图片检索提供素材]</span></td>
+				</tr>
+				<div id=tablePicHidden></div>
+			</table>
+		</div>	 
+
+	</fieldset>
+</div>
+<div class="space10"></div>
+<div id="operation">
+	<input type="checkbox" id="si_audit_status" <(if strlen($data.quku_songs_info.si_audit_status) >0 && $data.quku_songs_info.si_audit_status==0)>checked<(/if)> >审核</input>
+
+	<(if strlen($data.quku_yingshi_info.yi_status) >0 && $data.quku_yingshi_info.yi_status==0)>
+		<input type="button" value="保存" class="button01" onclick="Yingshi.saveAndPub();"></input>
+		<(if $formAction!="doEditInDialog")>
+			<input type="button" value="下线" class="button01" onclick="Yingshi.offline()"></input>
+		<(/if)>
+	<(else)>
+		<input type="button" value="保存" class="button01" onclick="Yingshi.save();"></input>
+		<input type="button" value="保存并发布" class="button01" onclick="Yingshi.saveAndPub();"></input>
+	<(/if)>
+</div>
+
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/duplicateName.js"></script>
+
+<script type="text/javascript" src="/static/js/jquery/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/static/js/jquery/ui/jquery.ui.slider.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picRowController.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+<(include file="common/footer.inc.html")>
+
+
+

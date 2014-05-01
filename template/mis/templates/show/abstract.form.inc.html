@@ -1,0 +1,126 @@
+<(include file="common/header.inc.html")>
+
+<(block name="initData")>
+<(/block)>
+
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/show/show.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/show/showForm.js"></script>
+<style type="text/css">
+    .language{width:100px;height:95px;}
+	.fl{float:left;}
+	.tb_form { border:none; }
+	 #tablePicHidden{
+       display:inline-block;
+   }
+   #tableSongPic_div {
+       margin-left: -12px;
+   }
+</style>
+</style>
+<script type="text/javascript">
+
+		//模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="show/convertData.html")>
+
+jsonPic = <(if $data.quku_shows_news.sn_globalid)><($data.quku_pic_info)><(else)>[]<(/if)>;
+$(document).ready(function(){
+   
+		  window.origid_g=[];
+		  window.origid_g['sn_author'] = $('#sn_author').textfield('getValue');
+	  
+			var T = quku_v.showForm, data = quku_v.show.data;
+			T.displayPanel(data);  
+           <(block name="inline_js")>	
+			<(/block)>		   
+  
+  });
+</script>
+<body>
+<(if $data.quku_shows_news.sn_globalid)>
+	<input type="hidden" id = "sn_globalid" name="sn_globalid" value="<($data.quku_shows_news.sn_globalid)>" />
+	<input type="hidden" id ="action" value="doEdit" />
+<(else)>
+	<input type="hidden" id ="action" value="doCreate" />
+<(/if)>
+<input type="hidden" id ="channel" value="4" />
+<div style="display:none"><($data|var_dump)></div>
+<div id="contentBase"> 
+	<fieldset>
+		<legend><label>必填信息</label></legend>
+	
+	<!-- 主题 -->
+	<div id="sn_title" class="x-layout-block"></div>
+	<!-- 城市 -->
+	<div id="sn_city" class="x-layout-item"></div>
+	<!-- 明星 -->
+	<div id="quku_artist_works_ref" class="x-layout-item"></div>
+	<!-- 场馆 -->
+	<div id="sn_venue" class="x-layout-item"></div>
+	<!-- 类别 -->
+	<div id="sn_category" class="x-layout-item"></div>
+	<!--  锁定人  -->
+	<(if $user.ub_groupid == 3)>
+	<div id="si_editusernow" class="x-layout-item" style="display:none;"></div>
+	<(/if)>
+	
+	<!-- 演出时间 -->
+	<div id="sn_detailtime" class="x-layout-block tb_form" ></div>
+	
+	<!-- 演出海报 -->	
+	<div id="tableSongPic_div" class="x-layout-block tb_form">
+		 <span id="tableSongPic_label"></span>			
+		<table id="tablePic">
+			<tr>
+				<td class="fieldName" style="text-align:left;width:80px!important;">预览</td>
+				<td class="fieldName" style="text-align:left;width:80px!important;">操作</td>
+				<td class="fieldName" style="text-align:left;width:45px!important;">宽度</td>
+				<td class="fieldName" style="text-align:left;width:45px!important;">高度</td>
+				<td class="fieldName" style="text-align:left;">上传文件</td>
+				<td class="fieldName" style="text-align:left;">描述信息<span style="color:pink">[为图片检索提供素材]</span></td>
+			</tr>
+			<div id=tablePicHidden></div>
+		</table>
+	</div>
+	
+	<!-- 演出介绍 -->
+	<div id="sn_info" class="x-layout-block"></div>
+	
+	
+	
+		
+	</fieldset>
+</div>
+
+ <div id="contentDetail">
+	<fieldset>
+		<legend><label>详细信息</label></legend>
+		
+	<!-- 票价 -->
+	<div id="sn_price" class="x-layout-item"></div>
+	
+	<!-- 相关链接 -->
+	<div id="quku_relatively_links" class="x-layout-block tb_form">
+	   
+	</div>
+	
+	</fieldset>
+</div>
+<div class="space10"></div>
+
+<div id="operation">
+	
+	<(if strlen($data.quku_shows_news.sn_status) >0 && $data.quku_shows_news.sn_status==0)>
+		<(if $user.ub_groupid != 0)>&nbsp;&nbsp;<input class="button01" name="button" type="button" value="保存" onclick="Show.saveAndPub();"><(/if)>
+		<(if $user.ub_groupid != 0)>&nbsp;&nbsp;<input class="button01" name="button" type="button" value="下线" onclick="Show.offline();"><(/if)>
+	<(else)>
+		&nbsp;&nbsp;<input class="button01" name="button" type="button" value="保存" onclick="Show.save();">
+		<(if $user.ub_groupid != 0)>&nbsp;&nbsp;<input class="button01" name="button" type="button" value="保存并发布" onclick="Show.saveAndPub();"><(/if)>
+	<(/if)>
+</div>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/duplicateName.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/ui/jquery.ui.slider.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picRowController.js"></script>

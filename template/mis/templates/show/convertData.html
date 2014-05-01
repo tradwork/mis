@@ -1,0 +1,50 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.show==='undefined' ) 
+{ 
+    quku_v.show = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.show.data={
+
+	sn_globalid: <(if strlen($data.quku_shows_news.sn_globalid) >0)>"<($data.quku_shows_news.sn_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	sn_title: <(if strlen($data.quku_shows_news.sn_title) >0)>"<($data.quku_shows_news.sn_title|escape:'javascript')>"<(else)>''<(/if)>,
+	quku_artist_works_ref: <(if strlen($data.quku_artist_works_ref) >0)>"<($data.quku_artist_works_ref|escape:'javascript')>"<(else)>''<(/if)>,
+
+	sn_city: <(if strlen($data.quku_shows_news.sn_city) >0)>"<($data.quku_shows_news.sn_city|escape:'javascript')>"<(else)>''<(/if)>,
+	sn_venue: <(if strlen($data.quku_shows_news.sn_venue) >0)>"<($data.quku_shows_news.sn_venue|escape:'javascript')>"<(else)>''<(/if)>,
+	sn_detailtime: <(if sizeof($data.quku_shows_news.sn_detailtime) >0)>[
+	                             <(foreach from=$data.quku_shows_news.sn_detailtime key=key item=item name='sn_detailtime')> 
+									["<($item|escape:'javascript')>"]
+									<(if !$smarty.foreach.sn_detailtime.last)>	,<(/if)>
+								 <(/foreach)> 
+	                        ]<(else)>[]<(/if)>,
+	sn_category: <(if strlen( $data.quku_shows_news.sn_category) > 0)>"<($data.quku_shows_news.sn_category|escape:'javascript')>"<(else)>''<(/if)>,
+	sn_info: <(if strlen( $data.quku_shows_news.sn_info) >0)> "<($data.quku_shows_news.sn_info|escape:'javascript')>" <(else)>''<(/if)>,
+	sn_price: <(if strlen($data.quku_shows_news.sn_price) >0)>"<($data.quku_shows_news.sn_price|escape:'javascript')>"<(else)>''<(/if)>,
+	sn_editusernow:<(if strlen($data.quku_shows_news.sn_editusernow) >0)>"<($data.quku_shows_news.sn_editusernow|escape:'javascript')>"<(else)>''<(/if)>,
+	
+	quku_relatively_links: <(if sizeof($data.quku_relatively_links) >0)>[
+	                             <(foreach from=$data.quku_relatively_links key=key item=item name='relatively_links')> 
+									["<($item.rl_keyword|escape:'javascript')>","<($item.rl_urllink|escape:'javascript')>","<($item.rl_id|escape:'javascript')>"]
+									<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+								 <(/foreach)> 
+	                        ]<(else)>[]<(/if)>,
+	   
+	sn_categoryOption: <(if $data.option.sn_category)>[ 
+						<(foreach from=$data.option.sn_category key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	sn_cityOption:	<(if $data.option.sn_city)>[ 
+						<(foreach from=$data.option.sn_city key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>	   
+}

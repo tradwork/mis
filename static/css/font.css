@@ -1,0 +1,76 @@
+form{margin:0px}
+body{margin:4px 0 0 0;background-color:#FFFFFF;font-family:arial}
+td{font-size:9pt;line-height:18px;font-family:Arial}
+div,input{font-family:Arial}
+a:link{color:#0000CC}
+a:hover{color:#0000CC}
+a:visited{color:#800080}
+a.lkgn:link{color:#008000;text-decoration:underline}
+a.lkgn:visited{color:#008800;text-decoration:underline}
+.fB{font-weight:bold}
+.f12{font-size:12px}
+.f12gy{color:#666666;}
+.f13{font-size:13px}
+.f14{font-size:14px;line-height:22px}
+.p14{font-size:14px;}
+.f14B{font-size:14px;font-weight:bold}
+.f16{font-size:16px}
+.padL10{padding-left:10px}
+.cy,a.cy:link,a.cy:visited{color:#7777CC;font-size:12px;font-family:Arial}
+.ft{clear:both;text-align:center;width:760px;margin-top:5px;padding-top:5px;padding-bottom:10px;color:#777777;font-size:12px;font-family:Arial}
+.ft2{clear:both;text-align:center;width:100%;margin-top:5px;padding-top:5px;color:#777777;font-size:12px;font-family:Arial}
+.bgusr{padding-right:10px;font-size:12px;height:19px;line-height:19px;font-family:Arial}
+.titbg{padding:0 10px 0 10px;font-weight:bold;font-size:14px;background-color:#d8dfec;height:24px;line-height:24px;border-top:1px solid #a4b1ca;}
+.titbgh{padding:0 10px 0 10px;font-weight:bold;font-size:14px;background-color:#f0f4fb;height:24px;line-height:24px;border-top:1px solid #b8ccf0;border-right:1px solid #b8ccf0;border-left:1px solid #b8ccf0;}
+.tit1bg{padding:0px;font-weight:normal;font-size:12px;background-color:#f0f4fb;line-height:20px;}
+.tit2bg{padding:0 10px 0 10px;font-size:14px;background-color:#d8dfec;height:24px;line-height:24px;border-top:1px solid #a4b1ca}
+.box{padding:10px;border-right:1px solid #b8ccf0;border-left:1px solid #b8ccf0;border-bottom:1px solid #b8ccf0}
+.box2{padding:10px 10px 10px 15px}
+.divsp{margin-bottom:12px}
+.coolwd{margin-top:10px;padding-top:10px;border-top:1px solid #808080;font-weight:bold}
+.ref{margin-top:10px;margin-left:15px;padding-top:10px;font-size:14px;padding-bottom:10px;border-top:1px solid #808080;line-height:18px}
+.bgpagLn{padding-left:10px;font-size:14px;margin-top:30px;margin-bottom:20px}
+.Tit{font-size:200%;font-weight:bold;font-family:黑体;line-height:180%}
+.Tit1{font-size:200%;font-weight:bold;font-family:黑体;}
+.fs{color:#008000}
+.f{line-height:120%;font-size:100%;width:32em;padding-left:15px;word-break:break-all;word-wrap:break-word;}
+/*.pV{line-height:18px}*/
+.ln25{height:25px;border-bottom:1px solid #E1E1E1}
+.pC{font-size:80%;width:65%;line-height:18px; font-family: Arial}
+.ResultTit{font-size:125%;margin-bottom:2px;line-height:120%;}
+.bglst{padding-left:10px;height:50px}
+.bgSrh{padding:10px 0px;background-color:#f0f4fb;width:100%;}
+.bgtle{padding-right:10px;border-top:#b8ccf0 1px solid;padding-left:10px;font-weight:bold;font-size:14px;height:24px;line-height:24px;background-color:#F4F0DF}
+.bgc{background-color:#f0f4fb;}
+.frd{color:#e10900}
+.fgy{color:#666666}
+#frame{width:760px}
+#content{width:90%}
+#left{float:left;width:190px;margin-right:12px}
+#right{float:left;width:558px}
+.pad3{padding:3px; font-family:Arial; font-size:14px;}
+.c {COLOR: #7777CC}
+.g{color:#666666}
+.bi {background-color:#e5ecf9;height:20px;margin-bottom:12px}
+.i,.formfont{font-size:16px;font-family:arial;}
+.ChTit{height:21px; font-size:14px;line-height:18px;font-family:arial;color:black;font-weight:normal}
+.fB{ font-weight:bold;}
+.htb{margin-top:3px;margin-bottom:10px}
+.con{margin: 0px 10px 0px 10px;width:98% !important;width:100%;}
+a.top{font-family:arial}
+a.top:link {COLOR: #0000cc; text-decoration: underline}
+a.top:visited {COLOR: #0000cc; text-decoration: underline}
+a.top:active {COLOR: #0000cc; text-decoration: underline}
+
+#ft{clear:both;margin-top:10px;line-height:20px;text-align:center}
+#ft,#ft *{color:#77C;font-size:12px;font-family:Arial;white-space:nowrap}
+.bds{font-family:宋体;margin-top:4px;height:24px}
+.red{color:#E10601}
+.wr{table-layout:fixed;word-wrap:break-word}
+.gray{color:#808080}
+.pg{padding-left:10px;font-size:14px;word-spacing:4px;font-family:arial;width:770px;text-align:left;height:30px;line-height:30px;}
+.pg *{font-family:arial}
+textarea{width:100%!important;width:auto;}
+#ft{clear:both;margin-top:10px;line-height:20px;text-align:center}
+#ft,#ft *{color:#77C;font-size:12px;font-family:Arial;white-space:nowrap}
+body{margin-bottom:4px}

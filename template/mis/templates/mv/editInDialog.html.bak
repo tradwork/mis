@@ -1,0 +1,37 @@
+<(extends file="mv/abstract.form.inc.html")>
+
+
+
+
+<(block name="initHead")>
+<(include file="common/childStationHeader.inc.html" title="单曲管理 &gt; 修改单曲")>
+
+<($formAction="doEditInDialog")>
+
+
+<(/block)>
+
+
+jQuery(document).ready(function (){
+<(block name="inline_js")>
+	quku_v.mvForm.formArray.setValue(quku_v.mv.data);	
+	 var station = new baidu.ui.crossFrameDialog.ChildStation();
+	 var mvId = station.getData();
+	 mvId = mvId ? mvId : '';
+	 $('#mvId').val(mvId);
+	
+<(/block)>
+});
+
+  <(block name="initStyle" append)>
+	.x-layout-item {
+		width: 48% !important;
+	}
+	.x-component-label {
+	   width: 80px  !important;
+	}
+ <(/block)>
+ 
+ <(block name="addContainerType" append)>
+     <input type="hidden" id ="container" value="doActionIndialog" />
+<(/block)>

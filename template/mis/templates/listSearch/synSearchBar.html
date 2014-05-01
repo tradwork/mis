@@ -1,0 +1,53 @@
+<(extends file="listSearch/abstract.searchBar.html")>
+
+<(block name="searchTn")>
+<input type="hidden" name="tn" value="synchronized_<($tn)>List"/>
+<(/block)>
+<!-- 状态  --->
+	<(block name="searchStatus_block")>	
+	<!-- 发布状态 -->
+	<(/block)>
+	
+		<(block name="searchDel_block")>
+	<!-- 删除状态 -->
+	<(/block)>
+	
+	<(block name="searchAudit_block")>
+		<!-- 审核状态 -->
+		<div id="search_audit_flag" class="x-layout-search-item"> </div>
+		<!-- 审核状态 -->
+		<div id="search_type" class="x-layout-search-item" style="display:none;"> </div>
+	<(/block)>
+	
+	// more option data inition					
+	<(block name="optionInit")>
+		   $.extend(quku_v.searchOption.option,{
+				  search_audit_flag:  <(if $option.search_audit_flag.option)>[ 
+										<(foreach from=$option.search_audit_flag.option key=key item=item)> 
+											{'display':"<($item)>",'value':"<($key)>"},
+										<(/foreach)> 
+									]  <(else)> [] <(/if)> 
+		   });
+		    $.extend(quku_v.searchOption.option,{
+				  search_type:  <(if $option.search_type.option)>[ 
+										<(foreach from=$option.search_type.option key=key item=item)> 
+											{'display':"<($item)>",'value':"<($key)>"},
+										<(/foreach)> 
+									]  <(else)> [] <(/if)> 
+		   });
+    <(/block)>
+	
+	// more option data inition					
+	<(block name="domDataInit")> 
+		$('#search_audit_flag').selectfield({
+			 labelText: '审核状态',
+			 store: Toption.search_audit_flag,
+			 value: <(if strlen($data.current_option.search_audit_flag) >0)>'<($data.current_option.search_audit_flag)>'<(else)>''<(/if)> ? 
+							  '<($data.current_option.search_audit_flag)>' : 2
+		});
+		$('#search_type').selectfield({
+			 labelText: '搜索类型',
+			 store: Toption.search_type,
+			 value: "<($search_type)>"
+		});
+	<(/block)>

@@ -1,0 +1,57 @@
+<(include file="common/header.inc.html")>
+<link href="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/datePicker.res/datePicker.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/datePicker.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/date.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/ajaxUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/suggest.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/baidu/ui/crossFrameDialog.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/duplicateName.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/album.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/song.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/win.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/tag.js"></script>
+<style type="text/css">
+</style>
+<body>
+<(if $data.te_id)>
+	<input type="hidden" id="te_id" name="te_id" value="<($data.te_id)>" />
+	<input type="hidden" id="action" value="doEdit" />
+<(else)>
+	<input type="hidden" id="action" value="doCreate" />
+<(/if)>
+<div id="contentBase">
+	<fieldset>
+		<legend><label>必填信息</label></legend>
+		<table width="100%" class="tb_form">
+			<tr>
+				<td class="fieldName">tag名字</td>
+				<td>
+					<input type="text" id="te_name" name="te_name" value=""  />
+					<div id="nb_te_name"></div>
+				</td>
+			</tr>
+			<tr>
+				<td class="fieldName">tag分类</td>
+				<td>
+					<select name="te_category" id="te_category">
+						<(foreach from=$te_categoryoption key=key item=item)>
+							<option value="<($key)>"><($item)></option>
+						<(/foreach)>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</fieldset>
+</div>
+<div class="space10"></div>
+<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>&nbsp;</td>
+		<td colspan="3" style="align:center;">
+			<input class="button01" type="button" value="保存" onclick="Tag.save();" />
+			<input class="button01" type="reset" value="取消" />
+		</td>
+	</tr>
+</table>
+</body>

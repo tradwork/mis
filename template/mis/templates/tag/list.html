@@ -1,0 +1,59 @@
+<(include file="common/header.inc.html")>
+
+ <script type="text/javascript" src="static/js/tag/tagList.js" ></script>
+ <script type="text/javascript">
+     var tag = quku_v.tagList;
+ </script>
+
+<(assign var="o" value=$data.search_option)>
+<!-- 搜索栏显示和提交 -->
+<(include file="listSearch/tagSearchBar.html" title="tag" option=$data.search_option)>
+<div style="display:none"><($data|var_dump)></div>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"   class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid">
+	<tr>
+		<th width="60"><input type="checkbox" name="batchCheckbox">全选</th>
+		<th>标签名</th>
+		<th>操作</th>
+		<th>标签级别</th>
+		<th>标签类别</th>
+    　　<th>父标签</th>
+		<th>ID</th>
+	</tr>
+
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="tagCheckbox" value="<($item.td_tagid)>"></td>
+		<td>
+			<a href="?c=tag&m=edit&td_tagid=<($item.td_tagid)>&tn=tag_edit"  class="showedit"><($item.td_name|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			
+		</td>
+		<td>  <a href="?c=tag&m=delete&td_tagid=<($item.td_tagid)>" class="x-tag-del"> 删除 </a> </td>
+		<td>
+			<($item.td_level|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+		</td>
+  
+		<td><($item.td_category|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+
+        <td><($item.td_parentid|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		
+		<td><($item.td_tagid)></td>
+	</tr>
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	
+	<a href="?c=artist&m=batchDelete" class="batchDelete">批量删除</a>
+	 	
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>" class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>
+<include file="common/footer.inc.html">
+

@@ -1,0 +1,69 @@
+<(include file ="openuser/header.inc.html")>
+
+<($arrOrder=json_decode($smarty.get.order,true))>
+<($order_ou_approve_time = $arrOrder['ou_approve_time'])>
+
+<div class="openuser-page">
+	<div class="openuser-search">
+		<form action="" method="post" accept-charset="utf-8" id="form_pass" class="form-search">
+			<p>
+				<span class="fwb">筛选：</span>
+				<label for="ou_approve_user">认证人：</label>
+				<select name="ou_approve_user" id="ou_approve_user">
+					<(foreach from=$data.user_list item=item)>
+						<option <(if $smarty.get.ou_approve_user == $item)>selected<(/if)> value="<($item|escape)>"><($item|escape)></option>
+					<(/foreach)>
+				</select>
+			</p>
+			<p class="search-box">
+				<select name="search-type" id="search_type">
+					<($type = $smarty.get.search_field|escape)>
+					<option <(if $type == 'all')>selected<(/if)> value="all">全部</option>
+					<option <(if $type == 'ou_company')>selected<(/if)> value="ou_company">公司名称</option>
+					<option <(if $type == 'ou_id')>selected<(/if)> value="ou_id">ID</option>
+					<option <(if $type == 'ou_legal_rep')>selected<(/if)> value="ou_legal_rep">法人代表</option>
+					<option <(if $type == 'ou_contact_name')>selected<(/if)> value="ou_contact_name">联系人</option>
+				</select>
+				<input type="text" name="search_query" value="<(if $smarty.get.search_content)><($smarty.get.search_content|escape)><(/if)>" id="search_query"/>
+				<a href="#" id="search_btn">搜索</a>
+			</p>			
+		</form>
+	</div>
+	<table width="100%" class="qukuDataGrid openuser-table" id="openuser_tabel_pass">
+		<tr>
+			<th>申请ID</th>
+		    <th>公司名称</th>
+		    <th>法人代表</th>
+			<th>联系人</th>
+		    <th>认证时间<b class="sort-time <(if $order_ou_approve_time == 1)>sort-down<(else)>sort-up<(/if)>" data-sort="<($order_ou_approve_time|escape)>" id="sort_approve_time"></b></th>
+		    <th>认证人</th>
+			<th>认证材料</th>
+			<th>操作</th>
+		</tr>
+	<(foreach from=$data.list_rows item=item)>
+		<tr <(if $item@index%2 == 0)>class="item-odd"<(/if)>>
+			<td><($item.ou_id|escape)></td>
+			<td><($item.ou_company|escape)></td>
+		    <td><($item.ou_legal_rep|escape)></td>
+		    <td><($item.ou_contact_name|escape)></td>
+		    <td><($item.ou_approve_time|escape)></td>
+		    <td><($item.ou_approve_user|escape)></td>
+		    <td>
+		    	<a href="/index.php?c=openuser&m=edit&ou_id=<($item.ou_id|escape)>&tn=openuser_detail&ou_status=1" title="" target="mainFrame">查看</a>
+		    </td>
+		    <td>
+		    	<a href="#" title="" data-item='{"id":"<($item.ou_id|escape)>","company":"<($item.ou_company|escape)>"}' class="opp-forbid">封禁</a>
+		    </td>
+		</tr>
+	<(/foreach)>
+	</table>
+
+	<a class="down-list" href="/index.php?c=openuser&m=dumpData&ou_status=1">下载完整列表</a>
+
+	<div class="openuser-page-navigator">
+		<($data.list_page_code)>
+	</div>
+
+</div>
+
+<(include file="common/footer.inc.html")>

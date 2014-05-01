@@ -1,0 +1,203 @@
+<(include file="common/header.inc.html")>
+<script type="text/javascript">
+var jsonAidio = <(if $jsonAudio)><($jsonAudio)><(else)>[]<(/if)>;
+var jsonPic = <(if $jsonPic)><($jsonPic)><(else)>[]<(/if)>;
+var jsonLrc = <(if $jsonLrc)><($jsonLrc)><(else)>[]<(/if)>;
+$(document).ready(function(){
+	var picTpl='<tr><td class="tit_preview" style="text-align:left;">图片</td><td class="tit_preview" style="text-align:left;">宽度</td><td class="tit_preview" style="text-align:left;">高度</td></tr>',
+	audioTpl = '<tr><td class="tit_preview" style="text-align:left;">文件名</td><td class="tit_preview" style="text-align:left;">格式</td><td class="tit_preview" style="text-align:left;">大小</td><td class="tit_preview" style="text-align:left;">码率</td></tr>';
+	if(jsonPic.pi_link){
+			picTpl += "<tr><td><img src='"+jsonPic.pi_link+"' width='100' height='100' /></td><td >"+jsonPic.pi_pic_width+"</td><td >"+jsonPic.pi_pic_height+"</td></tr>"
+	};
+	if(jsonAidio){
+		for(var i=0;i<jsonAidio.length;i++){
+			audioTpl += "<tr><td >"+jsonAidio[i].sf_file_name+"</td><td >"+jsonAidio[i].sf_file_extension+"</td><td >"+jsonAidio[i].sf_file_size+"</td><td >"+jsonAidio[i].sf_file_bitrate+"</td></tr>"
+		}
+	};
+	$("#tablePic")[0].innerHTML = picTpl;
+	$("#tableAudio")[0].innerHTML = audioTpl;
+	if(jsonLrc.sl_lrclink){
+		$("#tableLrc")[0].innerHTML = '<a href="'+jsonLrc.sl_lrclink+'" target="_blank">查看</a>';
+	};
+});
+</script>
+<body>
+	  	<table width="100%" class="tb_preview">
+		<tr>
+			<td class="tit_preview" width="10%">单曲名称：</td>
+		    <td width="40%">
+		    	<($data.si_title)>
+		    </td>
+		    <td class="tit_preview" width="10%">歌手(多歌手用,分割)：</td>
+		    <td width="40%">
+		    	<($data.si_author)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">发行时间：</td>
+		    <td>
+		    	<($data.si_publishtime)>
+		    </td>
+		    <td class="tit_preview">打分：</td>
+			<td>
+				<($data.si_grade)>
+			</td>
+		</tr>
+		<tr>
+			<td class="tit_preview">专辑ID：</td>
+		    <td>
+		    	<($data.ai_id)>
+		    </td>
+		    <td class="tit_preview">专辑名称：</td>
+		    <td>
+		    	<($data.si_album)>
+		    </td>
+		</tr>
+		<tr>
+		 <td class="tit_preview">国家：</td>
+		    <td><($data.si_country)>
+				<(if $data.si_invalid_country)><($data.si_invalid_country)><(/if)>
+		    </td>
+		    <td class="tit_preview">语言：</td>
+		    <td>
+				<($data.si_language)>
+				<(if $data.si_invalid_language)><($data.si_invalid_language)><(/if)>
+		    </td>
+		</tr>
+		<tr>
+		   <td class="tit_preview">别名：</td>
+		    <td>
+		    	<($data.si_aliastitle)>
+		    </td>
+		     <td class="tit_preview">译名：</td>
+		    <td>
+		    	<($data.si_translatename)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">指定连接：</td>
+		    <td>
+		    	<($ui_uniqurl)>
+		    </td>
+		     <td class="tit_preview">描述：</td>
+		    <td>
+		    	<($data.si_info)>
+		    </td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">歌曲专辑编号：</td>
+			<td>
+				<($data.si_album_no)>
+			</td>
+			<td class="tit_preview">光盘序号：</td>
+		    <td>
+		    	<($data.si_cd_no)>
+		    </td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">屏蔽：</td>
+			<td>  		
+				<($data.si_forbidflag)>
+			</td>
+			<td class="tit_preview">标签：</td>
+			<td>
+				<($data.si_tags)>
+			</td>
+		</tr>
+		<tr>
+		    <td class="tit_preview">完整度：</td>
+			<td >
+				<($data.si_complete)>
+			</td>
+			<td class="tit_preview">时长：</td>
+		    <td>
+		    	<($data.si_file_duration)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">类型：</td>
+			<td >
+				<($data.si_versions)>	<($data.si_invalid_versions)>
+			</td>
+			<td class="tit_preview">代理公司：</td>
+			<td >
+				<($data.si_proxycompany)>
+			</td>
+		</tr>
+	  	<tr>
+			 <td class="tit_preview">版权：</td>
+		    <td>
+				<($data.si_isgenuine)>
+		    </td>
+		     <td class="tit_preview">唱片公司：</td>
+		    <td>
+		    	<($data.si_publishcompany)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">作词(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_songwriting)>
+		    </td>
+		    <td class="tit_preview">版权公司(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_songwritingcopyright)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">作曲(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_compose)>
+		    </td>
+		    <td class="tit_preview">版权公司(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_composecopyright)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">编曲(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_arranged)>
+		    </td>
+		    <td class="tit_preview">版权公司(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_arrangedcopyright)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">制作(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_prodcompany)>
+		    </td>
+		    <td class="tit_preview">版权公司(多个以,分隔)：</td>
+		    <td>
+		    	<($data.si_songcopyright)>
+		    </td>
+		</tr>
+		<tr>
+			<td class="tit_preview">ISRC：</td>
+		    <td colspan="3">
+		    	<($data.si_isrc)>
+		    </td>
+		</tr>
+	  		<tr>
+				<td class="tit_preview">音频：</td>
+				<td colspan="3">
+					<table id="tableAudio">
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="tit_preview">歌词：</td>
+				<td colspan="3" id="tableLrc">
+				</td>
+			</tr>
+			<tr>
+				<td class="tit_preview">图片：</td>
+				<td colspan="3">
+					<table id="tablePic">
+						
+					</table>
+				</td>
+			</tr>
+	   </table>

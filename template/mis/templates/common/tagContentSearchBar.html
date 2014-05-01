@@ -1,0 +1,62 @@
+<link href="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/datePicker.res/datePicker.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/datePicker.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/date.js"></script>
+<div class="qukuSearchBar" style="color:#000;font-weight:normal">
+<form id='formSearch' action="/qmis/index.php?" method="get">
+<input type="hidden" name="c" value="tag"/>
+<input type="hidden" name="m" value="listcontent"/>
+<input type="hidden" name="tn" value="tag_listcontent"/>
+<script type="text/javascript">
+$( function() {
+	var search_status = $('select[name=search_status]'),
+		 search_audit_status_holder = $('#search_audit_status_holder'),
+		 search_copyrignt_delete_holder = $('#search_copyrignt_delete_holder'),
+		 search_prohibit_type = $('#search_prohibit_type'),
+		 search_prohibit_type_select = $('#search_prohibit_type_select');
+
+	function switch_optins() {
+		if( search_status.val() == '0' ) {
+			search_audit_status_holder.show();
+
+			search_copyrignt_delete_holder
+				&& search_copyrignt_delete_holder.show()
+				&& search_prohibit_type.show();
+				
+		} else {
+			search_audit_status_holder.hide();
+
+			search_copyrignt_delete_holder
+				&& search_copyrignt_delete_holder.hide()
+				&& search_prohibit_type.hide();
+		}
+	}
+
+	switch_optins();
+
+	search_status.change( function() {
+		switch_optins();
+	} );
+} );
+</script>
+<(if $delflag)><input type="hidden" name="<($delflag)>" value="1"/><(/if)>
+搜索类型&nbsp;&nbsp;<select name="searchtype" >
+				<(foreach from =$searchtypeoption key=key item=rt)>
+				<option value="<($key)>" <(if $key==$current_option.searchtype)>selected<(/if)>><($rt)></option>
+				<(/foreach)>
+			</select>
+			&nbsp;&nbsp;内容类型
+			<select name="ti_infotype">
+				<(foreach from=$infotypeoption key=key item=rt)>
+				<option value="<($key)>" <(if $key==$current_option.ti_infotype)>selected<(/if)>><($rt)></option>
+				<(/foreach)>
+			</select>
+				&nbsp;&nbsp;关键字&nbsp;&nbsp;<input style="width:80px;" name="search_content" id="search_content" value="<($current_option.search_content)>" />
+ <button type="submit" class="button01">搜索</button>
+</form>
+</div>
+<script>
+$(document).ready( function () {
+	$('#search_starttime').datePicker({startDate:'1900-01-01',createButton:false,clickInput:true});
+	$('#search_endtime').datePicker({startDate:'1900-01-01',createButton:false,clickInput:true});
+})
+</script>

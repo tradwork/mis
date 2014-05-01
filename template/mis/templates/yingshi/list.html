@@ -1,0 +1,124 @@
+<(include file="common/header.inc.html")>
+<style type="text/css">
+	.black{color:#000000;}
+</style>
+
+ <script type="text/javascript" src="static/js/yingshi/yingshiList.js" ></script>
+
+<(if $not_pub_singer)>
+<script>
+
+var not_pub_singer = '<table class="qukuDataGrid" width="100%" cellpadding="3">'
+	+ '<tr>'
+	+ '    <th style="font-size:12px;">状态</th>'
+	+ '    <th style="font-size:12px;">明星</th>'
+	+ '</tr>';
+
+<(foreach from=$not_pub_singer item=item)>
+	not_pub_singer += ''
+	+ '<tr>'
+	+ '   <td height="20"><($item.status)></td>'
+	+ '   <td><a href="<($item.link)>" target="_blank"><($item.name)></a></td>'
+	+ '</tr>'
+<(/foreach)>
+not_pub_singer += '</table>';
+
+widget.mask.show();
+widget.simple_dialog.create(
+	"未创建或未审核明星",
+	not_pub_singer,
+	"400",
+	{
+		hide: function() {
+			widget.mask.hide();
+		}
+	}
+);
+</script>
+<(/if)>
+
+<(if $smarty.get.search_delflag == 1)>
+	<(assign var="delflag" value="yi_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+
+<(/if)>
+<(assign var="o" value=$data.search_option)>
+
+<div style="display:none;"><(* <($data|var_dump)>  *)></div>
+
+<(include file="listSearch/yingshiSearchBar.html" title="yingshi" option=$data.search_option)>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid" border="1" style="border-collapse:collapse;">
+	<tr>
+		<th width="6%"><input type="checkbox" name="batchCheckbox">全选</th>
+		<th width="10%">影视剧名</th>
+		<th width="10%">版本</th>
+		<th width="10%">影视类型</th>
+		<th width="12%">操作</th>
+		<th width="6%">创建人</th>
+		<th width="8%">最后修改人</th>
+		<th width="10%">最后修改时间</th>
+		<th width="6%">影视ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="yingshiCheckbox" value="<($item.yi_globalid)>"></td>		
+		<td title="<($item.yi_title|escape|@addslashes)>">
+			<(if $item.yi_delflag == 0)>
+				<a href="?c=yingshi&m=edit&yi_globalid=<($item.yi_globalid)>&tn=yingshi_edit"  class="showedit"><($item.yi_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.yi_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td>		
+    	<td><(if $item.yi_versions)><($item.yi_versions)><(else)><(/if)></td>
+		<td><(if $item.yi_type)><($data.form_option.yi_type[$item.yi_type])><(/if)></td>
+		<td align="center">
+			<(if $smarty.get.search_delflag == 1 || (strlen($item.yi_delflag) >0 && $item.yi_delflag ==1))>
+				<a class="x-yingshi-recovery" href="?c=yingshi&m=disDelete&search_status=1&yi_globalid=<($item.yi_globalid)>" target="_blank" > 恢复 </a>
+			<(else)>
+			   	<(if strlen($item.yi_status) >0 && $item.yi_status == 0)>
+				      <(if $user.ub_groupid != 0)> <a class="x-yingshi-offline" href="?c=yingshi&m=disPub&search_status=1&yi_globalid=<($item.yi_globalid)>" >下线</a><(/if)>
+				<(else)>   
+					 <(if $user.ub_groupid != 0)><a class="x-yingshi-pub" href="?c=yingshi&m=pub&search_status=0&yi_globalid=<($item.yi_globalid)>">发布</a> <(/if)>
+				    | <a class="x-yingshi-del" href="?c=yingshi&m=delete&search_status=1&yi_globalid=<($item.yi_globalid)>">删除</a>
+			
+				<(/if)> 
+				<(if strlen($item.yi_prohibit_type) >0&&$item.yi_prohibit_type==4)><(else)> | <a href="?c=yingshi&m=prohibit&yi_globalid=<($item.yi_globalid)>" class="x-yingshi-prohibit" status =<($item.yi_status)> >屏蔽</a><(/if)>
+			<(/if)>
+			</td>
+		<td align="center"><($item.yi_joinuser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td align="center"><($item.yi_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td align="center"><(if strlen($item.yi_edittime) >0&&$item.yi_edittime!=0)><($item.yi_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+		<td><($item.yi_globalid)></td>
+	</tr>
+<(/foreach)>
+</table>
+
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	<(if !($smarty.get.search_delflag == 1))>
+		 
+		 <(if $smarty.get.search_status==1)>
+		    <a href="?c=yingshi&m=batchDelete" class="batchDelete">批量删除</a>
+		 
+			<a href="?c=yingshi&m=batchPub" class="publishAll">批量发布</a>
+		 <(/if)>
+	<(else)>
+		<a href="?c=yingshi&m=batchDisDelete" class="batchDisDelete">批量恢复</a>
+	 <(/if)>
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>  
+</div>
+<include file="common/footer.inc.html">
+
+

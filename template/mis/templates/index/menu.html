@@ -1,0 +1,39 @@
+<(include file="common/header.inc.html" title="菜单项")>
+<link rel="stylesheet" href="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/accordion.res/accordion.css" />
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/jquery.easing.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/jquery.dimensions.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/plugins/jquery.accordion.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		// second simple accordion with special markup
+		jQuery('#navigation').accordion(
+		{
+			header: '.head',
+			fillSpace: true
+		});
+	});
+</script>
+<div  style="height:360px;">
+	<ul id="navigation">
+		<(foreach from=$menuList item=menuItem)>
+		<(if ($user.ub_groupid == 0||$user.ub_groupid == 1)&&($menuItem.prefix == "user"||$menuItem.prefix == "dictionary"||$menuItem.prefix == "copyright"))>
+			
+		<(elseif ($menuItem.prefix == "user"&&$user.ub_groupid == 2)||($menuItem.prefix == "copyright"&&$user.ub_groupid == 2))>	
+				
+		<(else)>
+				<li>
+					<(if $menuItem.sublist)>
+						<a class="head"><($menuItem.title)></a>
+						<ul>
+							<(foreach from=$menuItem.sublist item=subItem)>
+							<li><a href="<($subItem.url|escape)>" target = "<(if $subItem.target)> <($subItem.target)> <(else)>mainFrame<(/if)>"><($subItem.title)></a></li>
+							<(/foreach)>
+						</ul> 
+					<(else)>
+						<a class="head" href="<($menuItem.url|escape)>" target = "<(if $subItem.target)> <($subItem.target)> <(else)>mainFrame<(/if)>"><($menuItem.title)></a>
+					<(/if)>
+				</li>
+			<(/if)>
+		<(/foreach)>
+	</ul>
+</div>

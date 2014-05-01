@@ -1,0 +1,98 @@
+<(include file="common/header.inc.html")>
+ <script type="text/javascript" src="static/js/show/showList.js" ></script>
+ 
+<(if $smarty.get.search_delflag == 1)>
+	<(assign var="delflag" value="sn_delflag")>
+<(else)>
+	<(assign var="delflag" value="")>
+<(/if)>
+
+<(assign var="o" value=$data.search_option)>
+
+<div style="display:none;"> <(* <($data|var_dump)> *)>  </div>
+<(include file="listSearch/showSearchBar.html" title="show" option=$data.search_option)>
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+
+<table width="100%" class="qukuDataGrid">
+	<tr>
+		<th width="60"><input type="checkbox" name="batchCheckbox">全选</th>
+		<th>演出名</th>
+		<th>明星</th>
+    <th>来源</th>
+    <th>开始时间</th>
+   
+		<th>操作</th>
+		<th>创建人</th>
+    <th>创建时间</th>
+		<th>最后修改人</th>
+		<th>最后修改时间</th>
+		<th>ID</th>
+	</tr>
+<(foreach from=$data.list_rows item=item)>
+	<tr>
+		<td class="txt_center"><input type="checkbox" name="showCheckbox" value="<($item.sn_globalid)>"></td>
+		<td title="<($item.sn_title|escape|@addslashes)>">
+			<(if $item.sn_delflag == 0)>
+			<a href="?c=show&m=edit&sn_globalid=<($item.sn_globalid)>&tn=show_edit"  class="showedit"><($item.sn_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)></a>
+			<(else)>
+			<($item.sn_title|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+			<(/if)>
+		</td>
+    <td  class="author">
+	 <(assign var="quku_artist_works_ref" value=$item.quku_artist_works_ref)>
+	
+	<(foreach from=$quku_artist_works_ref item=i key=k name=author_list)>
+	<(if !$i['awr_artist_id'])>
+		<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+	<(else)>
+		<(if $smarty.get.search_delflag == 1)>
+			<($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)>
+		<(else)>
+			<a href="?c=artist&m=edit&ab_globalid=<($i['awr_artist_id'])>&tn=artist_edit"  class="showedit"> <($i['awr_artist_name']|@mb_strimwidth:0:50:'...':'utf-8'|escape)> </a>
+		<(/if)>
+	<(/if)>
+	<(if !$smarty.foreach.author_list.last)>	,<(/if)>
+	<(/foreach)>
+    </td>
+    <td><($item.sn_spidersite|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td><(if $item.sn_begintime)><($item.sn_begintime|date_format:"%Y-%m-%d %H:%M:%S")><(else)><(/if)></td>
+  
+		<td>
+		<(if $smarty.get.search_delflag == 1)>
+				<a class="x-show-recovery" href="?c=show&m=disDelete&sn_status=1&sn_globalid=<($item.sn_globalid)>" > 恢复 </a>
+		<(else)>
+			<(if $item.sn_status == 0)>
+				<a class="x-show-offline" href="?c=show&m=disPub&sn_status=1&sn_globalid=<($item.sn_globalid)>" > 下线 </a>
+			<(else)>				
+				<a class="x-show-pub" href="?c=show&m=pub&sn_status=0&sn_globalid=<($item.sn_globalid)>" > 发布 </a>
+				|<a class="x-show-del" href="?c=show&m=delete&sn_status=1&sn_globalid=<($item.sn_globalid)>" > 删除 </a>
+			<(/if)>
+		<(/if)>
+			</td>
+		<td><($item.sn_joinuser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+    <td><(if strlen($item.sn_jointime) >0 && $item.sn_jointime!=0)><($item.sn_jointime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+		<td><($item.sn_edituser|@mb_strimwidth:0:50:'...':'utf-8'|escape)></td>
+		<td><(if strlen($item.sn_edittime) >0 && $item.sn_edittime!=0)><($item.sn_edittime|date_format:"%Y-%m-%d %H:%M")><(/if)></td>
+		<td><($item.sn_globalid)></td>
+	</tr>
+<(/foreach)>
+</table>
+
+<div style="margin:10px 0 0 0 ">
+    <span><input type="checkbox" name="batchCheckbox"> 全选</span>
+	<(if !($smarty.get.search_delflag == 1))>
+		 <(if $smarty.get.search_status == 1)>
+		    <a href="?c=show&m=batchDelete" class="batchDelete">批量删除</a>
+		    <a href="?c=show&m=batchPub" class="publishAll">批量发布</a>
+	     <(/if)>
+	 
+	 <(/if)>
+	 <span class="x-page-count">总记录数：<($data.count)></span>
+</div>
+
+<div style="margin:10px 0">每页显示：<(foreach from=$o.search_page_size.option item=item name=page_option)><a href="?search_page_size=<($item)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($data.list_page_code)>
+</div>
+<include file="common/footer.inc.html">
+

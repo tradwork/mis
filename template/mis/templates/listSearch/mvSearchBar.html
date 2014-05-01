@@ -1,0 +1,87 @@
+<(extends file="listSearch/abstract.searchBar.html")>
+<!-- option define javascript -->
+<(block name="optionInit")>
+
+ $.extend(quku_v.searchOption.option,{
+    search_field2: <(if $option.search_field2.option)>[ 
+								<(foreach from=$option.search_field2.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)> ,
+     search_prohibit: <(if $option.search_prohibit.option)>[ 
+								<(foreach from=$option.search_prohibit.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)> ,
+     search_provider: <(if $option.search_provider.option)>[ 
+								<(foreach from=$option.search_provider.option key=key item=item)> 
+									{'display':"<($item)>",'value':"<($key)>"},
+								<(/foreach)> 
+						    ]  <(else)> [] <(/if)>	
+	});
+	
+	
+<(/block)>
+
+<!-- document ready  javascript -->
+$(document).ready(function(){
+	<(block name="domDataInit")>								
+		$('#search_field2').selectfield({
+			 labelText: '搜索类型',
+			 store: Toption.search_field2,
+			 value: <(if strlen($data.current_option.search_field2) >0)>'<($data.current_option.search_field2)>'<(else)>''<(/if)> ? 
+							  '<($data.current_option.search_field2)>' : 'ab_edittime'
+		});	
+        $('#search_content2').textfield({
+		     labelText: '关键字',
+			value: <(if strlen($data.current_option.search_content2) >0)>'<($data.current_option.search_content2)>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_content2)>' : ''
+	
+		});
+        $('#search_tagname').textfield({
+		 labelText: '标签名',
+		 value: <(if strlen($data.current_option.search_tagname) >0)>'<($data.current_option.search_tagname|escape:"html")>'<(else)>''<(/if)> ? 
+		                  '<($data.current_option.search_tagname|escape:"html")>' : ''
+	});		
+	
+	$('#search_prohibit').selectfield({
+			 labelText: '屏蔽类型',
+			 store: Toption.search_prohibit,
+			 value: <(if strlen($data.current_option.search_prohibit) >0)>'<($data.current_option.search_prohibit)>'<(else)>''<(/if)> ? 
+							  '<($data.current_option.search_prohibit)>' : 5
+		});	
+	$('#search_provider').selectfield({
+			 labelText: '视频来源',
+			 store: Toption.search_provider,
+			 value: <(if strlen($data.current_option.search_provider) >0)>'<($data.current_option.search_provider)>'<(else)>''<(/if)> ? 
+							  '<($data.current_option.search_provider)>' : 5
+		});	
+	<(/block)>
+});
+
+<!--搜索类型  --->
+<(block name="searchtype_block" append)>
+	<span style="color:red;">and</span>
+    <!-- 搜索类型 -->
+	<div id="search_field2" class="x-layout-search-item"> </div>
+	
+	<!-- 关键字 -->
+	<div id="search_content2" class="x-layout-search-item"></div>
+	<(block name="mv_searchProhibit_block")>
+    	<div id="search_prohibit" class="x-layout-search-item"></div>
+	<(/block)>
+	<(block name="mv_search_provider_block")>
+		<div id="search_provider" class="x-layout-search-item"></div>
+	<(/block)>
+	<br>
+<(/block)>
+
+<!--屏蔽类型  --->
+<(block name="searchStatus_block" append)>
+	
+	<!-- <div id="search_order" class="x-layout-search-item"> </div> -->
+		
+		<!-- 标签名 --->
+		<div id="search_tagname" class="x-layout-search-item"> </div>
+	
+<(/block)>

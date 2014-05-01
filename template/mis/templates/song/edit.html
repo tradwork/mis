@@ -1,0 +1,10 @@
+<(extends file="song/abstract.form.inc.html")>
+
+<(block name="initData" append)>
+<($title="修改单曲")>
+<($formAction="doEdit")>
+<(/block)>
+
+<(block name="inline_js")>
+	quku_v.songForm.formArray.setValue(quku_v.song.data);
+<(/block)>

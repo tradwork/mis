@@ -1,0 +1,94 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.album==='undefined' ) 
+{ 
+    quku_v.album = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.album.data={
+
+	ai_globalid: <(if strlen($data.quku_albums_info.ai_globalid) >0)>"<($data.quku_albums_info.ai_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	ai_album: <(if strlen($data.quku_albums_info.ai_album) >0)>"<($data.quku_albums_info.ai_album|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_album_id: <(if strlen($data.quku_albums_info.ai_globalid) >0)>"<($data.quku_albums_info.ai_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	quku_artist_works_ref: <(if strlen($data.quku_artist_works_ref) >0)>"<($data.quku_artist_works_ref|escape:'javascript')>"<(else)>''<(/if)>,
+
+	ai_aliasalbum: <(if strlen($data.quku_albums_info.ai_aliasalbum) >0)>"<($data.quku_albums_info.ai_aliasalbum|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_translatename: <(if strlen($data.quku_albums_info.ai_translatename) >0)>"<($data.quku_albums_info.ai_translatename|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_info: <(if strlen($data.quku_albums_info.ai_info) >0)>"<($data.quku_albums_info.ai_info|escape:'javascript')>"<(else)>''<(/if)>,
+
+	ai_language: <(if strlen( $data.quku_albums_info.ai_language) > 0)>"<($data.quku_albums_info.ai_language|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_area: <(if strlen( $data.quku_albums_info.ai_area) >0)> "<($data.quku_albums_info.ai_area|escape:'javascript')>" <(else)>''<(/if)>,
+	ai_audit_status: <(if strlen( $data.quku_albums_info.ai_audit_status) >0)> "<($data.quku_albums_info.ai_audit_status|escape:'javascript')>" <(else)>''<(/if)>,
+	ai_audit_info: <(if strlen( $data.quku_albums_info.ai_audit_info) >0)> "<($data.quku_albums_info.ai_audit_info|escape:'javascript')>" <(else)>''<(/if)>,
+	
+	ai_duration: <(if strlen($data.quku_albums_info.ai_duration) >0)>"<($data.quku_albums_info.ai_duration|escape:'javascript')>"<(else)>''<(/if)>,
+
+	ai_version: <(if strlen($data.quku_albums_info.ai_version) >0)>"<($data.quku_albums_info.ai_version|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_publishcompany: <(if strlen($data.quku_albums_info.ai_publishcompany) >0)>"<($data.quku_albums_info.ai_publishcompany|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_sub_publishcompany: <(if strlen($data.quku_albums_info.ai_sub_publishcompany) >0)>"<($data.quku_albums_info.ai_sub_publishcompany|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_publishtime: <(if strlen($data.quku_albums_info.ai_publishtime) >0)>"<($data.quku_albums_info.ai_publishtime|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_songs_total: <(if strlen($data.quku_albums_info.ai_songs_total) >0)>"<($data.quku_albums_info.ai_songs_total|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_styles: <(if $data.quku_albums_info.ai_styles)>"<($data.quku_albums_info.ai_styles|escape:'javascript')>"<(else)>''<(/if)>,
+
+	ai_productid: <(if $data.quku_albums_info.ai_productid)>"<($data.quku_albums_info.ai_productid|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_productid_flag: <(if $data.quku_albums_info.ai_productid_flag)>"<($data.quku_albums_info.ai_productid_flag|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_synonym: <(if strlen($data.quku_albums_info.ai_synonym) >0)>"<($data.quku_albums_info.ai_synonym|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_source: <(if strlen($data.quku_albums_info.ai_source) >0)>"<($data.quku_albums_info.ai_source|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_editusernow:<(if strlen($data.quku_albums_info.ai_editusernow) >0)>"<($data.quku_albums_info.ai_editusernow|escape:'javascript')>"<(else)>''<(/if)>,
+	ai_authorisation_url:<(if strlen($data.quku_albums_info.ai_authorisation_url) >0)>"<($data.quku_albums_info.ai_authorisation_url|escape)>"<(else)>''<(/if)>,
+		                                                                                                                                                            ai_brief_info: <(if $data.quku_albums_info.ai_brief_info)>"<($data.quku_albums_info.ai_brief_info|escape:'javascript')>"<(else)>''<(/if)> ,
+	quku_tag_info_rel: <(if sizeof($data.quku_tag_info_rel) >0)>[
+							 <(foreach from=$data.quku_tag_info_rel key=key item=item name='relatively_links')> 
+								["<($item.td_name|escape:'javascript')>","<($item.ti_weight|escape:'javascript')>","<($item.ti_tagid|escape:'javascript')>","<($item.ti_id|escape:'javascript')>","<($item.ti_infoid|escape:'javascript')>","<($item.ti_infotype|escape:'javascript')>","<($item.ti_lastupdatetime|escape:'javascript')>"]
+								<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+							 <(/foreach)> 
+						]<(else)>[]<(/if)>,	
+	 
+	ai_versionOption: <(if $data.option.ai_version)>[ 
+						<(foreach from=$data.option.ai_version key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ai_stylesOption:  <(if $data.option.ai_styles)>[ 
+						<(foreach from=$data.option.ai_styles key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ai_areaOption: <(if $data.option.ai_area)>[ 
+						<(foreach from=$data.option.ai_area key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+	ai_languageOption: <(if $data.option.ai_language)>[ 
+						<(foreach from=$data.option.ai_language key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+    ai_sourceOption:  <(if $data.option.ai_source)>[ 
+						<(foreach from=$data.option.ai_source key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+    ai_productid_flagOption: <(if $data.option.ai_productid_flag)>[ 
+						<(foreach from=$data.option.ai_productid_flag key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+    ai_audit_statusOption: <(if $data.option.ai_audit_status)>[ 
+						<(foreach from=$data.option.ai_audit_status key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+
+    ai_audit_infoOption: <(if $data.option.ai_audit_info)>[ 
+						<(foreach from=$data.option.ai_audit_info key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,				   
+}

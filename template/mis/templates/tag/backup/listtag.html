@@ -1,0 +1,33 @@
+<(include file="common/header.inc.html" title="Tag列表")>
+<(include file="common/searchBar2.html" title="album" searchOption=$ai_searchOption statusOption=$ai_statusOption auditstatusOption=$ai_auditstatusOption orderOption=$ai_orderOption picOption=$ai_picOption scendOption=$ai_scendOption    delflag=$delflag searchtime=$ai_searchtimeOption)>
+<div style="margin:10px 0">每页显示：<(foreach from=$pageOption item=item name=page_option)><a href="?c=<($smarty.get.c)>&m=listtag&tn=<($smarty.get.tn)>&pageOption=<($item)><(if $smarty.get.page)>&page=<($smarty.get.page)><(/if)><(if $smarty.get.search_content)>&search_content=<($smarty.get.search_content|escape:'url')><(/if)><(if $smarty.get.searchtype)>&searchtype=<($smarty.get.searchtype)><(/if)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<div style="width:100%">
+	<table width="100%" class="qukuDataGrid">
+		<tr>
+			<th>Tag ID</th>
+			<th>Tag名称</th>
+			<th>分类</th>
+			<th>操作</th>
+		</tr>
+		<(foreach from=$list item=item)>
+		<tr>
+			<td class="txt_center"><($item.te_id)></td>
+			<td class="txt_center"><($item.te_name)></td>
+			<td class="txt_center"><($item.te_categoryname)></td>
+			<td class="txt_center">
+				<a href="?c=tag&m=edittagword&tn=tag_edittagword&te_id=<($item.te_id)>">编辑词表</a>
+			</td>
+		</tr>
+		<(/foreach)>
+	</table>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="listft">
+		<tr>
+	
+			<td width="59%" class="gry">Tag列表页<(if $list_count)>总计：<($list_count)><(else)>暂无数据<(/if)></td>
+			</tr>
+	</table>
+</div>
+<div style="margin:10px 0">每页显示：<(foreach from=$pageOption item=item name=page_option)><a href="?c=<($smarty.get.c)>&m=listtag&tn=<($smarty.get.tn)>&pageOption=<($item)><(if $smarty.get.page)>&page=<($smarty.get.page)><(/if)><(if $smarty.get.search_content)>&search_content=<($smarty.get.search_content|escape:'url')><(/if)><(if $smarty.get.searchtype)>&searchtype=<($smarty.get.searchtype)><(/if)>"  class="page_option"><($item)></a><(if !$smarty.foreach.page_option.last)> | <(/if)><(/foreach)> 条</div>
+<($list_page)>
+</div>
+<include file="common/footer.inc.html">

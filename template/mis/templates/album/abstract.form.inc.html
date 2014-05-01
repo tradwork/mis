@@ -1,0 +1,284 @@
+<(include file="common/header.inc.html")>
+<(block name="initData")>
+
+<(/block)>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/album/album.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/album/albumForm.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/song/song.js"></script>
+
+<script type="text/javascript">
+
+/*
+		<($data.quku_pic_info|var_dump)>
+		*/
+var jsonPic = <(if $data.quku_albums_info.ai_globalid)><($data.quku_pic_info)><(else)>[]<(/if)>;
+
+
+var jsonSong = <(if $data.quku_albums_info.ai_globalid)><($data.quku_songs_list)><(else)>[]<(/if)>;
+
+		//模版变量转换为js变量，统一管理模版变量， 并便于其他js中引用
+		<(include file="album/convertData.html")>
+		
+$(document).ready(function(){
+	var T = quku_v.albumForm, data = quku_v.album.data;
+	quku_v.albumForm.displayPanel(data);
+  
+ 
+  window.origid_g=[];
+  window.origid_g['quku_artist_works_ref'] = $('#quku_artist_works_ref').val(); 
+  <(block name="inline_js")>
+  <(/block)>
+ 
+});
+/*
+  $(".spiderOpen").click(function(){
+	  var target = $(this).parent().next(".spiderList");
+	  if($(this).text() == "\u5C55\u5F00"){
+		  $(this).text("最小化");
+		  target.show();
+	  }else{
+		  $(this).text("展开");
+		  target.hide();
+	  } 
+	});
+   
+});
+function changeSongShowStatus() {
+	$('#tableSong').toggle('slow');
+};
+*/
+
+	</script>
+	
+<style>
+	.spiderHead{background:blue;line-height:24px;color:#fff;padding:0 10px;overflow:hidden;margin-top:2px}
+	.spiderOpen{float:right;font-weight:bold;cursor:pointer}
+	.spiderList{display:none}
+	.spiderTit{color: #3F84C7;font-weight: bold;}
+	.alignCenterTr td{text-align:left}
+	
+	
+	 #tablePicHidden{
+       display:inline-block;
+    }
+	.language{width:100px;height:95px;}
+	.fl{float:left;}
+	.tb_form { border:none; }
+	#contentSongs input[type="checkbox"] {
+		margin-top: 5px;
+	}
+</style>
+<body>
+<(if $data.quku_albums_info.ai_globalid)>
+	<input type="hidden" id = "ai_globalid" name="ai_globalid" value="<($data.quku_albums_info.ai_globalid)>" />
+	<(if $user.ub_groupid==1)>
+	<input type="hidden" id ="action" value="saveInCache" />
+	<(else)>
+	<input type="hidden" id ="action" value="doEdit" />
+	<(/if)>
+<(else)>
+	<input type="hidden" id ="action" value="doCreate" />
+<(/if)>
+
+<input type="hidden" id="languageValues" value="" />
+<input type="hidden" id ="channel" value="2" />
+<div id="contentBase"> 
+	<fieldset>
+		<legend><label>必填信息</label></legend>
+        <!-- 专辑名 -->
+		<div id="ai_album" class="x-layout-item"></div>	    
+		
+		 <!-- 专辑ID -->
+		<div id="ai_album_id" class="x-layout-item"></div>	    
+		
+		 <!-- 发行时间 -->
+		<div id="ai_publishtime" class="x-layout-item"></div>	 
+		
+		 <!-- 歌手 -->
+		<div id="quku_artist_works_ref" class="x-layout-item"></div>	 
+		
+		 <!-- 发行公司 -->
+		<div id="ai_publishcompany" class="x-layout-item"></div>	 
+		
+		 <!-- 厂牌公司 -->
+		<div id="ai_sub_publishcompany" class="x-layout-item"></div>	 
+		
+		 <!-- 来源 -->
+		<div id="ai_source" class="x-layout-item"></div>	 
+		
+		 <!-- 版本 -->
+		<div id="ai_version" class="x-layout-item"></div>	 
+		
+		 <!-- 发行地区 -->
+		<div id="ai_area" class="x-layout-item"></div>	 
+
+		 <!-- 短简介-->
+		<div id="ai_brief_info" class="x-layout-item"></div>	 
+		
+		<!--  锁定人  -->
+		<(if $user.ub_groupid == 3)>
+		<div id="ai_editusernow" class="x-layout-item"></div>
+		<(/if)>
+		
+		 <!-- 专辑海报 -->
+		<div id="quku_pic" class="x-layout-block tb_form">		  
+              <span id="quku_pic_label"></span>			  
+			  <table id="tablePic">
+				<tr>
+					<td class="fieldName" style="text-align:left;width:80px!important;">预览</td>
+					<td class="fieldName" style="text-align:left;width:80px!important;">操作</td>
+					<td class="fieldName" style="text-align:left;width:45px!important;">宽度</td>
+					<td class="fieldName" style="text-align:left;width:45px!important;">高度</td>
+					<td class="fieldName" style="text-align:left;">上传文件</td>
+					<td class="fieldName" style="text-align:left;">描述信息<span style="color:pink">[为图片检索提供素材]</span></td>
+				</tr>
+				<div id=tablePicHidden></div>
+			</table>
+		</div>	 
+		
+		
+	</fieldset>
+</div>
+ <div id="contentDetail">
+	<fieldset>
+		<legend><label>详细信息</label></legend>
+	     <!-- 风格 -->
+		<div id="ai_styles" class="x-layout-item"></div>	 
+		
+		 <!-- 语言 -->
+		<div id="ai_language" class="x-layout-item"></div>	 
+		
+		 <!-- 专辑别名 -->
+		<div id="ai_aliasalbum" class="x-layout-item"></div>	 
+		
+		 <!-- 专辑译名 -->
+		<div id="ai_translatename" class="x-layout-item"></div>	 
+		
+		 <!-- 同义词 -->
+		<div id="ai_synonym" class="x-layout-item"></div>	 
+		
+		 <!-- 专辑单曲总数 -->
+		<div id="ai_songs_total" class="x-layout-item"></div>	
+
+		 <!-- 专辑产品号来源 -->
+		<div id="ai_productid_flag" class="x-layout-item"></div>	 
+		
+		<!-- 专辑产品号 -->
+		<div id="ai_productid" class="x-layout-item"></div>	 
+		
+		<!-- 专辑时长 -->
+		<div id="ai_duration" class="x-layout-item"></div>	
+		
+		<!-- 授权书 -->
+		<div id="ai_authorisation_url" class="x-layout-item"></div>
+			<!-- 授权书：		
+			<($data.quku_albums_info.ai_authorisation_url='http://img3.douban.com/view/site/large/public/b4fcd9e7374fd1b.jpg')>
+			<a href="<($data.quku_albums_info.ai_authorisation_url|escape)>" title="" target="_blank">	
+				<img src="<($data.quku_albums_info.ai_authorisation_url|escape)>" alt="" />
+			</a>
+		</div> -->
+
+		<!-- 专辑介绍 -->
+		<div id="ai_info" class="x-layout-block"></div>	 
+		
+		<!--标签管理信息-->
+		<div id="quku_tag_info_rel" class="x-layout-block tb_form"></div>
+
+	</fieldset>
+</div>
+<div id="contentSongs"> 
+	<fieldset>
+		<legend><label onclick="changeSongShowStatus();">歌曲列表</label></legend>
+		
+	  	
+		<table id="tableSong"  width="100%" class="tb_preview tb_form" >
+		<tr>
+		        <td  class="spiderTit" ><input  type="checkbox" id="si_selectAll"/></td>
+		        <td  class="spiderTit" >发布状态</td>
+				<td  class="spiderTit" >光盘序号</td>
+				<td  class="spiderTit" >排序<div id="nb_ai_album_items_sort"></div></td>
+				<td  class="spiderTit" >歌曲ID</td>
+				<td  class="spiderTit" >歌曲名</td>
+				<td  class="spiderTit" >歌手名</td>
+				<td  class="spiderTit" >语言<span id="nb_ai_album_items_language"></span></td>
+				
+				<td  class="spiderTit" >音频</td>
+				<td  class="spiderTit" >操作</td>
+				<td  class="spiderTit" >上传状态</td>
+			</tr>
+			<div id=tableSongHidden></div>
+		</table>
+		<input class="button01"  name="button" type="button" value="增加行" onclick="newAddSongRow(1, null , null , $('.si_album_no'))">
+		<div id="nb_quku_song_info"></div>
+	
+	</fieldset>
+</div>
+<!-- start spider -->
+<(foreach from=$spider_songlist key= key item=item name=spider)>
+<div class="spiderHead">
+来源： <b><($key)></b><span  class="spiderOpen" >展开</span>
+</div>
+<div class="spiderList">
+	<fieldset>
+		<legend><label > 歌曲列表</label></legend>
+		<table  class="tb_preview"  width="100%">
+				<tr>
+						<td class="spiderTit"  width="40">全选</td>
+						<td class="spiderTit" >光盘序号</td>
+						<td class="spiderTit" >排序</td>
+						<td class="spiderTit" >歌曲名</td>
+						<td class="spiderTit" >歌手名</td>
+						<td class="spiderTit" >语言</td>
+						
+						<td class="spiderTit" >音频</td>
+				</tr>
+				<(foreach from=$item key=subKey item=subItem)>
+				<tr>
+					<td><input type="checkbox" name="chk_single_<($smarty.foreach.spider.iteration)>"  title="<($subItem.si_id)>" /></td>
+					<td><($subItem.si_cd_no)></td><td><($subItem.si_album_no)></td>
+					<td><($subItem.si_title)></td><td><($subItem.si_author)></td>
+					<td><($subItem.si_language)></td><td><($subItem.si_songwritingcopyright)></td>
+
+					<td>
+						<(foreach from=$subItem.quku_songs_files key=songFileKey item=songFileItem)>
+							<a href="<($songFileItem.sf_file_link)>"><($songFileItem.sf_file_bitrate)></a>
+						<(/foreach)>
+					</td>
+				</tr>
+				<(/foreach)>
+		</table>
+		<br>
+		<a href="javascript:void(0)"  onclick="$('input[name=\'chk_single_<($smarty.foreach.spider.iteration)>\']').attr('checked',true);">全选</a>/<a href="javascript:void(0)" onclick="$('input[name=\'chk_single_<($smarty.foreach.spider.iteration)>\']').attr('checked',false);">取消</a> 
+		<input class="button01"   type="button" value="添加所选"  onclick="insertSpider('chk_single_<($smarty.foreach.spider.iteration)>')"> 
+		<input class="button01"   type="button" value="应用此来源歌曲列表"  onclick="insertSpider('chk_single_<($smarty.foreach.spider.iteration)>',true)">
+	</fieldset>
+</div>
+<(/foreach)>
+	<fieldset>
+	<div id="ai_audit">
+		<div id="ai_audit_status" style="float:left;width:350px;"></div>
+		<div id="ai_audit_info" style="float:left;width:350px;"></div>
+		<div id="ai_audit_reason">其他：<input type="text" value="" name="ai_audit_info[]" /></div>
+	</div>
+	</fieldset>
+<!-- end spider -->
+<div class="space10"></div>
+<div id="operation">
+	<(if strlen($data.quku_albums_info.ai_status) >0 && $data.quku_albums_info.ai_status==0)>		
+		<input type="button" value="保存" class="button01" onclick="Album.saveAndPub();" style="float:left;margin-right:15px;"></input>		
+		<input type="button" value="下线" class="button01" onclick="Album.offline();" style="float:left"></input>
+		
+	<(else)>
+		<input type="button" value="保存" class="button01" onclick="Album.save();" style="float:left"></input>
+		<input type="button" value="保存并发布" class="button01" onclick="Album.saveAndPub();" style="float:left"></input>
+	<(/if)>
+
+</div>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/duplicateName.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picUpload.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/picRowController.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/songRowController.js"></script>
+
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/components/win.js"></script>
+<(include file="common/footer.inc.html")>

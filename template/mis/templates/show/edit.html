@@ -1,0 +1,13 @@
+<(include file="show/form.inc.html" title="编辑演出")>
+
+
+<(extends file="show/abstract.form.inc.html")>
+
+<(block name="initData" append)>
+<($title="编辑演出")>
+
+<(/block)>
+
+<(block name="inline_js")>
+	quku_v.showForm.formArray.setValue(quku_v.show.data);
+<(/block)>

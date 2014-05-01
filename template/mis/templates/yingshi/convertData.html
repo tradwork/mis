@@ -1,0 +1,95 @@
+/*
+=========================================
+|translate smarty variable to js variable
+|json key is id of element
+=========================================
+*/
+quku_v = window.quku_v || {};
+if(typeof quku_v.yingshi === "undefined"){
+	quku_v.yingshi = {};
+}
+quku_v.yingshi.data = {
+   
+	yi_globalid: <(if strlen($data.quku_yingshi_info.yi_globalid) >0)>"<($data.quku_yingshi_info.yi_globalid|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_title:    <(if strlen($data.quku_yingshi_info.yi_title) >0)>"<($data.quku_yingshi_info.yi_title|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_title_id: <(if strlen($data.quku_yingshi_info.yi_globalid) >0)>"<($data.quku_yingshi_info.yi_globalid|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_aliastitle: <(if strlen($data.quku_yingshi_info.yi_aliastitle) >0)>"<($data.quku_yingshi_info.yi_aliastitle|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_translatename: <(if strlen($data.quku_yingshi_info.yi_translatename) >0)>"<($data.quku_yingshi_info.yi_translatename|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_info: <(if strlen($data.quku_yingshi_info.yi_info) >0)>"<($data.quku_yingshi_info.yi_info|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_main: <(if strlen($data.quku_yingshi_info.yi_main) >0)>"<($data.quku_yingshi_info.yi_main|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_guest: <(if strlen($data.quku_yingshi_info.yi_guest) >0)>"<($data.quku_yingshi_info.yi_guest|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_director: <(if strlen($data.quku_yingshi_info.yi_director) >0)>"<($data.quku_yingshi_info.yi_director|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_versions: <(if strlen($data.quku_yingshi_info.yi_versions) >0)>"<($data.quku_yingshi_info.yi_versions|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_session: <(if strlen($data.quku_yingshi_info.yi_session) >0)>"<($data.quku_yingshi_info.yi_session|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_area: <(if strlen($data.quku_yingshi_info.yi_area) >0)>"<($data.quku_yingshi_info.yi_area|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_language:<(if strlen($data.quku_yingshi_info.yi_language) >0)>"<($data.quku_yingshi_info.yi_language|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_type:<(if strlen($data.quku_yingshi_info.yi_type) >0)>"<($data.quku_yingshi_info.yi_type|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_publishtime: <(if strlen($data.quku_yingshi_info.yi_publishtime) >0)>"<($data.quku_yingshi_info.yi_publishtime|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_label: <(if strlen($data.quku_yingshi_info.yi_label) >0)>"<($data.quku_yingshi_info.yi_label|escape:'javascript')>"<(else)>""<(/if)>,
+	yi_pid: <(if strlen($data.quku_yingshi_info.yi_pid) >0)>"<($data.quku_yingshi_info.yi_pid|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_isrc: <(if strlen($data.quku_yingshi_info.yi_isrc) >0)>"<($data.quku_yingshi_info.yi_isrc|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_source_path: <(if strlen($data.quku_yingshi_info.yi_source_path) >0)>"<($data.quku_yingshi_info.yi_source_path|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_joinuser: <(if strlen($data.quku_yingshi_info.yi_joinuser) >0)>"<($data.quku_yingshi_info.yi_joinuser|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_editusernow: <(if strlen($data.quku_yingshi_info.yi_editusernow) >0)>"<($data.quku_yingshi_info.yi_editusernow|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_edituidnowtime: <(if strlen($data.quku_yingshi_info.yi_edituidnowtime) >0)>"<($data.quku_yingshi_info.yi_edituidnowtime|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_edittime: <(if strlen($data.quku_yingshi_info.yi_edittime) >0)>"<($data.quku_yingshi_info.yi_edittime|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_edituser: <(if strlen($data.quku_yingshi_info.yi_edituser) >0)>"<($data.quku_yingshi_info.yi_edituser|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_status: <(if strlen($data.quku_yingshi_info.yi_status) >0)>"<($data.quku_yingshi_info.yi_status|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_delflag: <(if strlen($data.quku_yingshi_info.yi_delflag) >0)>"<($data.quku_yingshi_info.yi_delflag|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_priority: <(if strlen($data.quku_yingshi_info.yi_priority) >0)>"<($data.quku_yingshi_info.yi_priority|escape:'javascript')>"<(else)>""<(/if)>,
+    yi_priority_settime: <(if strlen($data.quku_yingshi_info.yi_priority_settime) >0)>"<($data.quku_yingshi_info.yi_priority_settime|escape:'javascript')>"<(else)>""<(/if)>,
+
+    quku_yingshi_ref:<(if sizeof($data.quku_yingshi_ref) >0)>[
+                                 <(foreach from=$data.quku_yingshi_ref key=key item=item name='songs_writing')>
+                                    ["<($item.yr_itemid|escape:'javascript')>","<($item.yr_order|escape:'javascript')>","<($item.yr_ref_type|escape:'javascript')>","<($item.yr_content_type|escape:'javascript')>"]
+                                    <(if !$smarty.foreach.songs_writing.last)>  ,<(/if)>
+                                 <(/foreach)>
+                            ]<(else)>[]<(/if)>,
+    
+    yr_ref_typeOption :<(if $data.option.yr_ref_type)>[
+                        <(foreach from=$data.option.yr_ref_type key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,
+    yr_content_type_1Option :<(if $data.option.yr_content_type_1)>[
+                        <(foreach from=$data.option.yr_content_type_1 key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,
+    yi_areaOption :<(if $data.option.yi_area)>[
+                        <(foreach from=$data.option.yi_area key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,
+    yi_typeOption :<(if $data.option.yi_type)>[
+                        <(foreach from=$data.option.yi_type key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,
+
+    yi_languageOption :<(if $data.option.yi_language)>[
+                        <(foreach from=$data.option.yi_language key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,
+    tag_1 :<(if $data.option.yr_content_type_1)>[
+                        <(foreach from=$data.option.yr_content_type_1 key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,                  
+    tag_2 :<(if $data.option.yr_content_type_2)>[
+                        <(foreach from=$data.option.yr_content_type_2 key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,
+    tag_101 :<(if $data.option.yr_content_type_1)>[
+                        <(foreach from=$data.option.yr_content_type_1 key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>,                  
+    tag_102 :<(if $data.option.yr_content_type_2)>[
+                        <(foreach from=$data.option.yr_content_type_2 key=key item=item)>
+                            {'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+                        <(/foreach)>    
+                    ]<(else)>[]><(/if)>
+}

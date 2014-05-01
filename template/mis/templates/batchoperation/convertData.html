@@ -1,0 +1,81 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.batchoperation==='undefined' ) 
+{ 
+    quku_v.batchoperation = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.batchoperation.data={
+						
+    /**
+	*  tables
+	*/
+	st_tablesOption:<(if $data.option.st_tables)>[ 
+						<(foreach from=$data.option.st_tables key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+   /**
+   *  display fields!
+   */
+	st_fieldAlubmsInfoOption:<(if $data.option.st_field.quku_albums_info)>[ 
+						<(foreach from=$data.option.st_field.quku_albums_info key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+   	st_fieldSongsInfoOption:<(if $data.option.st_field.quku_songs_info)>[ 
+						<(foreach from=$data.option.st_field.quku_songs_info key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	st_replace_fieldAlubmsInfoOption:<(if $data.option.st_replace_field.quku_albums_info)>[ 
+						<(foreach from=$data.option.st_replace_field.quku_albums_info key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+   	st_replace_fieldSongsInfoOption:<(if $data.option.st_replace_field.quku_songs_info)>[ 
+						<(foreach from=$data.option.st_replace_field.quku_songs_info key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+
+	st_taskOption: <(if $data.option.st_task)>[ 
+						<(foreach from=$data.option.st_task key=key item=item)> 
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)> 
+		           ]  <(else)> [] <(/if)>,
+   st_symbolsOption: [ 
+						 
+							{'display':"=",'value':"="},
+						 
+							{'display':">",'value':">"},
+						 
+							{'display':">=",'value':">="},
+						 
+							{'display':"<",'value':"<"},
+						 
+							{'display':"<=",'value':"<="},
+						 
+							{'display':"!=",'value':"!="},
+						 
+							{'display':"LIKE",'value':"LIKE"},
+						 
+							{'display':"LIKE%...%",'value':"LIKE%...%"},
+						 
+		           ],
+   st_url : "<($data.option.st_url)>",
+   user : "<($user.ub_username)>" 
+		   
+};
+<(foreach from=$data.option.st_field key=tables item=fields)>
+      quku_v.batchoperation.data['<($tables)>'] =[<(foreach from=$fields key=key item=value)>{'display':"<($value|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}, <(/foreach)>]
+<(/foreach)> 
+<(foreach from=$data.option.st_replace_field key=tables item=fields)>
+      quku_v.batchoperation.data['replace_<($tables)>'] =[<(foreach from=$fields key=key item=value)>{'display':"<($value|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}, <(/foreach)>]
+<(/foreach)> 

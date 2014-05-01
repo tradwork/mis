@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+<title>百度娱乐频道产品库管理系统</title>
+<link href="<($smarty.const.STATIC_DIR)>/css/quku.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/jquery/jquery-1.2.6.pack.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/quku.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/baidu/baidu.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/baidu/ui/crossFrameDialog.js"></script>
+<script type="text/javascript" src="<($smarty.const.STATIC_DIR)>/js/baidu/debug.js"></script>
+<script type="text/javascript">
+baidu.loader.setJsRoot('<($smarty.const.STATIC_DIR)>/js');
+jQuery(document).ready(function (){
+	var station =new  baidu.ui.crossFrameDialog.ChildStation();
+	$('#buttonCancel').click(baidu.delegate(station,station.cancel));
+	if(jQuery.browser.msie && parseInt(jQuery.browser.version) == 6){
+		$('.icmsHeaderBar').css('position','absolute');
+	}
+	$("#buttonSubmit").click(function(){
+		var station = new baidu.ui.crossFrameDialog.ChildStation(),chks = [];
+		$("input[name='chk_single']:checked").each(function(){
+			chks.push(<(if $smarty.get.m == "getSourceContent")>$(this).siblings("input[name='data']").val()<(else)>eval("("+$(this).siblings("input[name='data']").val()+")")<(/if)>);
+		});
+		if(!chks.length){alert("请选择来源！"); return false;}
+		station.sendAndClose({'spiderData':chks,'mark':'<($smarty.get.mark)>','field':'<($smarty.get.field)>'});
+	});
+});
+</script>
+<style>
+.picInfo{width:50px;float:left;text-align:center;margin:0 5px;}
+</style>
+</head>
+<body style="margin:0px;padding:28px 3px 0px 3px">
+<div class="headerBar"><h2>多源数据</h2>
+<div class="icon_close" id='buttonCancel'> 
+<a href="#"><span><img src="<($smarty.const.STATIC_DIR)>/img/close_w_over.gif"  alt="关闭"/></span><img src="<($smarty.const.STATIC_DIR)>/img/close_w.gif" /></a> 
+</div> </div>
+<(if $smarty.get.m == "getSourcePic")>
+<(foreach from=$data key=key item=item)>
+<fieldset>
+		<legend><label style="font-size:12px;">来源：<($key)></label></legend>
+		<div>
+		<(foreach from=$item key=pk item=pi)>
+			<div class="picInfo">
+				<img src ="<($pi.pi_link)>"  width="50" height="50"/>
+				<br />
+				<span><($pi.pi_pic_width)>×<($pi.pi_pic_height)></span>
+				<br />
+				<input type="checkbox" name="chk_single"  /><input type="hidden" value=<($pi|@json_encode)> name="data" />
+			</div>
+		<(/foreach)>
+		</div>
+</fieldset>
+<(/foreach)>
+<(/if)>
+<(if $smarty.get.m == "getSourceContent")>
+<table class="tb_preview" width="100%">
+	<tr>
+		<th width="8%">全选</th>
+		<th width="20%">来源</th>
+		<th width="12%">更新状态</th>
+	 	<th width="60%">内容</th>
+	</tr>
+	<(foreach from=$data key=key item=item)>
+		<tr>
+			<td align="center"><($genders)><input type="checkbox" name="chk_single"  ><input type="hidden" value="<(if $smarty.get.field == "ab_gender")><(if $item.content==0)>男<(elseif $item.content==1)>女<(elseif $item.content==2)>组合<(else)>其他<(/if)><(elseif $smarty.get.field == "ab_aarea")><(if $item.content==0)>内地<(elseif $item.content==1)>港台 <(elseif $item.content==2)>欧美<(elseif $item.content==3)>日韩<(else)>其他<(/if)><(else)><($item.content)><(/if)>" name="data"></td>
+			<td align="center"><($item.spider_site)></td>
+			<td align="center"><(if $item.change)><font color="red">有更新</font><(else)>无<(/if)></td>
+			<td align="center">
+			<textarea cols="38" rows="4" readonly><(if $smarty.get.field == "ab_gender")><(if $item.content==0)>男<(elseif $item.content==1)>女<(elseif $item.content==2)>组合<(else)>其他<(/if)><(elseif $smarty.get.field == "ab_aarea")><(if $item.content==0)>内地<(elseif $item.content==1)>港台 <(elseif $item.content==2)>欧美<(elseif $item.content==3)>日韩<(else)>其他<(/if)><(else)><($item.content)>	<(/if)></textarea></td>
+		</tr>
+	<(/foreach)>
+</table>
+<(/if)>
+<(if $smarty.get.m == "getSourceLrc")>
+<table class="tb_preview" width="100%">
+	<tr>
+		<th width="8%">全选</th>
+		<th width="20%">来源</th>
+		<th width="12%">更新状态</th>
+	 	<th width="60%">内容</th>
+	</tr>
+	<(foreach from=$data key=key item=item)>
+		<tr>
+			<td align="center"><input type="checkbox" name="chk_single"  ><input type="hidden" value='<($item|@json_encode)>' name="data" /></td>
+			<td align="center"><($item.source)></td>
+			<td align="center"><(if $item.change)><font color="red">有更新</font><(else)>无<(/if)></td>
+			<td align="center"><textarea cols="38" rows="4" readonly><($item.sl_lyrics)></textarea></td>
+		</tr>
+	<(/foreach)>
+</table>
+<(/if)>
+<(if $smarty.get.m == "getSourceMedia")>
+<table class="tb_preview" width="100%">
+	<tr>
+		<th width="8%">全选</th>
+		<th width="20%">来源</th>
+		<th width="12%">更新状态</th>
+	 	<th width="15%">格式</th>
+	 	<th width="15%">大小</th>
+	 	<th width="15%">码率</th>
+	 	<th width="15%">试听</th>
+	</tr>
+	<(foreach from=$data key=key item=item)>
+		<tr>
+			<td align="center"><input type="checkbox" name="chk_single"  ><input type="hidden" value='<($item|@json_encode)>' name="data" /></td>
+			<td align="center"><($item.source)></td>
+			<td align="center"><(if $item.change)><font color="red">有更新</font><(else)>无<(/if)></td>
+			<td align="center"><($item.sf_file_extension)></td>
+			<td align="center"><($item.sf_file_size)></td>
+			<td align="center"><($item.sf_file_bitrate)></td>
+			<td align="center"><a href="<($item.sf_file_link)>">试听</a></td>
+		</tr>
+	<(/foreach)>
+</table>
+<(/if)>
+<div style="padding:5px 0"><a href="javascript:void(0)" onclick="$('input[name=\'chk_single\']').attr('checked',true);">全选</a>/<a href="javascript:void(0)"  onclick="$('input[name=\'chk_single\']').attr('checked',false);">取消</a>  <button type="button" id="buttonSubmit" class="button01">确定</button></div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<(include file="common/childStationHeader.inc.html" title="歌词选择")>
+<script type="text/javascript">
+var selectNamesArray = [];
+var station = new baidu.ui.crossFrameDialog.ChildStation();
+jQuery(document).ready(function (){
+ renderSelectorDialog(station.getData());
+ $("#buttonSubmit").click(doSubmit);
+});
+function renderSelectorDialog (sData) {
+	var selectorStage = $('#lrcList');
+	selectorStage.html("");
+	var length =  sData ? sData.length : 0;
+	if(length == 0) {
+		var li = $('<li>千千无该记录</li>');
+		selectorStage.append(li);
+	}else{
+		for(var i = 0; i < length; i++) {
+			var li = $('<li/>');
+			var input = $("<input type ='radio' name='lrc' title='' value=''>");
+			var span = $("<span/>");
+			span.html(sData[i]['title'] + '[' +sData[i]['artist'] +']');
+			input.val(sData[i]['id'] + '|' + sData[i]['key']);
+			li.append(input);
+			li.append(span);
+			selectorStage.append(li);
+		}
+	}
+		
+}
+function doSubmit(){
+	var selectItem = [];
+	var sData = station.getData()
+	var length =  sData ? sData.length : 0;
+	var items = $("input[name=lrc]");
+ 	if( items.length > 0 ){
+	    for(var i=0, len = items.length; i<len; i++ ){
+		   $(items[i]).prop('checked')? selectItem.push( $(items[i]).val() ):'';
+		}
+ 	}
+	if(selectItem.length == 0 && length != 0) {
+		alert('请选择歌词');
+		return false;
+	}
+	station.sendAndClose( selectItem.join('|') );
+}
+</script>
+<form onsubmit="return false" id="formCategory">
+<table class="qukuDataGrid" width="100%">
+	<tr>
+		<td>
+		<div style="height: 220px; overflow: auto">
+		<ul id="lrcList"></ul>
+		</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<button type="button" id="buttonSubmit">确定</button>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

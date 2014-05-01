@@ -1,0 +1,176 @@
+/**
+*
+*      translate smarty variable to js variable
+*/
+quku_v=window.quku_v || {} ;
+
+if( typeof quku_v.mv==='undefined' )
+{
+    quku_v.mv = {};
+}
+/*
+*  json key is id of element
+*/
+quku_v.mv.data={
+
+	mi_globalid: <(if strlen($data.quku_mv_info.mi_globalid) >0)>"<($data.quku_mv_info.mi_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	mi_title: <(if strlen($data.quku_mv_info.mi_title) >0)>"<($data.quku_mv_info.mi_title|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_title_id: <(if strlen($data.quku_mv_info.mi_globalid) >0)>"<($data.quku_mv_info.mi_globalid|escape:'javascript')>"<(else)>''<(/if)> ,
+	mi_artist_id:<(if strlen($data.quku_mv_info.mi_artist_id) >0)>"<($data.quku_mv_info.mi_artist_id|escape:'javascript')>"<(else)>''<(/if)> ,
+	mi_label:<(if strlen($data.quku_mv_info.mi_label) >0)>"<($data.quku_mv_info.mi_label|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_pre_pubtime:<(if strlen($data.quku_mv_info.mi_pre_pubtime) >0)>"<($data.quku_mv_info.mi_pre_pubtime|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_audit_status:<(if strlen($data.quku_mv_info.mi_audit_status) >0)>"<($data.quku_mv_info.mi_audit_status|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_subtitle:<(if strlen($data.quku_mv_info.mi_subtitle) >0)>"<($data.quku_mv_info.mi_subtitle|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_mv_id:<(if strlen($data.quku_mv_info.mi_globalid) >0)>"<($data.quku_mv_info.mi_globalid|escape:'javascript')>"<(else)>''<(/if)>,
+	
+	vf_aspect_ratio:<(if strlen($data.quku_mv_info.quku_video_info.vf_aspect_ratio) >0)>"<($data.quku_mv_info.quku_video_info.vf_aspect_ratio|escape:'javascript')>"<(else)>''<(/if)>,
+	vi_globalid:<(if strlen($data.quku_mv_info.quku_video_info.vi_globalid) >0)>"<($data.quku_mv_info.quku_video_info.vi_globalid|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_globalid:<(if strlen($data.quku_mv_info.quku_video_info.vf_globalid) >0)>"<($data.quku_mv_info.quku_video_info.vf_globalid|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_definition:<(if strlen($data.quku_mv_info.quku_video_info.vf_definition) >0)>"<($data.quku_mv_info.quku_video_info.vf_definition|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_file_extension:<(if strlen($data.quku_mv_info.quku_video_info.vf_file_extension) >0)>"<($data.quku_mv_info.quku_video_info.vf_file_extension|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_file_link:<(if strlen($data.quku_mv_info.quku_video_info.vf_file_link) >0)>"<($data.quku_mv_info.quku_video_info.vf_file_link|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_md5:<(if strlen($data.quku_mv_info.quku_video_info.vf_md5) >0)>"<($data.quku_mv_info.quku_video_info.vf_md5|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_file_size:<(if strlen($data.quku_mv_info.quku_video_info.vf_file_size) >0)>"<($data.quku_mv_info.quku_video_info.vf_file_size|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_file_format:<(if strlen($data.quku_mv_info.quku_video_info.vf_file_format) >0)>"<($data.quku_mv_info.quku_video_info.vf_file_format|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_file_duration:<(if strlen($data.quku_mv_info.quku_video_info.vf_file_duration) >0)>"<($data.quku_mv_info.quku_video_info.vf_file_duration|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_size_player:<(if strlen($data.quku_mv_info.quku_video_info.vf_size_player) >0)>"<($data.quku_mv_info.quku_video_info.vf_size_player|escape:'javascript')>"<(else)>''<(/if)>,
+	vi_source_path:<(if strlen($data.quku_mv_info.quku_video_info.vi_source_path) >0)>"<($data.quku_mv_info.quku_video_info.vi_source_path|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_aspect_ratio:<(if strlen($data.quku_mv_info.quku_video_info.vf_aspect_ratio) >0)>"<($data.quku_mv_info.quku_video_info.vf_aspect_ratio|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_player_param:<(if strlen($data.quku_mv_info.quku_video_info.vf_player_param) >0)>"<($data.quku_mv_info.quku_video_info.vf_player_param|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_source_path:<(if strlen($data.quku_mv_info.quku_video_info.vf_source_path) >0)>"<($data.quku_mv_info.quku_video_info.vf_source_path|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_showurl:<(if strlen($data.quku_mv_info.quku_video_info.vf_showurl) >0)>"<($data.quku_mv_info.quku_video_info.vf_showurl|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_file_name:<(if strlen($data.quku_mv_info.quku_video_info.vf_file_name) >0)>"<($data.quku_mv_info.quku_video_info.vf_file_name|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_p2p_hash:<(if strlen($data.quku_mv_info.quku_video_info.vf_p2p_hash) >0)>"<($data.quku_mv_info.quku_video_info.vf_p2p_hash|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_check_status:<(if strlen($data.quku_mv_info.quku_video_info.f_check_status) >0)>"<($data.quku_mv_info.quku_video_info.f_check_status|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_last_up_time:<(if strlen($data.quku_mv_info.quku_video_info.vf_last_up_time) >0)>"<($data.quku_mv_info.quku_video_info.vf_last_up_time|escape:'javascript')>"<(else)>''<(/if)>,
+	vf_jointime:<(if strlen($data.quku_mv_info.quku_video_info.vf_jointime) >0)>"<($data.quku_mv_info.quku_video_info.vf_jointime|escape:'javascript')>"<(else)>''<(/if)>,
+	vi_provider:<(if strlen($data.quku_mv_info.quku_video_info.vi_provider) >0)>"<($data.quku_mv_info.quku_video_info.vi_provider|escape:'javascript')>"<(else)>''<(/if)>,
+	
+	vi_showtime:<(if strlen($data.quku_mv_info.quku_video_info.vi_showtime) >0)>"<($data.quku_mv_info.quku_video_info.vi_showtime|escape:'javascript')>"<(else)>''<(/if)>,
+	
+	vi_tvid:<(if strlen($data.quku_mv_info.quku_video_info.vi_tvid) >0)>"<($data.quku_mv_info.quku_video_info.vi_tvid|escape:'javascript')>"<(else)>''<(/if)>,
+	
+	quku_artist_works_ref: <(if strlen($data.quku_artist_works_ref) >0)>"<($data.quku_artist_works_ref|escape:'javascript')>"<(else)>''<(/if)>,
+
+	mi_publishtime: <(if strlen($data.quku_mv_info.mi_publishtime) >0)>"<($data.quku_mv_info.mi_publishtime|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_info: <(if strlen($data.quku_mv_info.mi_info) >0)>"<($data.quku_mv_info.mi_info|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_album: <(if strlen($data.quku_mv_info.mi_album) >0)>"<($data.quku_mv_info.mi_album|escape:'javascript')>"<(else)>''<(/if)>,
+
+	mi_album_id: <(if strlen( $data.quku_mv_info.mi_album_id) > 0)>"<($data.quku_mv_info.mi_album_id|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_area: <(if strlen( $data.quku_mv_info.mi_area) >0)> "<($data.quku_mv_info.mi_area|escape:'javascript')>" <(else)>''<(/if)>,
+	mi_language: <(if strlen($data.quku_mv_info.mi_language) >0)>"<($data.quku_mv_info.mi_language|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_translatename: <(if strlen($data.quku_mv_info.mi_translatename) >0)>"<($data.quku_mv_info.mi_translatename|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_album_no: <(if strlen($data.quku_mv_info.mi_album_no) >0)>"<($data.quku_mv_info.mi_album_no|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_cd_no: <(if strlen($data.quku_mv_info.mi_cd_no) >0)>"<($data.quku_mv_info.mi_cd_no|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_versions: <(if strlen($data.quku_mv_info.mi_versions) >0)>"<($data.quku_mv_info.mi_versions|escape:'javascript')>"<(else)>''<(/if)>,
+    mi_recordingcopyright_type: <(if $data.quku_mv_info.mi_recordingcopyright_type)>"<($data.quku_mv_info.mi_recordingcopyright_type|escape:'javascript')>"<(else)>'1'<(/if)>,
+    mi_recording_type: <(if $data.quku_mv_info.mi_recording_type)>"<($data.quku_mv_info.mi_recording_type|escape:'javascript')>"<(else)>'1110,1101,1011,0111'<(/if)>,
+	mi_styles: <(if $data.quku_mv_info.mi_styles)>"<($data.quku_mv_info.mi_styles|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_duration: <(if strlen($data.quku_mv_info.mi_duration) >0)>"<($data.quku_mv_info.mi_duration|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_synonym: <(if strlen($data.quku_mv_info.mi_synonym) >0)>"<($data.quku_mv_info.mi_synonym|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_proxycompany: <(if strlen($data.quku_mv_info.mi_proxycompany) >0)>"<($data.quku_mv_info.mi_proxycompany|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_publishcompany: <(if strlen($data.quku_mv_info.mi_publishcompany) >0)>"<($data.quku_mv_info.mi_publishcompany|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_sub_publishcompany: <(if strlen($data.quku_mv_info.mi_sub_publishcompany) >0)>"<($data.quku_mv_info.mi_sub_publishcompany|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_trackid:  <(if strlen($data.quku_mv_info.mi_trackid) >0)>"<($data.quku_mv_info.mi_trackid|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_isrc_flag: <(if strlen($data.quku_mv_info.mi_isrc_flag) >0)>"<($data.quku_mv_info.mi_isrc_flag|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_isrc:  <(if strlen($data.quku_mv_info.mi_isrc) >0)>"<($data.quku_mv_info.mi_isrc|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_aliastitle: <(if strlen($data.quku_mv_info.mi_aliastitle) >0)>"<($data.quku_mv_info.mi_aliastitle|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_prohibit_type :  <(if strlen($data.quku_mv_info.mi_prohibit_type) >0)>"<($data.quku_mv_info.mi_prohibit_type|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_pre_pubtime:<(if strlen($data.quku_mv_info.mi_pre_pubtime) >0)>"<($data.quku_mv_info.mi_pre_pubtime|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_relate_ids:<(if strlen($data.quku_mv_info.mi_relate_ids) >0)>"<($data.quku_mv_info.mi_relate_ids|escape:'javascript')>"<(else)>''<(/if)>,
+	mi_editusernow:<(if strlen($data.quku_mv_info.mi_editusernow) >0)>"<($data.quku_mv_info.mi_editusernow|escape:'javascript')>"<(else)>''<(/if)>,
+
+
+	mi_distribution:
+		<(if strlen($data.quku_mv_info.mi_distribution) >0)>[<(foreach from=$data.quku_mv_info.mi_distribution|html_entity_decode|json_decode:'true' key=k item=item name="mvs_dis")>[quku_v.global.DIS[<($k)>],<(foreach from=$item|str_split key=weizhi item=leixing name='mvs_leixing')>"<($leixing)>"<(if !$smarty.foreach.mvs_leixing.last)>,<(/if)><(/foreach)>]<(if !$smarty.foreach.mvs_dis.last)> ,<(/if)><(/foreach)>]<(else)>[<(section name="default_dis" loop=10)>[quku_v.global.DIS[<($smarty.section.default_dis.index)>],"0","0","0","0","0","0","0","0","0","0"]<(if !$smarty.section.default_dis.last)> ,<(/if)><(/section)>]<(/if)>,
+																																	
+    quku_mv_ref:<(if sizeof($data.quku_mv_ref) >0)>[
+	                             <(foreach from=$data.quku_mv_ref key=key item=item name='mvs_writing')>
+									["<($item.mr_itemid|escape:'javascript')>","<($item.mr_order|escape:'javascript')>"]
+									<(if !$smarty.foreach.mvs_writing.last)>,<(/if)>
+								 <(/foreach)>
+	                        ]<(else)>[]<(/if)>,
+
+	quku_tag_info_rel: <(if sizeof($data.quku_tag_info_rel) >0)>[
+							 <(foreach from=$data.quku_tag_info_rel key=key item=item name='relatively_links')>
+								["<($item.td_name|escape:'javascript')>","<($item.ti_rawweight|escape:'javascript')>","<($item.ti_editflag|escape:'javascript')>","<($item.ti_weight|escape:'javascript')>","<($item.ti_infotype|escape:'javascript')>","<($item.ti_tagid|escape:'javascript')>","<($item.ti_id|escape:'javascript')>","<($item.ti_infoid|escape:'javascript')>","<($item.ti_lastupdatetime|escape:'javascript')>"]
+								<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+							 <(/foreach)>
+						]<(else)>[]<(/if)>,
+
+	quku_tag_info_rel1: <(if sizeof($data.quku_tag_info_rel1) >0)>[
+							 <(foreach from=$data.quku_tag_info_rel1 key=key item=item name='relatively_links')>
+								["<($item.ti_tagid|escape:'javascript')>","<($item.ti_rawweight|escape:'javascript')>","<($item.ti_tagid_1|escape:'javascript')>","<($item.ti_rawweight_1|escape:'javascript')>","<($item.ti_editflag_1|escape:'javascript')>","<($item.ti_weight|escape:'javascript')>","<($item.ti_weight_1|escape:'javascript')>"]
+								<(if !$smarty.foreach.relatively_links.last)>	,<(/if)>
+							 <(/foreach)>
+						]<(else)>[]<(/if)>,
+
+	mi_versionsOption: <(if $data.option.mi_versions)>[
+						<(foreach from=$data.option.mi_versions key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	mi_stylesOption:  <(if $data.option.mi_styles)>[
+						<(foreach from=$data.option.mi_styles key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	mi_areaOption: <(if $data.option.mi_area)>[
+						<(foreach from=$data.option.mi_area key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	vi_providerOption: <(if $data.option.vi_provider)>[
+						<(foreach from=$data.option.vi_provider key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	vf_definitionOption: <(if $data.option.vf_definition)>[
+						<(foreach from=$data.option.vf_definition key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+
+	vi_providerOption: <(if $data.option.vi_provider)>[
+						<(foreach from=$data.option.vi_provider key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	mi_recordingcopyright_typeOption: <(if $data.option.mi_recordingcopyright_type)>[
+						<(foreach from=$data.option.mi_recordingcopyright_type key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	mi_recording_typeOption: <(if $data.option.mi_recording_type)>[
+						<(foreach from=$data.option.mi_recording_type key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+	mi_languageOption: <(if $data.option.mi_language)>[
+						<(foreach from=$data.option.mi_language key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+    mi_isrc_flagOption: <(if $data.option.mi_isrc_flag)>[
+						<(foreach from=$data.option.mi_isrc_flag key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+    mi_tag_relOption: <(if $data.option.mi_tag_rel)>[
+						<(foreach from=$data.option.mi_tag_rel key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+<(foreach from=$data.option.mi_tag_rel1 key=tag_id item=fields)>
+      'tag_<($tag_id)>':[<(foreach from=$fields key=key item=value)>{'display':"<($value|escape:'javascript')>",'value':"<($key|escape:'javascript')>"}, <(/foreach)>],
+<(/foreach)>
+
+	mi_prohibit_typeOption: <(if $data.option.mi_prohibit_type)>[
+						<(foreach from=$data.option.mi_prohibit_type key=key item=item)>
+							{'display':"<($item|escape:'javascript')>",'value':"<($key|escape:'javascript')>"},
+						<(/foreach)>
+		           ]  <(else)> [] <(/if)>,
+}
+
+
+

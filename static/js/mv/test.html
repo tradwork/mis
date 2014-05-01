@@ -1,0 +1,33 @@
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+	String.format = function(src){    
+	  
+	       if (arguments.length == 0) return null;    
+	  
+	       var args = Array.prototype.slice.call(arguments, 1);    
+	  
+	       return src.replace(/\{(\d+)\}/g, function(m, i){    
+	  
+	             return args[i];    
+	  
+	      });    
+	  
+	};
+	var template = 
+	'<div class="x-layout-item1" id="{0}"><div class="x-component-label"><span class="label-text">{2}: </span></div><div id="vi_globalid_items" class="x-component-items"><input class="x-component-input" type="text" id="{1}" name="{0}" value=""></div></div>	'
+	var divId, name, inputId;
+	divId = 'vi_globalid';
+	inputId = 'vi_globalid_input';
+	name = 'V_ID'
+	var msg = String.format(template,divId,inputId,name);
+	document.write(msg)
+</script>
+</body>
+</html>
